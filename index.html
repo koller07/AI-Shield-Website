@@ -101,6 +101,7 @@
             border: none;
             cursor: pointer;
             font-size: 1rem;
+            text-align: center;
         }
 
         .btn-primary {
@@ -886,9 +887,9 @@
                         <li>Email support</li>
                         <li>All AI platforms included</li>
                     </ul>
-                    <button onclick="createCheckout(event, 'solo')" class="btn btn-secondary" style="width: 100%;">
-  Start 14-Day Trial
-</button>
+                    <a href="/signup.html?plan=solo" class="btn btn-secondary" style="width: 100%;">
+                        Start 14-Day Trial
+                    </a>
                 </div>
 
                 <!-- Team Plan (Featured) -->
@@ -909,9 +910,9 @@
                         <li>Export audit reports</li>
                         <li>All AI platforms included</li>
                     </ul>
-                    <button onclick="createCheckout(event, 'team')" class="btn btn-primary" style="width: 100%;">
-  Start 14-Day Trial
-</button>
+                    <a href="/signup.html?plan=team" class="btn btn-primary" style="width: 100%;">
+                        Start 14-Day Trial
+                    </a>
                 </div>
 
                 <!-- Enterprise Plan -->
@@ -1036,7 +1037,7 @@
             <h2 class="cta-title">Protect Your Company Today</h2>
             <p class="cta-subtitle">Join organizations across Europe that prioritize data security and compliance. Start your 14-day free trial - no credit card required.</p>
             <div class="hero-cta">
-                <a href="https://chrome.google.com/webstore" class="btn btn-primary">Start 14-Day Free Trial</a>
+                <a href="/signup.html?plan=team" class="btn btn-primary">Start 14-Day Free Trial</a>
                 <a href="mailto:sales@aishield.pro" class="btn btn-secondary">Schedule Security Demo</a>
             </div>
             <p style="margin-top: 2rem; font-size: 0.875rem; color: rgba(255,255,255,0.8);">
@@ -1112,72 +1113,6 @@
             });
         });
     </script>
-    <script>
-// =============================
-// CONFIGURAÇÃO STRIPE
-// =============================
-const BACKEND_URL = 'https://ai-shield-backend-production.up.railway.app';
 
-const PRICE_IDS = {
-  solo: 'price_xxxxxxxxxxxxxxxxxxxxx',
-  team: 'price_xxxxxxxxxxxxxxxxxxxxx'
-};
-
-// =============================
-// CHECKOUT FUNCTION
-// =============================
-async function createCheckout(event, planType) {
-  const button = event.currentTarget;
-
-  // Coletar dados do usuário
-  const email = prompt('Digite seu email:');
-  if (!email) return;
-
-  const companyName = prompt('Digite o nome da sua empresa:');
-  if (!companyName) return;
-
-  // Validação simples
-  if (!/^\S+@\S+\.\S+$/.test(email)) {
-    alert('Email inválido!');
-    return;
-  }
-
-  const originalText = button.textContent;
-
-  try {
-    button.textContent = 'Processando...';
-    button.disabled = true;
-
-    const response = await fetch(`${BACKEND_URL}/api/checkout`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        priceId: PRICE_IDS[planType],
-        planType,
-        email,
-        companyName
-      })
-    });
-
-    if (!response.ok) {
-      throw new Error('Erro ao criar checkout');
-    }
-
-    const data = await response.json();
-
-    if (!data.url) {
-      throw new Error('URL de checkout não retornada');
-    }
-
-    window.location.href = data.url;
-
-  } catch (error) {
-    console.error('Erro no checkout:', error);
-    alert('Erro ao processar pagamento. Tente novamente.');
-    button.textContent = originalText;
-    button.disabled = false;
-  }
-}
-</script>
 </body>
 </html>
