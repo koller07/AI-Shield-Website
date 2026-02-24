@@ -17,12 +17,9 @@
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #001a3d 0%, #003d7a 100%);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            padding: 40px 20px;
             position: relative;
-            overflow: hidden;
+            /* REMOVIDO: overflow: hidden - isso estava travando o scroll! */
         }
 
         .confetti {
@@ -32,6 +29,7 @@
             background: #00d4ff;
             position: absolute;
             animation: confetti-fall linear forwards;
+            pointer-events: none;
         }
 
         @keyframes confetti-fall {
@@ -47,6 +45,7 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             max-width: 600px;
             width: 100%;
+            margin: 0 auto;
             overflow: hidden;
             position: relative;
             z-index: 10;
@@ -192,6 +191,7 @@
             text-decoration: none;
             transition: all 0.3s;
             cursor: pointer;
+            display: inline-block;
         }
 
         .btn-primary {
@@ -253,8 +253,28 @@
         }
 
         @media (max-width: 640px) {
+            body {
+                padding: 20px 10px;
+            }
+
+            .success-header {
+                padding: 30px 20px;
+            }
+
+            .success-header h1 {
+                font-size: 24px;
+            }
+
+            .success-body {
+                padding: 30px 20px;
+            }
+
             .action-buttons {
                 grid-template-columns: 1fr;
+            }
+
+            .step {
+                padding: 15px;
             }
         }
     </style>
@@ -316,8 +336,8 @@
                 <a href="https://chrome.google.com/webstore" class="btn btn-primary" target="_blank">
                     Download Extension
                 </a>
-                <a href="https://ai-shield-backend-production.up.railway.app/api/health" class="btn btn-secondary" target="_blank">
-                    View Dashboard
+                <a href="/" class="btn btn-secondary">
+                    Back to Home
                 </a>
             </div>
 
@@ -366,9 +386,11 @@
         const sessionId = urlParams.get('session_id');
         
         if (sessionId) {
-            console.log('Stripe Session ID:', sessionId);
-            // You could send this to your analytics if needed
+            console.log('✅ Stripe Session ID:', sessionId);
+            console.log('✅ Payment processed successfully!');
         }
+
+        console.log('✅ Success page loaded!');
     </script>
 </body>
 </html>
