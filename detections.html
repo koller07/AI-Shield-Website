@@ -311,11 +311,6 @@
             color: var(--accent-orange);
         }
 
-        .badge.blocked {
-            background: rgba(34, 197, 94, 0.1);
-            color: var(--accent-green);
-        }
-
         .user-cell {
             display: flex;
             align-items: center;
@@ -524,7 +519,6 @@
                                 <th>AI Platform</th>
                                 <th>Severity</th>
                                 <th>Date & Time</th>
-                                <th>Status</th>
                                 <th>Details</th>
                             </tr>
                         </thead>
@@ -554,26 +548,26 @@
     <script>
         // Mock data - expanded
         const allDetections = [
-            { user: { name: 'João Silva', email: 'joao@acme.com', initials: 'JS' }, dataType: 'CPF', platform: 'ChatGPT', severity: 'critical', date: '2026-03-15 14:32', status: 'Blocked' },
-            { user: { name: 'Maria Santos', email: 'maria@acme.com', initials: 'MS' }, dataType: 'IBAN', platform: 'Claude', severity: 'critical', date: '2026-03-15 13:45', status: 'Blocked' },
-            { user: { name: 'Pedro Costa', email: 'pedro@acme.com', initials: 'PC' }, dataType: 'Email', platform: 'Gemini', severity: 'warning', date: '2026-03-15 12:18', status: 'Blocked' },
-            { user: { name: 'Ana Oliveira', email: 'ana@acme.com', initials: 'AO' }, dataType: 'Credit Card', platform: 'ChatGPT', severity: 'critical', date: '2026-03-15 11:05', status: 'Blocked' },
-            { user: { name: 'Carlos Mendes', email: 'carlos@acme.com', initials: 'CM' }, dataType: 'Phone Number', platform: 'Copilot', severity: 'warning', date: '2026-03-15 10:22', status: 'Blocked' },
-            { user: { name: 'Sofia Alves', email: 'sofia@acme.com', initials: 'SA' }, dataType: 'CNPJ', platform: 'ChatGPT', severity: 'critical', date: '2026-03-15 09:47', status: 'Blocked' },
-            { user: { name: 'Miguel Rodrigues', email: 'miguel@acme.com', initials: 'MR' }, dataType: 'API Key', platform: 'Claude', severity: 'critical', date: '2026-03-14 16:55', status: 'Blocked' },
-            { user: { name: 'Beatriz Lima', email: 'beatriz@acme.com', initials: 'BL' }, dataType: 'NIF', platform: 'Gemini', severity: 'warning', date: '2026-03-14 15:30', status: 'Blocked' },
-            { user: { name: 'João Silva', email: 'joao@acme.com', initials: 'JS' }, dataType: 'CPF', platform: 'ChatGPT', severity: 'critical', date: '2026-03-14 14:12', status: 'Blocked' },
-            { user: { name: 'Maria Santos', email: 'maria@acme.com', initials: 'MS' }, dataType: 'Email', platform: 'Claude', severity: 'warning', date: '2026-03-14 13:22', status: 'Blocked' },
-            { user: { name: 'Pedro Costa', email: 'pedro@acme.com', initials: 'PC' }, dataType: 'IBAN', platform: 'ChatGPT', severity: 'critical', date: '2026-03-14 11:45', status: 'Blocked' },
-            { user: { name: 'Ana Oliveira', email: 'ana@acme.com', initials: 'AO' }, dataType: 'Phone Number', platform: 'Gemini', severity: 'warning', date: '2026-03-14 10:30', status: 'Blocked' },
-            { user: { name: 'Carlos Mendes', email: 'carlos@acme.com', initials: 'CM' }, dataType: 'Credit Card', platform: 'ChatGPT', severity: 'critical', date: '2026-03-13 16:20', status: 'Blocked' },
-            { user: { name: 'Sofia Alves', email: 'sofia@acme.com', initials: 'SA' }, dataType: 'API Key', platform: 'Claude', severity: 'critical', date: '2026-03-13 15:10', status: 'Blocked' },
-            { user: { name: 'Miguel Rodrigues', email: 'miguel@acme.com', initials: 'MR' }, dataType: 'CNPJ', platform: 'Copilot', severity: 'critical', date: '2026-03-13 14:05', status: 'Blocked' },
-            { user: { name: 'Beatriz Lima', email: 'beatriz@acme.com', initials: 'BL' }, dataType: 'Email', platform: 'ChatGPT', severity: 'warning', date: '2026-03-13 12:45', status: 'Blocked' },
-            { user: { name: 'João Silva', email: 'joao@acme.com', initials: 'JS' }, dataType: 'IBAN', platform: 'Gemini', severity: 'critical', date: '2026-03-12 17:30', status: 'Blocked' },
-            { user: { name: 'Maria Santos', email: 'maria@acme.com', initials: 'MS' }, dataType: 'CPF', platform: 'ChatGPT', severity: 'critical', date: '2026-03-12 16:15', status: 'Blocked' },
-            { user: { name: 'Pedro Costa', email: 'pedro@acme.com', initials: 'PC' }, dataType: 'Phone Number', platform: 'Claude', severity: 'warning', date: '2026-03-12 15:00', status: 'Blocked' },
-            { user: { name: 'Ana Oliveira', email: 'ana@acme.com', initials: 'AO' }, dataType: 'Credit Card', platform: 'ChatGPT', severity: 'critical', date: '2026-03-12 13:40', status: 'Blocked' }
+            { user: { name: 'João Silva', email: 'joao@acme.com', initials: 'JS' }, dataType: 'CPF', platform: 'ChatGPT', severity: 'critical', date: '2026-03-15 14:32' },
+            { user: { name: 'Maria Santos', email: 'maria@acme.com', initials: 'MS' }, dataType: 'IBAN', platform: 'Claude', severity: 'critical', date: '2026-03-15 13:45' },
+            { user: { name: 'Pedro Costa', email: 'pedro@acme.com', initials: 'PC' }, dataType: 'Email', platform: 'Gemini', severity: 'warning', date: '2026-03-15 12:18' },
+            { user: { name: 'Ana Oliveira', email: 'ana@acme.com', initials: 'AO' }, dataType: 'Credit Card', platform: 'ChatGPT', severity: 'critical', date: '2026-03-15 11:05' },
+            { user: { name: 'Carlos Mendes', email: 'carlos@acme.com', initials: 'CM' }, dataType: 'Phone Number', platform: 'Copilot', severity: 'warning', date: '2026-03-15 10:22' },
+            { user: { name: 'Sofia Alves', email: 'sofia@acme.com', initials: 'SA' }, dataType: 'CNPJ', platform: 'ChatGPT', severity: 'critical', date: '2026-03-15 09:47' },
+            { user: { name: 'Miguel Rodrigues', email: 'miguel@acme.com', initials: 'MR' }, dataType: 'API Key', platform: 'Claude', severity: 'critical', date: '2026-03-14 16:55' },
+            { user: { name: 'Beatriz Lima', email: 'beatriz@acme.com', initials: 'BL' }, dataType: 'NIF', platform: 'Gemini', severity: 'warning', date: '2026-03-14 15:30' },
+            { user: { name: 'João Silva', email: 'joao@acme.com', initials: 'JS' }, dataType: 'CPF', platform: 'ChatGPT', severity: 'critical', date: '2026-03-14 14:12' },
+            { user: { name: 'Maria Santos', email: 'maria@acme.com', initials: 'MS' }, dataType: 'Email', platform: 'Claude', severity: 'warning', date: '2026-03-14 13:22' },
+            { user: { name: 'Pedro Costa', email: 'pedro@acme.com', initials: 'PC' }, dataType: 'IBAN', platform: 'ChatGPT', severity: 'critical', date: '2026-03-14 11:45' },
+            { user: { name: 'Ana Oliveira', email: 'ana@acme.com', initials: 'AO' }, dataType: 'Phone Number', platform: 'Gemini', severity: 'warning', date: '2026-03-14 10:30' },
+            { user: { name: 'Carlos Mendes', email: 'carlos@acme.com', initials: 'CM' }, dataType: 'Credit Card', platform: 'ChatGPT', severity: 'critical', date: '2026-03-13 16:20' },
+            { user: { name: 'Sofia Alves', email: 'sofia@acme.com', initials: 'SA' }, dataType: 'API Key', platform: 'Claude', severity: 'critical', date: '2026-03-13 15:10' },
+            { user: { name: 'Miguel Rodrigues', email: 'miguel@acme.com', initials: 'MR' }, dataType: 'CNPJ', platform: 'Copilot', severity: 'critical', date: '2026-03-13 14:05' },
+            { user: { name: 'Beatriz Lima', email: 'beatriz@acme.com', initials: 'BL' }, dataType: 'Email', platform: 'ChatGPT', severity: 'warning', date: '2026-03-13 12:45' },
+            { user: { name: 'João Silva', email: 'joao@acme.com', initials: 'JS' }, dataType: 'IBAN', platform: 'Gemini', severity: 'critical', date: '2026-03-12 17:30' },
+            { user: { name: 'Maria Santos', email: 'maria@acme.com', initials: 'MS' }, dataType: 'CPF', platform: 'ChatGPT', severity: 'critical', date: '2026-03-12 16:15' },
+            { user: { name: 'Pedro Costa', email: 'pedro@acme.com', initials: 'PC' }, dataType: 'Phone Number', platform: 'Claude', severity: 'warning', date: '2026-03-12 15:00' },
+            { user: { name: 'Ana Oliveira', email: 'ana@acme.com', initials: 'AO' }, dataType: 'Credit Card', platform: 'ChatGPT', severity: 'critical', date: '2026-03-12 13:40' }
         ];
 
         function populateTable(data = allDetections) {
@@ -593,7 +587,6 @@
                     <td>${d.platform}</td>
                     <td><span class="badge ${d.severity}">${d.severity}</span></td>
                     <td>${d.date}</td>
-                    <td><span class="badge blocked">${d.status}</span></td>
                     <td><button class="btn btn-secondary" style="padding: 0.375rem 0.75rem; font-size: 0.75rem;">View</button></td>
                 </tr>
             `).join('');
