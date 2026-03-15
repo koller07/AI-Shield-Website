@@ -9,6 +9,22 @@
       "destination": "/company-dashboard.html"
     },
     {
+      "source": "/detections",
+      "destination": "/detections.html"
+    },
+    {
+      "source": "/team",
+      "destination": "/team.html"
+    },
+    {
+      "source": "/reports",
+      "destination": "/reports.html"
+    },
+    {
+      "source": "/settings",
+      "destination": "/settings.html"
+    },
+    {
       "source": "/success",
       "destination": "/success.html"
     }
