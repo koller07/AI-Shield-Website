@@ -3,520 +3,573 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Start Your Free Trial - AI Shield</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Start Your Free Trial - AI Shield | Enterprise Data Protection</title>
+    <link rel="icon" type="image/png" href="/icon_1_.png">
+    
+    <meta name="description" content="Start your 14-day free trial of AI Shield. Protect your company from data leaks to ChatGPT, Claude, and other AI tools.">
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary-dark: #002d5c;
+            --primary-blue: #1e5ba8;
+            --accent-cyan: #00a8e8;
+            --accent-green: #22c55e;
+            --text-primary: #1a1a2e;
+            --text-secondary: #64748b;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #001a3d 0%, #003d7a 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #003d7a 50%, var(--accent-cyan) 100%);
             min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 45, 92, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 168, 232, 0.2);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 20px;
+            justify-content: space-between;
         }
 
-        .signup-container {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 500px;
-            width: 100%;
-            overflow: hidden;
-        }
-
-        .signup-header {
-            background: linear-gradient(135deg, #001a3d 0%, #003d7a 100%);
-            padding: 40px;
-            text-align: center;
+        .logo-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
             color: white;
         }
 
-        .logo {
-            font-size: 48px;
-            margin-bottom: 10px;
+        .logo-link img {
+            width: 36px;
+            height: 36px;
         }
 
-        .signup-header h1 {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 8px;
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
 
-        .signup-header p {
-            font-size: 16px;
-            opacity: 0.9;
+        .back-link {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9375rem;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: white;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        /* Left Column */
+        .value-prop {
+            color: white;
         }
 
         .plan-badge {
             display: inline-block;
             background: rgba(0, 168, 232, 0.2);
-            color: #00d4ff;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-            margin-top: 16px;
-            border: 1px solid rgba(0, 212, 255, 0.3);
-        }
-
-        .signup-body {
-            padding: 40px;
-        }
-
-        .features {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-        }
-
-        .features h3 {
-            font-size: 14px;
-            font-weight: 600;
-            color: #001a3d;
-            margin-bottom: 12px;
+            color: var(--accent-cyan);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            margin-bottom: 2rem;
+            border: 1px solid var(--accent-cyan);
         }
 
-        .features ul {
+        .value-prop h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .value-prop .highlight {
+            background: linear-gradient(135deg, var(--accent-cyan), #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .value-prop p.subtitle {
+            font-size: 1.125rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+        }
+
+        .features-list {
             list-style: none;
         }
 
-        .features li {
-            padding: 8px 0;
-            padding-left: 28px;
-            position: relative;
-            font-size: 14px;
-            color: #333;
+        .features-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.95);
         }
 
-        .features li::before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #22c55e;
+        .features-list .icon {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
             font-weight: bold;
-            font-size: 18px;
+            color: white;
+        }
+
+        /* Form Container */
+        .form-container {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-header h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header p {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+        }
+
+        .plan-info-card {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--accent-cyan);
+        }
+
+        .plan-name {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-secondary);
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
         }
 
-        .form-group label {
+        .form-label {
             display: block;
-            font-size: 14px;
             font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-size: 0.875rem;
         }
 
-        .form-group input {
+        .form-input {
             width: 100%;
-            padding: 14px;
-            border: 2px solid #e5e7eb;
+            padding: 0.875rem 1rem;
+            border: 1.5px solid #e2e8f0;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 1rem;
             font-family: inherit;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
 
-        .form-group input:focus {
+        .form-input:focus {
             outline: none;
-            border-color: #00a8e8;
+            border-color: var(--accent-cyan);
             box-shadow: 0 0 0 3px rgba(0, 168, 232, 0.1);
         }
 
-        .form-group input::placeholder {
-            color: #9ca3af;
+        .form-input::placeholder {
+            color: #94a3b8;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c00;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
         }
 
         .submit-button {
             width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #00a8e8 0%, #0086ba 100%);
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--accent-cyan), #0090c8);
             color: white;
             border: none;
             border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
+            font-size: 1rem;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 168, 232, 0.3);
         }
 
-        .submit-button:hover {
+        .submit-button:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 168, 232, 0.3);
-        }
-
-        .submit-button:active {
-            transform: translateY(0);
+            box-shadow: 0 8px 20px rgba(0, 168, 232, 0.4);
         }
 
         .submit-button:disabled {
-            background: #9ca3af;
+            opacity: 0.6;
             cursor: not-allowed;
-            transform: none;
         }
 
-        .loading {
-            display: none;
+        .trial-note {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e2e8f0;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
         }
 
-        .loading.active {
-            display: block;
+        .trial-highlight {
+            color: var(--accent-green);
+            font-weight: 700;
         }
 
-        .spinner {
-            border: 3px solid #f3f4f6;
-            border-top: 3px solid #00a8e8;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 12px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .error-message {
-            display: none;
-            background: #fee;
-            border: 1px solid #fcc;
-            color: #c33;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 16px;
-            font-size: 14px;
-        }
-
-        .error-message.active {
-            display: block;
-        }
-
-        .footer-note {
+        .login-link {
             text-align: center;
-            margin-top: 24px;
-            padding-top: 24px;
-            border-top: 1px solid #e5e7eb;
-            font-size: 13px;
-            color: #6b7280;
+            margin-top: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
         }
 
-        .back-link {
-            display: inline-block;
-            margin-top: 16px;
-            color: #00a8e8;
+        .login-link a {
+            color: var(--accent-cyan);
             text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
         }
 
-        .back-link:hover {
+        .login-link a:hover {
             text-decoration: underline;
+        }
+
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                padding-top: 6rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .main-container {
+                padding: 5rem 1rem 2rem;
+            }
+
+            .value-prop h1 {
+                font-size: 2rem;
+            }
+
+            .form-container {
+                padding: 2rem 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="signup-container">
-        <div class="signup-header">
-            <div class="logo">🛡️</div>
-            <h1>Start Your Free Trial</h1>
-            <p>14 days of complete protection</p>
-            <div class="plan-badge" id="planBadge">Loading...</div>
+    <header class="header">
+        <div class="header-content">
+            <a href="/" class="logo-link">
+                <img src="/icon_1_.png" alt="AI Shield Logo">
+                <span class="logo-text">AI Shield</span>
+            </a>
+            <a href="/" class="back-link">← Back to homepage</a>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="value-prop">
+            <div class="plan-badge" id="planBadge">Professional Plan</div>
+            
+            <h1>
+                Start Protecting Your <span class="highlight">Company Data</span> Today
+            </h1>
+            
+            <p class="subtitle">
+                Join companies preventing €50,000+ GDPR fines by monitoring AI usage in real-time.
+            </p>
+
+            <ul class="features-list">
+                <li>
+                    <span class="icon">✓</span>
+                    <span><strong>Real-time monitoring</strong> across ChatGPT, Claude, Gemini, and 25+ AI platforms</span>
+                </li>
+                <li>
+                    <span class="icon">✓</span>
+                    <span><strong>Instant alerts</strong> when sensitive data is detected</span>
+                </li>
+                <li>
+                    <span class="icon">✓</span>
+                    <span><strong>Compliance dashboard</strong> with detailed reports and audit trails</span>
+                </li>
+                <li>
+                    <span class="icon">✓</span>
+                    <span><strong>5-minute setup</strong> - No IT expertise required</span>
+                </li>
+                <li>
+                    <span class="icon">✓</span>
+                    <span><strong>14-day free trial</strong> - No credit card required</span>
+                </li>
+            </ul>
         </div>
 
-        <div class="signup-body">
-            <div class="features" id="featuresBox">
-                <h3>Loading plan details...</h3>
+        <div class="form-container">
+            <div class="form-header">
+                <h2>Start Your Free Trial</h2>
+                <p>No credit card required • 14 days free • Cancel anytime</p>
             </div>
 
-            <form id="signupForm" onsubmit="handleSubmit(event)">
+            <div class="plan-info-card">
+                <div class="plan-name" id="planNameDisplay">AI Shield Professional</div>
+                <div class="plan-price">
+                    <span id="planPriceDisplay">€49</span><span>/month</span>
+                </div>
+                <p style="margin-top: 0.5rem; font-size: 0.875rem; color: var(--text-secondary);">
+                    After 14-day trial
+                </p>
+            </div>
+
+            <div id="errorMessage" class="error-message"></div>
+
+            <form id="signupForm" novalidate>
                 <div class="form-group">
-                    <label for="email">Work Email *</label>
-                    <input 
-                        type="email" 
-                        id="email" 
-                        name="email" 
-                        placeholder="you@company.com" 
-                        required
-                        autocomplete="email"
-                    >
+                    <label class="form-label" for="fullName">Full Name *</label>
+                    <input type="text" id="fullName" name="fullName" class="form-input" placeholder="John Doe" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="companyName">Company Name *</label>
-                    <input 
-                        type="text" 
-                        id="companyName" 
-                        name="companyName" 
-                        placeholder="Your Company Ltd." 
-                        required
-                        autocomplete="organization"
-                    >
+                    <label class="form-label" for="workEmail">Work Email *</label>
+                    <input type="email" id="workEmail" name="workEmail" class="form-input" placeholder="john@company.com" required autocomplete="email">
                 </div>
 
-                <button type="submit" class="submit-button" id="submitBtn">
-                    Continue to Payment →
+                <div class="form-group">
+                    <label class="form-label" for="companyName">Company Name *</label>
+                    <input type="text" id="companyName" name="companyName" class="form-input" placeholder="Acme Corporation" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">Password *</label>
+                    <input type="password" id="password" name="password" class="form-input" placeholder="Minimum 6 characters" required autocomplete="new-password">
+                </div>
+
+                <button type="submit" class="submit-button" id="submitButton">
+                    Start My Free Trial →
                 </button>
-
-                <div class="loading" id="loading">
-                    <div class="spinner"></div>
-                    <p>Creating your checkout session...</p>
-                </div>
-
-                <div class="error-message" id="errorMessage"></div>
-
-                <div class="footer-note">
-                    ✓ No credit card required for trial<br>
-                    ✓ Cancel anytime<br>
-                    ✓ GDPR compliant
-                </div>
-
-                <center>
-                    <a href="/" class="back-link">← Back to pricing</a>
-                </center>
             </form>
+
+            <div class="trial-note">
+                <span class="trial-highlight">✓ 14 days completely free</span><br>
+                No credit card required • Access all features<br>
+                Installation instructions sent to your email
+            </div>
+
+            <div class="login-link">
+                Already have an account? <a href="/login">Sign in</a>
+            </div>
         </div>
     </div>
 
     <script>
-        // ============================================
-        // CONFIGURAÇÃO - ATUALIZE ESTAS CHAVES!
-        // ============================================
+        const API_URL = 'https://ai-shield-backend-production.up.railway.app';
         
-        const CONFIG = {
-            BACKEND_URL: 'https://ai-shield-backend-production.up.railway.app',
-            PRICE_IDS: {
-                solo: 'price_1T3Pn4AAlh231uCgR2DpP834',
-                team: 'price_1T3PqsAAlh231uCgHyzPIbJH'
-            }
-        };
-
-        // ============================================
-        // CONFIGURAÇÃO DOS PLANOS
-        // ============================================
-        
-        const planConfig = {
-            solo: {
-                name: 'Solo Plan',
-                price: '€9/month',
-                features: [
-                    '1 protected user',
-                    '25+ data types detection',
-                    'Real-time alerts',
-                    'Personal dashboard',
-                    'Monthly compliance reports',
-                    'Email support'
-                ]
+        // Plan configurations
+        const plans = {
+            starter: {
+                badge: 'Starter Plan',
+                name: 'AI Shield Starter',
+                price: '€29'
             },
-            team: {
-                name: 'Team Plan',
-                price: '€39/month',
-                features: [
-                    'Up to 10 protected users',
-                    '25+ data types detection',
-                    'Real-time alerts',
-                    'Team management dashboard',
-                    'Monthly compliance reports',
-                    'Priority email support',
-                    'User activity tracking',
-                    'Export audit reports'
-                ]
+            professional: {
+                badge: 'Professional Plan',
+                name: 'AI Shield Professional',
+                price: '€49'
+            },
+            business: {
+                badge: 'Business Plan',
+                name: 'AI Shield Business',
+                price: '€149'
             }
         };
 
-        // ============================================
-        // DETECTAR PLANO DA URL E ATUALIZAR UI
-        // ============================================
-        
-        let selectedPlan = 'solo'; // default
-        
-        // Executar quando a página carregar
-        window.addEventListener('DOMContentLoaded', function() {
-            console.log('✅ Página carregada, detectando plano...');
-            
-            // Pegar plano da URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const planFromUrl = urlParams.get('plan');
-            
-            if (planFromUrl && (planFromUrl === 'solo' || planFromUrl === 'team')) {
-                selectedPlan = planFromUrl;
-            }
-            
-            console.log('📋 Plano selecionado:', selectedPlan);
-            
-            // Atualizar UI com plano
-            updatePlanUI(selectedPlan);
-        });
+        // Detect plan from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const planType = urlParams.get('plan') || 'professional';
+        const plan = plans[planType] || plans.professional;
 
-        function updatePlanUI(plan) {
-            const config = planConfig[plan];
-            
-            if (!config) {
-                console.error('❌ Configuração do plano não encontrada:', plan);
-                return;
-            }
-            
-            console.log('🎨 Atualizando UI para plano:', plan);
-            
-            // Atualizar badge do plano
-            document.getElementById('planBadge').textContent = 
-                `${config.name} - ${config.price}`;
-            
-            // Atualizar features
-            const featuresHTML = `
-                <h3>What's Included:</h3>
-                <ul>
-                    ${config.features.map(f => `<li>${f}</li>`).join('')}
-                </ul>
-            `;
-            
-            document.getElementById('featuresBox').innerHTML = featuresHTML;
-            
-            console.log('✅ UI atualizada com sucesso!');
-        }
+        // Update UI
+        document.getElementById('planBadge').textContent = plan.badge;
+        document.getElementById('planNameDisplay').textContent = plan.name;
+        document.getElementById('planPriceDisplay').textContent = plan.price;
 
-        // ============================================
-        // PROCESSAR FORMULÁRIO
-        // ============================================
-        
-        function handleSubmit(event) {
-            // CRÍTICO: Prevenir submit padrão do formulário!
-            event.preventDefault();
+        // Form handling
+        const form = document.getElementById('signupForm');
+        const submitButton = document.getElementById('submitButton');
+        const errorMessage = document.getElementById('errorMessage');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
             
-            console.log('📝 Formulário enviado, processando...');
+            // Clear previous errors
+            errorMessage.classList.remove('show');
+            errorMessage.textContent = '';
             
-            const email = document.getElementById('email').value.trim();
-            const companyName = document.getElementById('companyName').value.trim();
-            const submitBtn = document.getElementById('submitBtn');
-            const loading = document.getElementById('loading');
-            const errorMessage = document.getElementById('errorMessage');
+            // Get form data
+            const formData = {
+                fullName: document.getElementById('fullName').value.trim(),
+                email: document.getElementById('workEmail').value.trim(),
+                companyName: document.getElementById('companyName').value.trim(),
+                password: document.getElementById('password').value,
+                plan: planType
+            };
             
-            console.log('📧 Email:', email);
-            console.log('🏢 Empresa:', companyName);
-            console.log('📋 Plano:', selectedPlan);
-            
-            // Validar
-            if (!email || !companyName) {
+            // Basic validation
+            if (!formData.fullName || !formData.email || !formData.companyName || !formData.password) {
                 showError('Please fill in all required fields');
                 return;
             }
             
-            if (!email.includes('@') || !email.includes('.')) {
-                showError('Please enter a valid email address');
+            if (formData.password.length < 6) {
+                showError('Password must be at least 6 characters');
                 return;
             }
             
-            // Validar Price ID
-            const priceId = CONFIG.PRICE_IDS[selectedPlan];
-            console.log('💰 Price ID:', priceId);
+            // Disable button
+            submitButton.disabled = true;
+            submitButton.textContent = 'Creating account...';
             
-            if (!priceId || priceId.includes('COLE_SEU_PRICE_ID')) {
-                showError('Configuration error: Invalid Price ID. Please contact support.');
-                console.error('❌ Price ID inválido:', priceId);
-                return;
-            }
-            
-            // Mostrar loading
-            submitBtn.disabled = true;
-            loading.classList.add('active');
-            errorMessage.classList.remove('active');
-            
-            console.log('🚀 Criando sessão de checkout...');
-            
-            // Criar checkout session
-            createCheckoutSession(email, companyName, priceId)
-                .then(url => {
-                    console.log('✅ Sessão criada! Redirecionando para:', url);
-                    window.location.href = url;
-                })
-                .catch(error => {
-                    console.error('❌ Erro ao criar checkout:', error);
-                    showError(error.message || 'An error occurred. Please try again.');
-                    submitBtn.disabled = false;
-                    loading.classList.remove('active');
-                });
-        }
-
-        // ============================================
-        // CRIAR CHECKOUT SESSION
-        // ============================================
-        
-        async function createCheckoutSession(email, companyName, priceId) {
             try {
-                console.log('📞 Chamando API do backend...');
-                console.log('URL:', `${CONFIG.BACKEND_URL}/api/checkout`);
-                
-                const response = await fetch(`${CONFIG.BACKEND_URL}/api/checkout`, {
+                const response = await fetch(`${API_URL}/api/auth/signup`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({
-                        priceId: priceId,
-                        planType: selectedPlan,
-                        email: email,
-                        companyName: companyName
-                    })
+                    body: JSON.stringify(formData)
                 });
                 
-                console.log('📡 Resposta recebida:', response.status);
+                const data = await response.json();
                 
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    console.error('❌ Erro na resposta:', errorData);
-                    throw new Error(errorData.error || 'Failed to create checkout session');
+                    throw new Error(data.error || 'Signup failed');
                 }
                 
-                const data = await response.json();
-                console.log('📦 Dados recebidos:', data);
+                // Save token and user data
+                localStorage.setItem('authToken', data.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
+                localStorage.setItem('company', JSON.stringify(data.company));
                 
-                if (!data.url) {
-                    console.error('❌ URL de checkout não retornada');
-                    throw new Error('Checkout URL not returned');
-                }
+                // Show success and redirect
+                alert(`🎉 Welcome to AI Shield!\n\nYour account has been created successfully.\n\nCheck your email (${formData.email}) for installation instructions.`);
                 
-                return data.url;
+                window.location.href = '/company-dashboard';
                 
             } catch (error) {
-                console.error('❌ Erro na criação do checkout:', error);
-                throw error;
+                console.error('Signup error:', error);
+                showError(error.message || 'Signup failed. Please try again.');
+                
+                submitButton.disabled = false;
+                submitButton.textContent = 'Start My Free Trial →';
             }
-        }
-
-        // ============================================
-        // FUNÇÃO DE ERRO
-        // ============================================
+        });
         
         function showError(message) {
-            console.error('⚠️ Erro:', message);
-            const errorMessage = document.getElementById('errorMessage');
             errorMessage.textContent = message;
-            errorMessage.classList.add('active');
-            
-            setTimeout(() => {
-                errorMessage.classList.remove('active');
-            }, 5000);
+            errorMessage.classList.add('show');
         }
         
-        console.log('✅ Script carregado com sucesso!');
+        // Check if already logged in
+        window.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('authToken');
+            if (token) {
+                // Already logged in, verify and redirect
+                fetch(`${API_URL}/api/auth/me`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = '/company-dashboard';
+                    }
+                })
+                .catch(() => {
+                    localStorage.clear();
+                });
+            }
+        });
     </script>
 </body>
 </html>
