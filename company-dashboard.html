@@ -4,341 +4,264 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - AI Shield</title>
-    <link rel="icon" type="image/png" href="/icon_1_.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --primary-900: #0f172a;
-            --primary-800: #1e293b;
-            --primary-700: #334155;
-            --primary-600: #475569;
+            --bg-dark: #0f172a;
+            --bg-darker: #1e293b;
+            --bg-card: rgba(255, 255, 255, 0.05);
+            --border-primary: rgba(59, 130, 246, 0.3);
+            --border-hover: rgba(59, 130, 246, 0.5);
             --accent-blue: #3b82f6;
             --accent-cyan: #06b6d4;
             --accent-green: #10b981;
-            --accent-amber: #f59e0b;
             --accent-red: #ef4444;
-            --accent-purple: #8b5cf6;
-            --text-primary: #0f172a;
-            --text-secondary: #64748b;
+            --accent-yellow: #f59e0b;
+            --text-primary: #ffffff;
+            --text-secondary: #cbd5e1;
             --text-muted: #94a3b8;
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8fafc;
-            --bg-tertiary: #f1f5f9;
-            --border-primary: #e2e8f0;
-            --border-secondary: #cbd5e1;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--bg-secondary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-darker) 100%);
             color: var(--text-primary);
+            min-height: 100vh;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
-        .dashboard-wrapper { display: flex; min-height: 100vh; }
+        .dashboard-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
 
-        /* SIDEBAR PREMIUM */
+        /* ===================================
+           SIDEBAR
+        =================================== */
         .sidebar {
-            width: 280px;
-            background: linear-gradient(180deg, var(--primary-900) 0%, var(--primary-800) 100%);
-            color: white;
+            width: 260px;
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            border-right: 1px solid rgba(59, 130, 246, 0.2);
             position: fixed;
             height: 100vh;
             display: flex;
             flex-direction: column;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 1000;
-            box-shadow: var(--shadow-xl);
+            overflow-y: auto;
         }
 
-        .sidebar.collapsed { width: 80px; }
-        .sidebar.collapsed .sidebar-brand-text,
-        .sidebar.collapsed .nav-label,
-        .sidebar.collapsed .user-details,
-        .sidebar.collapsed .stat-value { display: none; }
+        .sidebar::-webkit-scrollbar { width: 4px; }
+        .sidebar::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.3); border-radius: 2px; }
 
-        /* SIDEBAR HEADER */
-        .sidebar-header {
-            padding: 1.75rem 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .sidebar-brand {
+        /* Logo */
+        .sidebar-logo {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
             display: flex;
             align-items: center;
             gap: 0.875rem;
-            text-decoration: none;
-            color: white;
         }
 
-        .sidebar-brand-icon {
+        .logo-icon {
             width: 44px;
             height: 44px;
-            min-width: 44px;
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
-            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
-        .sidebar-brand-text h1 {
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 12px rgba(59, 130, 246, 0.4));
+        }
+
+        .logo-text h1 {
             font-size: 1.125rem;
             font-weight: 800;
-            letter-spacing: -0.025em;
-            white-space: nowrap;
+            margin-bottom: 0.125rem;
         }
 
-        .sidebar-brand-text p {
-            font-size: 0.75rem;
+        .logo-text p {
+            font-size: 0.6875rem;
             color: var(--accent-cyan);
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
 
-        .sidebar-toggle {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: white;
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-
-        .sidebar-toggle:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        /* SIDEBAR STATS */
+        /* Stats in sidebar */
         .sidebar-stats {
-            padding: 1.25rem 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.25rem 1rem;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
         }
 
         .sidebar-stat {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 8px;
             padding: 0.875rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
             margin-bottom: 0.75rem;
+            transition: all 0.2s;
+        }
+
+        .sidebar-stat:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--border-hover);
         }
 
         .sidebar-stat:last-child { margin-bottom: 0; }
 
-        .stat-icon {
-            width: 40px;
-            height: 40px;
-            min-width: 40px;
-            border-radius: 8px;
+        .sidebar-stat-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
         }
 
-        .stat-info {
-            flex: 1;
-            margin-left: 0.75rem;
-        }
-
-        .stat-label {
+        .sidebar-stat-label {
             font-size: 0.6875rem;
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--text-muted);
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
         }
 
-        .stat-value {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: white;
-            line-height: 1;
-            margin-top: 0.25rem;
+        .sidebar-stat-icon {
+            font-size: 1.125rem;
         }
 
-        /* SIDEBAR NAV */
+        .sidebar-stat-value {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--text-primary);
+        }
+
+        /* Navigation */
         .sidebar-nav {
             flex: 1;
             padding: 1.5rem 1rem;
-            overflow-y: auto;
         }
 
-        .sidebar-nav::-webkit-scrollbar { width: 4px; }
-        .sidebar-nav::-webkit-scrollbar-track { background: transparent; }
-        .sidebar-nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
-
         .nav-section {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .nav-section-title {
             font-size: 0.6875rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: rgba(255, 255, 255, 0.5);
-            margin-bottom: 0.75rem;
-            padding: 0 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.625rem;
+            letter-spacing: 0.05em;
         }
-
-        .sidebar.collapsed .nav-section-title { display: none; }
 
         .nav-item {
             display: flex;
             align-items: center;
-            gap: 0.875rem;
-            padding: 0.875rem 0.75rem;
-            margin-bottom: 0.375rem;
-            border-radius: 10px;
-            color: rgba(255, 255, 255, 0.75);
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            color: var(--text-secondary);
             text-decoration: none;
             transition: all 0.2s;
-            position: relative;
+            margin-bottom: 0.25rem;
             font-weight: 500;
         }
 
         .nav-item:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--text-primary);
         }
 
         .nav-item.active {
             background: rgba(59, 130, 246, 0.2);
-            color: white;
-        }
-
-        .nav-item.active::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 3px;
-            height: 24px;
-            background: var(--accent-cyan);
-            border-radius: 0 2px 2px 0;
+            color: var(--text-primary);
+            border-left: 3px solid var(--accent-cyan);
+            padding-left: calc(0.75rem - 3px);
         }
 
         .nav-icon {
-            font-size: 1.25rem;
-            min-width: 1.25rem;
+            font-size: 1.125rem;
         }
 
-        /* SIDEBAR FOOTER */
+        /* Sidebar footer */
         .sidebar-footer {
-            padding: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-top: 1px solid rgba(59, 130, 246, 0.2);
         }
 
         .user-profile {
             display: flex;
             align-items: center;
-            gap: 0.875rem;
-            padding: 0.875rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            margin-bottom: 0.75rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .user-profile:hover {
-            background: rgba(255, 255, 255, 0.1);
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-primary);
+            border-radius: 8px;
+            margin-bottom: 0.625rem;
         }
 
         .user-avatar {
-            width: 44px;
-            height: 44px;
-            min-width: 44px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 800;
-            font-size: 1.125rem;
-            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+            font-size: 0.9375rem;
         }
 
         .user-details h4 {
-            font-size: 0.9375rem;
+            font-size: 0.875rem;
             font-weight: 700;
-            line-height: 1.2;
+            margin-bottom: 0.125rem;
         }
 
         .user-details p {
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.6);
-            font-weight: 500;
+            font-size: 0.6875rem;
+            color: var(--text-muted);
         }
 
-        .logout-button {
+        .logout-btn {
             width: 100%;
+            padding: 0.75rem;
             background: rgba(239, 68, 68, 0.15);
             border: 1px solid rgba(239, 68, 68, 0.3);
             color: var(--accent-red);
-            padding: 0.875rem;
-            border-radius: 10px;
+            border-radius: 8px;
             font-weight: 700;
-            font-size: 0.875rem;
+            font-size: 0.8125rem;
             cursor: pointer;
             transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
+            text-transform: uppercase;
         }
 
-        .logout-button:hover {
-            background: var(--accent-red);
-            color: white;
-            border-color: var(--accent-red);
-            transform: translateY(-1px);
+        .logout-btn:hover {
+            background: rgba(239, 68, 68, 0.25);
+            border-color: rgba(239, 68, 68, 0.5);
         }
 
-        /* MAIN CONTENT */
+        /* ===================================
+           MAIN CONTENT
+        =================================== */
         .main-content {
             flex: 1;
-            margin-left: 280px;
+            margin-left: 260px;
             padding: 2rem;
-            transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            max-width: 1600px;
+            max-width: 1400px;
         }
 
-        .main-content.expanded { margin-left: 80px; }
-
-        /* HEADER */
+        /* Header */
         .page-header {
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
         }
 
         .page-header h1 {
-            font-size: 2.25rem;
+            font-size: 2rem;
             font-weight: 900;
-            letter-spacing: -0.025em;
-            color: var(--text-primary);
             margin-bottom: 0.5rem;
         }
 
@@ -348,407 +271,255 @@
             font-weight: 500;
         }
 
-        /* STATS GRID PREMIUM */
+        /* Stats grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2.5rem;
+            gap: 1.25rem;
+            margin-bottom: 2rem;
         }
 
         .stat-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 16px;
+            background: var(--bg-card);
             border: 1px solid var(--border-primary);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--card-color-start), var(--card-color-end));
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s;
         }
 
         .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-xl);
-            border-color: var(--border-secondary);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
         }
-
-        .stat-card:nth-child(1) { --card-color-start: #3b82f6; --card-color-end: #06b6d4; }
-        .stat-card:nth-child(2) { --card-color-start: #10b981; --card-color-end: #22c55e; }
-        .stat-card:nth-child(3) { --card-color-start: #8b5cf6; --card-color-end: #a855f7; }
-        .stat-card:nth-child(4) { --card-color-start: #f59e0b; --card-color-end: #f97316; }
 
         .stat-card-header {
             display: flex;
-            align-items: flex-start;
             justify-content: space-between;
-            margin-bottom: 1.5rem;
+            align-items: flex-start;
+            margin-bottom: 1rem;
         }
 
         .stat-card-title {
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
+            color: var(--text-muted);
             letter-spacing: 0.05em;
-            color: var(--text-secondary);
         }
 
         .stat-card-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, var(--card-color-start), var(--card-color-end));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.75rem;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            font-size: 2rem;
+            opacity: 0.8;
         }
 
         .stat-card-value {
-            font-size: 3.5rem;
+            font-size: 2.5rem;
             font-weight: 900;
+            margin-bottom: 0.5rem;
             line-height: 1;
-            color: var(--text-primary);
-            margin-bottom: 1rem;
-            letter-spacing: -0.02em;
         }
 
         .stat-card-description {
-            font-size: 0.9375rem;
+            font-size: 0.875rem;
             color: var(--text-secondary);
-            font-weight: 500;
-            margin-bottom: 1rem;
         }
 
         .stat-card-trend {
             display: inline-flex;
             align-items: center;
-            gap: 0.375rem;
-            padding: 0.5rem 0.875rem;
-            border-radius: 8px;
-            font-size: 0.8125rem;
-            font-weight: 700;
-            background: rgba(16, 185, 129, 0.1);
+            gap: 0.25rem;
+            padding: 0.375rem 0.75rem;
+            background: rgba(16, 185, 129, 0.15);
             color: var(--accent-green);
-        }
-
-        /* CHART SECTION PREMIUM */
-        .chart-section {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 20px;
-            border: 1px solid var(--border-primary);
-            margin-bottom: 2.5rem;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .chart-section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2.5rem;
-        }
-
-        .chart-section-header h3 {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--text-primary);
-        }
-
-        .chart-filters {
-            display: flex;
-            gap: 0.75rem;
-        }
-
-        .chart-filter-btn {
-            padding: 0.625rem 1.125rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-primary);
-            background: white;
-            color: var(--text-secondary);
-            font-weight: 600;
-            font-size: 0.875rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .chart-filter-btn:hover {
-            border-color: var(--accent-blue);
-            color: var(--accent-blue);
-        }
-
-        .chart-filter-btn.active {
-            background: var(--accent-blue);
-            color: white;
-            border-color: var(--accent-blue);
-        }
-
-        .chart-container {
-            height: 320px;
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            gap: 1.25rem;
-            padding: 1.5rem 0;
-        }
-
-        .chart-bar {
-            flex: 1;
-            background: linear-gradient(180deg, var(--accent-blue), var(--accent-cyan));
-            border-radius: 10px 10px 0 0;
-            position: relative;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            min-height: 24px;
-            cursor: pointer;
-        }
-
-        .chart-bar:hover {
-            opacity: 0.85;
-            transform: scaleY(1.05);
-        }
-
-        .chart-bar-value {
-            position: absolute;
-            top: -2.25rem;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.9375rem;
-            font-weight: 800;
-            color: var(--text-primary);
-        }
-
-        .chart-bar-label {
-            position: absolute;
-            bottom: -2.5rem;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.8125rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
             font-weight: 700;
-            color: var(--text-muted);
-            white-space: nowrap;
+            margin-top: 0.75rem;
         }
 
-        /* DETECTIONS TABLE PREMIUM */
-        .detections-section {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 20px;
+        /* Section */
+        .section {
+            background: var(--bg-card);
             border: 1px solid var(--border-primary);
-            box-shadow: var(--shadow-sm);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
         }
 
         .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 2px solid var(--bg-tertiary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
         }
 
         .section-header h3 {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 800;
-            color: var(--text-primary);
         }
 
         .btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 10px;
+            padding: 0.75rem 1.25rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: white;
+            border: none;
+            border-radius: 8px;
             font-weight: 700;
             font-size: 0.875rem;
             cursor: pointer;
             transition: all 0.2s;
-            border: none;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
             text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.625rem;
+            display: inline-block;
         }
 
-        .btn-primary {
-            background: var(--accent-blue);
-            color: white;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
         }
 
-        .btn-primary:hover {
-            background: #2563eb;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
-        }
-
+        /* Detection list */
         .detection-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.5rem 0;
-            border-bottom: 1px solid var(--border-primary);
+            padding: 1rem;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.15);
             transition: all 0.2s;
         }
 
         .detection-item:hover {
-            background: var(--bg-secondary);
-            margin: 0 -1.25rem;
-            padding: 1.5rem 1.25rem;
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
         }
 
-        .detection-item:last-child { border-bottom: none; }
+        .detection-item:last-child {
+            border-bottom: none;
+        }
 
         .detection-info {
             display: flex;
             align-items: center;
-            gap: 1.25rem;
+            gap: 1rem;
             flex: 1;
         }
 
         .detection-avatar {
-            width: 52px;
-            height: 52px;
-            min-width: 52px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
-            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 800;
-            font-size: 1.125rem;
-            box-shadow: var(--shadow-md);
+            font-size: 0.9375rem;
         }
 
         .detection-details h4 {
-            font-size: 1rem;
+            font-size: 0.9375rem;
             font-weight: 700;
-            margin-bottom: 0.375rem;
-            color: var(--text-primary);
+            margin-bottom: 0.25rem;
         }
 
         .detection-details p {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            font-weight: 500;
+            font-size: 0.8125rem;
+            color: var(--text-muted);
         }
 
         .detection-meta {
             display: flex;
             align-items: center;
-            gap: 1.25rem;
+            gap: 1rem;
         }
 
         .detection-badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.625rem 1.125rem;
-            border-radius: 10px;
-            font-size: 0.8125rem;
-            font-weight: 800;
-            background: rgba(239, 68, 68, 0.1);
+            padding: 0.5rem 0.875rem;
+            background: rgba(239, 68, 68, 0.15);
             color: var(--accent-red);
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.025em;
         }
 
         .detection-time {
-            font-size: 0.875rem;
-            font-weight: 700;
+            font-size: 0.8125rem;
             color: var(--text-muted);
-            min-width: 100px;
+            font-weight: 600;
+            min-width: 80px;
             text-align: right;
         }
 
+        /* Empty state */
         .empty-state {
             text-align: center;
-            padding: 5rem 2rem;
-            color: var(--text-muted);
+            padding: 3rem 2rem;
         }
 
         .empty-state-icon {
-            font-size: 6rem;
-            margin-bottom: 2rem;
-            opacity: 0.2;
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
         }
 
         .empty-state h4 {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 800;
-            color: var(--text-primary);
-            margin-bottom: 0.875rem;
+            margin-bottom: 0.5rem;
         }
 
         .empty-state p {
-            font-size: 1rem;
-            font-weight: 500;
+            font-size: 0.9375rem;
+            color: var(--text-muted);
         }
 
+        /* Responsive */
         @media (max-width: 1024px) {
-            .sidebar { width: 240px; }
-            .sidebar.collapsed { width: 72px; }
-            .main-content { margin-left: 240px; }
-            .main-content.expanded { margin-left: 72px; }
+            .sidebar { width: 220px; }
+            .main-content { margin-left: 220px; }
         }
 
         @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-                width: 280px;
-            }
-            .sidebar.mobile-open {
-                transform: translateX(0);
-            }
-            .main-content {
-                margin-left: 0;
-            }
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
+            .sidebar { transform: translateX(-100%); }
+            .main-content { margin-left: 0; }
+            .stats-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <div class="dashboard-wrapper">
-        <!-- SIDEBAR PREMIUM -->
-        <aside class="sidebar" id="sidebar">
-            <!-- Header -->
-            <div class="sidebar-header">
-                <a href="/company-dashboard" class="sidebar-brand">
-                    <div class="sidebar-brand-icon">🛡️</div>
-                    <div class="sidebar-brand-text">
-                        <h1>AI Shield</h1>
-                        <p>Enterprise</p>
-                    </div>
-                </a>
-                <button class="sidebar-toggle" onclick="toggleSidebar()">
-                    <span>☰</span>
-                </button>
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <!-- Logo -->
+            <div class="sidebar-logo">
+                <div class="logo-icon">
+                    <img src="icon.png" alt="AI Shield">
+                </div>
+                <div class="logo-text">
+                    <h1>AI Shield</h1>
+                    <p>Dashboard</p>
+                </div>
             </div>
 
-            <!-- Stats -->
+            <!-- Quick stats -->
             <div class="sidebar-stats">
                 <div class="sidebar-stat">
-                    <div class="stat-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">🔍</div>
-                    <div class="stat-info">
-                        <div class="stat-label">Today</div>
-                        <div class="stat-value" id="todayDetections">0</div>
+                    <div class="sidebar-stat-header">
+                        <span class="sidebar-stat-label">Today</span>
+                        <span class="sidebar-stat-icon">🔍</span>
                     </div>
+                    <div class="sidebar-stat-value" id="todayCount">0</div>
                 </div>
                 <div class="sidebar-stat">
-                    <div class="stat-icon" style="background: linear-gradient(135deg, #10b981, #059669);">💰</div>
-                    <div class="stat-info">
-                        <div class="stat-label">Saved</div>
-                        <div class="stat-value" id="savedAmount">€0</div>
+                    <div class="sidebar-stat-header">
+                        <span class="sidebar-stat-label">Saved</span>
+                        <span class="sidebar-stat-icon">💰</span>
                     </div>
+                    <div class="sidebar-stat-value" id="savedAmount">€0</div>
                 </div>
             </div>
 
@@ -756,69 +527,67 @@
             <nav class="sidebar-nav">
                 <div class="nav-section">
                     <div class="nav-section-title">Dashboard</div>
-                    <a href="/company-dashboard" class="nav-item active">
+                    <a href="#" class="nav-item active">
                         <span class="nav-icon">📊</span>
-                        <span class="nav-label">Overview</span>
+                        <span>Overview</span>
                     </a>
-                    <a href="/detections" class="nav-item">
+                    <a href="#" class="nav-item">
                         <span class="nav-icon">🔍</span>
-                        <span class="nav-label">Detections</span>
+                        <span>Detections</span>
                     </a>
-                    <a href="/team" class="nav-item">
+                    <a href="#" class="nav-item">
                         <span class="nav-icon">👥</span>
-                        <span class="nav-label">Team</span>
+                        <span>Team</span>
                     </a>
                 </div>
 
                 <div class="nav-section">
                     <div class="nav-section-title">Analytics</div>
-                    <a href="/reports" class="nav-item">
+                    <a href="#" class="nav-item">
                         <span class="nav-icon">📈</span>
-                        <span class="nav-label">Reports</span>
+                        <span>Reports</span>
                     </a>
                 </div>
 
                 <div class="nav-section">
                     <div class="nav-section-title">Settings</div>
-                    <a href="/settings" class="nav-item">
+                    <a href="#" class="nav-item">
                         <span class="nav-icon">⚙️</span>
-                        <span class="nav-label">Settings</span>
+                        <span>Settings</span>
                     </a>
                 </div>
             </nav>
 
-            <!-- Footer -->
+            <!-- User footer -->
             <div class="sidebar-footer">
                 <div class="user-profile">
                     <div class="user-avatar" id="userAvatar">AC</div>
                     <div class="user-details">
-                        <h4 id="companyName">Loading...</h4>
+                        <h4 id="companyName">Company</h4>
                         <p>Team Plan</p>
                     </div>
                 </div>
-                <button class="logout-button" onclick="logout()">
-                    <span>🚪</span>
-                    <span class="nav-label">Logout</span>
-                </button>
+                <button class="logout-btn" onclick="logout()">Logout</button>
             </div>
         </aside>
 
         <!-- MAIN CONTENT -->
-        <main class="main-content" id="mainContent">
+        <main class="main-content">
+            <!-- Header -->
             <header class="page-header">
                 <h1>Dashboard</h1>
-                <p>Welcome back, <span id="userName">loading...</span></p>
+                <p>Welcome back, <span id="userName">Admin</span></p>
             </header>
 
-            <!-- Stats Grid Premium -->
+            <!-- Stats grid -->
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-card-header">
                         <span class="stat-card-title">Total Detections</span>
-                        <div class="stat-card-icon">🛡️</div>
+                        <span class="stat-card-icon">🛡️</span>
                     </div>
                     <div class="stat-card-value" id="totalDetections">0</div>
-                    <div class="stat-card-description">Data leaks prevented</div>
+                    <div class="stat-card-description">All time data leaks prevented</div>
                     <div class="stat-card-trend">
                         <span>↑</span>
                         <span>12% this month</span>
@@ -827,37 +596,37 @@
 
                 <div class="stat-card">
                     <div class="stat-card-header">
-                        <span class="stat-card-title">Fines Prevented</span>
-                        <div class="stat-card-icon">💰</div>
+                        <span class="stat-card-title">Critical</span>
+                        <span class="stat-card-icon">🔴</span>
                     </div>
-                    <div class="stat-card-value" id="finesPrevented">€0</div>
-                    <div class="stat-card-description">GDPR fines avoided</div>
+                    <div class="stat-card-value" id="criticalDetections">0</div>
+                    <div class="stat-card-description">Confirmed sensitive data</div>
                     <div class="stat-card-trend">
                         <span>€50k</span>
-                        <span>per violation</span>
+                        <span>avg fine per leak</span>
                     </div>
                 </div>
 
                 <div class="stat-card">
                     <div class="stat-card-header">
-                        <span class="stat-card-title">This Month</span>
-                        <div class="stat-card-icon">📊</div>
+                        <span class="stat-card-title">Suspicious</span>
+                        <span class="stat-card-icon">⚠️</span>
                     </div>
-                    <div class="stat-card-value" id="monthlyDetections">0</div>
-                    <div class="stat-card-description">Last 30 days</div>
+                    <div class="stat-card-value" id="suspiciousDetections">0</div>
+                    <div class="stat-card-description">Potential risks detected</div>
                     <div class="stat-card-trend">
-                        <span>↑</span>
-                        <span>8% vs last month</span>
+                        <span>↓</span>
+                        <span>5% vs last month</span>
                     </div>
                 </div>
 
                 <div class="stat-card">
                     <div class="stat-card-header">
-                        <span class="stat-card-title">Active Users</span>
-                        <div class="stat-card-icon">👥</div>
+                        <span class="stat-card-title">Team Members</span>
+                        <span class="stat-card-icon">👥</span>
                     </div>
-                    <div class="stat-card-value" id="activeUsers">1</div>
-                    <div class="stat-card-description">Team protected</div>
+                    <div class="stat-card-value" id="teamCount">0</div>
+                    <div class="stat-card-description">Protected users</div>
                     <div class="stat-card-trend">
                         <span>✓</span>
                         <span>All active</span>
@@ -865,62 +634,17 @@
                 </div>
             </div>
 
-            <!-- Chart Section Premium -->
-            <div class="chart-section">
-                <div class="chart-section-header">
-                    <h3>Detection Activity</h3>
-                    <div class="chart-filters">
-                        <button class="chart-filter-btn active">7 Days</button>
-                        <button class="chart-filter-btn">30 Days</button>
-                        <button class="chart-filter-btn">3 Months</button>
-                    </div>
-                </div>
-                <div class="chart-container" id="activityChart">
-                    <div class="chart-bar" style="height: 0%;">
-                        <span class="chart-bar-value">0</span>
-                        <span class="chart-bar-label">Mon</span>
-                    </div>
-                    <div class="chart-bar" style="height: 0%;">
-                        <span class="chart-bar-value">0</span>
-                        <span class="chart-bar-label">Tue</span>
-                    </div>
-                    <div class="chart-bar" style="height: 0%;">
-                        <span class="chart-bar-value">0</span>
-                        <span class="chart-bar-label">Wed</span>
-                    </div>
-                    <div class="chart-bar" style="height: 0%;">
-                        <span class="chart-bar-value">0</span>
-                        <span class="chart-bar-label">Thu</span>
-                    </div>
-                    <div class="chart-bar" style="height: 0%;">
-                        <span class="chart-bar-value">0</span>
-                        <span class="chart-bar-label">Fri</span>
-                    </div>
-                    <div class="chart-bar" style="height: 0%;">
-                        <span class="chart-bar-value">0</span>
-                        <span class="chart-bar-label">Sat</span>
-                    </div>
-                    <div class="chart-bar" style="height: 0%;">
-                        <span class="chart-bar-value">0</span>
-                        <span class="chart-bar-label">Sun</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Recent Detections Premium -->
-            <div class="detections-section">
+            <!-- Recent detections -->
+            <div class="section">
                 <div class="section-header">
                     <h3>Recent Detections</h3>
-                    <a href="/detections" class="btn btn-primary">
-                        <span>View All</span>
-                        <span>→</span>
-                    </a>
+                    <a href="#" class="btn">View All</a>
                 </div>
                 <div id="detectionsContent">
                     <div class="empty-state">
                         <div class="empty-state-icon">🎉</div>
-                        <h4>No detections yet!</h4>
-                        <p>Install the Chrome extension to start monitoring</p>
+                        <h4>No detections yet</h4>
+                        <p>Your team is protected. Install the extension to start monitoring.</p>
                     </div>
                 </div>
             </div>
@@ -929,120 +653,75 @@
 
     <script>
         const API_URL = 'https://ai-shield-backend-production.up.railway.app';
-        let authToken = null;
-        let currentUser = null;
-        let currentCompany = null;
 
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const mainContent = document.getElementById('mainContent');
-            sidebar.classList.toggle('collapsed');
-            mainContent.classList.toggle('expanded');
-            localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+        // Auth check
+        const authToken = localStorage.getItem('authToken');
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        const company = JSON.parse(localStorage.getItem('company') || '{}');
+
+        if (!authToken) {
+            window.location.href = '/login';
         }
 
-        async function init() {
-            authToken = localStorage.getItem('authToken');
-            const userStr = localStorage.getItem('user');
-            const companyStr = localStorage.getItem('company');
+        // Update UI
+        document.getElementById('userName').textContent = user.email?.split('@')[0] || 'Admin';
+        document.getElementById('companyName').textContent = company.name || 'Company';
+        const initials = company.name?.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase() || 'AC';
+        document.getElementById('userAvatar').textContent = initials;
 
-            if (!authToken || !userStr || !companyStr) {
-                window.location.href = '/login';
-                return;
-            }
-
+        // Load stats
+        async function loadStats() {
             try {
-                currentUser = JSON.parse(userStr);
-                currentCompany = JSON.parse(companyStr);
-
-                document.getElementById('userName').textContent = currentUser.full_name || currentUser.email.split('@')[0];
-                document.getElementById('companyName').textContent = currentCompany.name;
-                
-                const initials = currentCompany.name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
-                document.getElementById('userAvatar').textContent = initials;
-
-                const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
-                if (sidebarCollapsed) {
-                    document.getElementById('sidebar').classList.add('collapsed');
-                    document.getElementById('mainContent').classList.add('expanded');
-                }
-
-                await loadDashboardStats();
-                await loadRecentDetections();
-
-                setInterval(() => {
-                    loadDashboardStats();
-                    loadRecentDetections();
-                }, 30000);
-
-            } catch (error) {
-                console.error('Init error:', error);
-                localStorage.clear();
-                window.location.href = '/login';
-            }
-        }
-
-        async function loadDashboardStats() {
-            try {
-                const response = await fetch(`${API_URL}/api/dashboard/stats/${currentCompany.id}`, {
+                const response = await fetch(`${API_URL}/api/dashboard/stats/${company.id}`, {
                     headers: { 'Authorization': `Bearer ${authToken}` }
                 });
 
-                if (!response.ok) {
-                    if (response.status === 401 || response.status === 403) {
-                        logout();
-                        return;
-                    }
-                    return;
-                }
+                if (!response.ok) return;
 
                 const stats = await response.json();
 
                 document.getElementById('totalDetections').textContent = stats.totalDetections || 0;
-                document.getElementById('finesPrevented').textContent = '€' + ((stats.totalDetections || 0) * 50000).toLocaleString();
-                document.getElementById('monthlyDetections').textContent = stats.monthlyDetections || 0;
-                document.getElementById('activeUsers').textContent = stats.activeUsers || 1;
-                document.getElementById('todayDetections').textContent = stats.todayDetections || 0;
-                document.getElementById('savedAmount').textContent = '€' + ((stats.totalDetections || 0) * 50000 / 1000).toFixed(0) + 'k';
+                document.getElementById('criticalDetections').textContent = stats.criticalDetections || 0;
+                document.getElementById('suspiciousDetections').textContent = stats.suspiciousDetections || 0;
+                document.getElementById('teamCount').textContent = stats.teamCount || 1;
+                document.getElementById('todayCount').textContent = stats.todayCount || 0;
+                
+                const saved = ((stats.totalDetections || 0) * 50000);
+                document.getElementById('savedAmount').textContent = saved > 1000000 
+                    ? `€${(saved / 1000000).toFixed(1)}M`
+                    : `€${(saved / 1000).toFixed(0)}k`;
 
             } catch (error) {
-                console.log('Stats not available');
+                console.error('Error loading stats:', error);
             }
         }
 
-        async function loadRecentDetections() {
-            const content = document.getElementById('detectionsContent');
-
+        // Load detections
+        async function loadDetections() {
             try {
-                const response = await fetch(`${API_URL}/api/detections/${currentCompany.id}`, {
+                const response = await fetch(`${API_URL}/api/detections/${company.id}`, {
                     headers: { 'Authorization': `Bearer ${authToken}` }
                 });
 
-                if (!response.ok) {
-                    if (response.status === 401 || response.status === 403) {
-                        logout();
-                        return;
-                    }
-                    throw new Error('Failed');
-                }
+                if (!response.ok) return;
 
                 const detections = await response.json();
+                const content = document.getElementById('detectionsContent');
 
                 if (detections.length === 0) {
                     content.innerHTML = `
                         <div class="empty-state">
                             <div class="empty-state-icon">🎉</div>
-                            <h4>No detections yet!</h4>
-                            <p>Install the Chrome extension to start monitoring</p>
+                            <h4>No detections yet</h4>
+                            <p>Your team is protected. Detections will appear here.</p>
                         </div>
                     `;
                     return;
                 }
 
-                const recent = detections.slice(0, 10);
-                content.innerHTML = recent.map(d => {
-                    const date = new Date(d.timestamp);
-                    const initials = d.user_id.split('@')[0].substring(0, 2).toUpperCase();
+                content.innerHTML = detections.slice(0, 10).map(d => {
+                    const time = new Date(d.timestamp).toLocaleTimeString('en-GB', {hour: '2-digit', minute: '2-digit'});
+                    const initials = d.user_id.substring(0, 2).toUpperCase();
                     
                     return `
                         <div class="detection-item">
@@ -1050,37 +729,31 @@
                                 <div class="detection-avatar">${initials}</div>
                                 <div class="detection-details">
                                     <h4>${d.user_id}</h4>
-                                    <p>${d.detection_type} detected on ${d.ai_platform || 'Unknown Platform'}</p>
+                                    <p>${d.detection_type} on ${d.ai_platform || 'AI Platform'}</p>
                                 </div>
                             </div>
                             <div class="detection-meta">
                                 <div class="detection-badge">${d.detection_type}</div>
-                                <div class="detection-time">${date.toLocaleTimeString('en-GB', {hour: '2-digit', minute: '2-digit'})}</div>
+                                <div class="detection-time">${time}</div>
                             </div>
                         </div>
                     `;
                 }).join('');
 
             } catch (error) {
-                content.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">🎉</div>
-                        <h4>No detections yet!</h4>
-                        <p>Install the Chrome extension to start monitoring</p>
-                    </div>
-                `;
+                console.error('Error loading detections:', error);
             }
         }
 
         function logout() {
             localStorage.clear();
-            if (window.chrome && chrome.storage) {
-                try { chrome.storage.local.clear(); } catch (e) {}
-            }
             window.location.href = '/';
         }
 
-        init();
+        // Init
+        loadStats();
+        loadDetections();
+        setInterval(loadStats, 30000);
     </script>
 </body>
 </html>
