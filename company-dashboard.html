@@ -54,6 +54,8 @@
             flex-direction: column;
             z-index: 1000;
             transition: var(--transition);
+            left: 0;
+            top: 0;
         }
 
         .sidebar.collapsed { width: 80px; }
@@ -75,9 +77,10 @@
         }
 
         .logo-img {
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             object-fit: contain;
+            flex-shrink: 0;
         }
 
         .logo-text {
@@ -85,15 +88,23 @@
             font-weight: 700;
             letter-spacing: -0.3px;
             transition: var(--transition);
+            white-space: nowrap;
         }
 
-        .sidebar.collapsed .logo-text { opacity: 0; width: 0; display: none; }
+        .sidebar.collapsed .logo-text { 
+            opacity: 0; 
+            width: 0; 
+            display: none; 
+        }
 
         .nav-menu {
             flex: 1;
             padding: 1.25rem 0.75rem;
             list-style: none;
+            overflow-y: auto;
         }
+
+        .nav-item { margin: 0; }
 
         .nav-link {
             display: flex;
@@ -108,14 +119,29 @@
             transition: var(--transition);
         }
 
-        .nav-link i { width: 20px; margin-right: 10px; font-size: 1rem; }
+        .nav-link i { 
+            width: 20px; 
+            margin-right: 10px; 
+            font-size: 1rem; 
+            flex-shrink: 0;
+        }
+
+        .nav-link span {
+            white-space: nowrap;
+            overflow: hidden;
+            transition: var(--transition);
+        }
 
         .nav-link:hover, .nav-link.active {
             background: rgba(59, 130, 246, 0.1);
             color: var(--primary);
         }
 
-        .sidebar.collapsed .nav-link span { display: none; }
+        .sidebar.collapsed .nav-link span { 
+            opacity: 0;
+            width: 0;
+            display: none; 
+        }
 
         .sidebar-footer {
             padding: 1rem 1.25rem;
@@ -141,12 +167,45 @@
             justify-content: center;
             font-weight: 600;
             font-size: 0.8rem;
+            flex-shrink: 0;
         }
 
-        .user-info { transition: var(--transition); }
-        .sidebar.collapsed .user-info { display: none; }
-        .user-name { display: block; font-size: 0.85rem; font-weight: 600; }
-        .company-name { display: block; font-size: 0.7rem; color: var(--text-muted); }
+        .user-info { 
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        .sidebar.collapsed .user-info { 
+            opacity: 0;
+            width: 0;
+            display: none; 
+        }
+
+        .user-name { 
+            display: block; 
+            font-size: 0.85rem; 
+            font-weight: 600; 
+        }
+
+        .company-name { 
+            display: block; 
+            font-size: 0.7rem; 
+            color: var(--text-muted); 
+        }
+
+        /* Sidebar Backdrop (Mobile) */
+        .sidebar-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .sidebar-backdrop.show { display: block; }
 
         /* --- Main Content --- */
         .main-content {
@@ -172,10 +231,37 @@
             z-index: 900;
         }
 
-        .header-left { display: flex; align-items: center; gap: 15px; }
-        .toggle-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.1rem; }
+        .header-left { 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+        }
 
-        .content-body { padding: 2rem; max-width: 1400px; margin: 0 auto; }
+        .toggle-btn { 
+            background: none; 
+            border: none; 
+            color: var(--text-muted); 
+            cursor: pointer; 
+            font-size: 1.1rem;
+            padding: 5px;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        .toggle-btn:hover {
+            background: rgba(255,255,255,0.05);
+            color: var(--text-main);
+        }
+
+        .header-title { font-size: 1rem; font-weight: 600; }
+
+        .header-right { display: flex; align-items: center; gap: 15px; }
+
+        .content-body { 
+            padding: 2rem; 
+            max-width: 1400px; 
+            margin: 0 auto; 
+        }
 
         /* Stats Grid */
         .stats-grid {
@@ -192,9 +278,26 @@
             border: 1px solid var(--border);
         }
 
-        .stat-label { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem; display: block; text-transform: uppercase; letter-spacing: 0.05em; }
-        .stat-value { font-size: 1.75rem; font-weight: 700; color: var(--text-main); }
-        .stat-footer { margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-muted); }
+        .stat-label { 
+            font-size: 0.75rem; 
+            color: var(--text-muted); 
+            margin-bottom: 0.5rem; 
+            display: block; 
+            text-transform: uppercase; 
+            letter-spacing: 0.05em; 
+        }
+
+        .stat-value { 
+            font-size: 1.75rem; 
+            font-weight: 700; 
+            color: var(--text-main); 
+        }
+
+        .stat-footer { 
+            margin-top: 0.5rem; 
+            font-size: 0.75rem; 
+            color: var(--text-muted); 
+        }
 
         /* Detections Section */
         .section-card {
@@ -204,10 +307,23 @@
             border: 1px solid var(--border);
         }
 
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
-        .section-title { font-size: 1rem; font-weight: 600; }
+        .section-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 1.5rem; 
+        }
 
-        .detection-list { display: flex; flex-direction: column; gap: 10px; }
+        .section-title { 
+            font-size: 1rem; 
+            font-weight: 600; 
+        }
+
+        .detection-list { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px; 
+        }
         
         .detection-item {
             display: flex;
@@ -219,7 +335,9 @@
             transition: var(--transition);
         }
 
-        .detection-item:hover { background: rgba(255,255,255,0.04); }
+        .detection-item:hover { 
+            background: rgba(255,255,255,0.04); 
+        }
 
         .det-avatar {
             width: 36px;
@@ -232,11 +350,24 @@
             font-size: 0.8rem;
             font-weight: 600;
             margin-right: 12px;
+            flex-shrink: 0;
         }
 
-        .det-info { flex: 1; }
-        .det-user { display: block; font-size: 0.85rem; font-weight: 600; }
-        .det-desc { display: block; font-size: 0.75rem; color: var(--text-muted); }
+        .det-info { 
+            flex: 1; 
+        }
+
+        .det-user { 
+            display: block; 
+            font-size: 0.85rem; 
+            font-weight: 600; 
+        }
+
+        .det-desc { 
+            display: block; 
+            font-size: 0.75rem; 
+            color: var(--text-muted); 
+        }
 
         .det-badge {
             padding: 4px 8px;
@@ -246,38 +377,104 @@
             background: rgba(239, 68, 68, 0.1);
             color: var(--danger);
             margin-right: 15px;
+            flex-shrink: 0;
         }
 
-        .det-time { font-size: 0.75rem; color: var(--text-muted); }
+        .det-time { 
+            font-size: 0.75rem; 
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
 
-        .empty-state { text-align: center; padding: 3rem; color: var(--text-muted); }
-        .empty-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
+        .empty-state { 
+            text-align: center; 
+            padding: 3rem; 
+            color: var(--text-muted); 
+        }
 
+        .empty-icon { 
+            font-size: 2rem; 
+            margin-bottom: 1rem; 
+            display: block; 
+        }
+
+        /* Mobile Responsive */
         @media (max-width: 768px) {
-            .sidebar { transform: translateX(-100%); }
-            .sidebar.mobile-open { transform: translateX(0); width: 240px; }
-            .main-content { margin-left: 0; }
-            .main-content.expanded { margin-left: 0; }
+            .sidebar {
+                transform: translateX(-100%);
+                width: 240px;
+                box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .main-content.expanded {
+                margin-left: 0;
+            }
+
+            .content-body {
+                padding: 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 0 1rem;
+            }
+
+            .detection-item {
+                flex-wrap: wrap;
+            }
+
+            .det-badge {
+                margin-right: 0;
+                margin-top: 8px;
+            }
+
+            .det-time {
+                width: 100%;
+                text-align: right;
+                margin-top: 8px;
+            }
         }
     </style>
 </head>
 <body>
 
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
     <div class="wrapper">
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <a href="#" class="logo-box">
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAYAAAB/HSuDAADNXWNhQlgAAM1danVtYgAAAB5qdW1kYzJhcwARABCAAACqADibcQNjMnBhLmFzc2VydGlvbnMAAAAA5Wp1bWIAAAApanVtZGNib3IAEQAQgAAAqgA4m3EDYzJwYS5hY3Rpb25zLnYyAAAAALRjYm9yoWdhY3Rpb25zgqNmYWN0aW9ubGMycGEuY3JlYXRlZG1zb2Z0d2FyZUFnZW50v2RuYW1lZkdQVC00b/9xZGlnaXRhbFNvdXJjZVR5cGV4Rmh0dHA6Ly9jdi5pcHRjLm9yZy9uZXdzY29kZXMvZGlnaXRhbHNvdXJjZXR5cGUvdHJhaW5lZEFsZ29yaXRobWljTWVkaWGhZmFjdGlvbm5jMnBhLmNvbnZlcnRlZAAAAKtqdW1iAAAAKGp1bWRjYm9yABEAEIAAAKoAOJtxA2MycGEuaGFzaC5kYXRhAAAAAHtjYm9ypWpleGNsdXNpb25zgaJlc3RhcnQYIWZsZW5ndGgZNydkbmFtZW5qdW1iZiBtYW5pZmVzdGNhbGdmc2hhMjU2ZGhhc2hYILruj6QgXM1/rD1tCdUZjVAok5Hkuo1gShr2OHoak6lgY3BhZEgAAAAAAAAAAAAAAe5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAABv2Nib3Kmamluc3RhbmNlSUR4LHhtcPppaWQ6ZDk0NGM1ODctOTUzNy00MmYxLWI3ZTYtOGIwYzY4MTM5ODI0dGNsYWltX2dlbmVyYXRvcl9pbmZov2RuYW1lZ0NoYXRHUFR3b3JnLmNvbnRlbnRhdXRoLmMycGFfcnNmMC42Ny4x/2lzaWduYXR1cmV4TXNlbGYjanVtYmY9L2MycGEvdXJuOmMycGE6NjdlODExOWEtOTRkOC00YjY1LWE4ZmYtMzIzN2Q3MjY2ZDcwL2MycGEuc2lnbmF0dXJlcmNyZWF0ZWRfYXNzZXJ0aW9uc4KiY3VybHgqc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5hY3Rpb25zLnYyZGhhc2hYII9OoyotmtGJ2mI9SUEyQP312im5mlYkGrGNlmEyEzy1omN1cmx4KXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25z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" alt="AI Shield Logo" class="logo-img">
+                    <svg class="logo-img" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M128 20C67.2 20 20 67.2 20 128s47.2 108 108 108 108-47.2 108-108S188.8 20 128 20zm0 196c-48.5 0-88-39.5-88-88s39.5-88 88-88 88 39.5 88 88-39.5 88-88 88z" fill="url(#grad1)"/>
+                        <text x="128" y="145" font-size="80" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial, sans-serif">A</text>
+                    </svg>
                     <span class="logo-text">AI Shield</span>
                 </a>
             </div>
 
             <nav class="nav-menu">
-                <li><a href="/dashboard" class="nav-link active"><i class="fas fa-th-large"></i> <span>Dashboard</span></a></li>
-                <li><a href="/employees" class="nav-link"><i class="fas fa-users"></i> <span>Employees</span></a></li>
-                <li><a href="/detections" class="nav-link"><i class="fas fa-search"></i> <span>Detections</span></a></li>
-                <li><a href="/policies" class="nav-link"><i class="fas fa-shield-alt"></i> <span>Policies</span></a></li>
-                <li><a href="/settings" class="nav-link"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
+                <li class="nav-item"><a href="/dashboard" class="nav-link active"><i class="fas fa-th-large"></i> <span>Dashboard</span></a></li>
+                <li class="nav-item"><a href="/employees" class="nav-link"><i class="fas fa-users"></i> <span>Employees</span></a></li>
+                <li class="nav-item"><a href="/detections" class="nav-link"><i class="fas fa-search"></i> <span>Detections</span></a></li>
+                <li class="nav-item"><a href="/policies" class="nav-link"><i class="fas fa-shield-alt"></i> <span>Policies</span></a></li>
+                <li class="nav-item"><a href="/settings" class="nav-link"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
             </nav>
 
             <div class="sidebar-footer">
@@ -294,7 +491,7 @@
         <main class="main-content" id="mainContent">
             <header>
                 <div class="header-left">
-                    <button class="toggle-btn" onclick="toggleSidebar()">
+                    <button class="toggle-btn" id="toggleBtn" onclick="toggleSidebar()">
                         <i class="fas fa-bars"></i>
                     </button>
                     <div class="header-title">Security Overview</div>
@@ -349,17 +546,49 @@
     <script>
         const API_URL = 'https://ai-shield-backend-production.up.railway.app';
 
-        // Sidebar logic
+        // Sidebar toggle - Desktop
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const mainContent = document.getElementById('mainContent');
-            sidebar.classList.toggle('collapsed');
-            mainContent.classList.toggle('expanded');
-            localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+            const backdrop = document.getElementById('sidebarBackdrop');
+            
+            if (window.innerWidth <= 768) {
+                // Mobile: toggle mobile-open class
+                sidebar.classList.toggle('mobile-open');
+                backdrop.classList.toggle('show');
+                if (sidebar.classList.contains('mobile-open')) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = '';
+                }
+            } else {
+                // Desktop: toggle collapsed class
+                sidebar.classList.toggle('collapsed');
+                mainContent.classList.toggle('expanded');
+                localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+            }
         }
 
-        // Restore state
-        if (localStorage.getItem('sidebarCollapsed') === 'true') {
+        // Close mobile menu on nav click
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    document.getElementById('sidebar').classList.remove('mobile-open');
+                    document.getElementById('sidebarBackdrop').classList.remove('show');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+
+        // Close mobile menu on backdrop click
+        document.getElementById('sidebarBackdrop').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.remove('mobile-open');
+            document.getElementById('sidebarBackdrop').classList.remove('show');
+            document.body.style.overflow = '';
+        });
+
+        // Restore desktop sidebar state
+        if (localStorage.getItem('sidebarCollapsed') === 'true' && window.innerWidth > 768) {
             document.getElementById('sidebar').classList.add('collapsed');
             document.getElementById('mainContent').classList.add('expanded');
         }
