@@ -7,46 +7,43 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            /* Brand palette - AI Shield */
-            --navy:       #0d1b2e;         /* sidebar, header — escuro estratégico */
-            --navy-mid:   #152338;         /* hover states no sidebar */
-            --cobalt:     #1a56db;         /* acento principal, activo, CTAs */
-            --cobalt-lt:  #3b72f0;         /* hover do cobalt */
-            --cobalt-dim: rgba(26,86,219,0.08);
-            --cobalt-glow:rgba(26,86,219,0.18);
+            --navy:        #0d1b2e;
+            --navy-mid:    #162840;
+            --cobalt:      #1a56db;
+            --cobalt-lt:   #3b72f0;
+            --cobalt-dim:  rgba(26,86,219,0.09);
+            --cobalt-glow: rgba(26,86,219,0.2);
 
-            /* Page background — claro, limpo */
-            --bg:         #f4f6f9;
-            --bg-card:    #ffffff;
-            --bg-card2:   #f8fafc;
+            --bg:          #f0f4f8;
+            --bg-card:     #ffffff;
+            --bg-card2:    #f7fafc;
 
-            /* Borders */
-            --border:     #e2e8f0;
-            --border2:    #cbd5e0;
+            --border:      #dde3ec;
+            --border2:     #c4cdd8;
 
-            /* Semantic */
-            --danger:     #dc2626;
-            --danger-dim: rgba(220,38,38,0.08);
-            --warning:    #d97706;
-            --warning-dim:rgba(217,119,6,0.08);
-            --ok:         #059669;
-            --ok-dim:     rgba(5,150,105,0.08);
+            --danger:      #c81e1e;
+            --danger-dim:  rgba(200,30,30,0.08);
+            --warning:     #b45309;
+            --warning-dim: rgba(180,83,9,0.08);
+            --ok:          #047857;
+            --ok-dim:      rgba(4,120,87,0.08);
 
-            /* Text */
-            --text:       #0d1b2e;
-            --text-mid:   #374151;
-            --muted:      #6b7280;
-            --muted-lt:   #9ca3af;
+            /* Text — mais visível */
+            --text:        #0d1b2e;
+            --text-mid:    #1e3a5f;
+            --muted:       #4a5568;   /* era #6b7280 — mais escuro agora */
+            --muted-lt:    #718096;
 
-            --sidebar-w:  220px;
-            --header-h:   60px;
-            --t:          all 0.2s ease;
-            --radius:     8px;
+            --sidebar-w:   224px;
+            --header-h:    60px;
+            --mobile-nav:  60px;
+            --t:           all 0.22s ease;
+            --r:           10px;
         }
 
         * { margin:0; padding:0; box-sizing:border-box; }
@@ -60,9 +57,9 @@
 
         .wrapper { display:flex; min-height:100vh; }
 
-        /* ─────────────────────────────
-           SIDEBAR — navy escuro (estratégico)
-        ───────────────────────────────*/
+        /* ══════════════════════════════
+           SIDEBAR
+        ══════════════════════════════*/
         .sidebar {
             width: var(--sidebar-w);
             background: var(--navy);
@@ -71,7 +68,7 @@
             display: flex;
             flex-direction: column;
             z-index: 1000;
-            transition: var(--t);
+            transition: width 0.22s ease;
         }
 
         .sidebar.collapsed { width: 64px; }
@@ -82,7 +79,8 @@
             align-items: center;
             padding: 0 18px;
             gap: 10px;
-            border-bottom: 1px solid rgba(255,255,255,0.07);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            flex-shrink: 0;
         }
 
         .logo-mark { width:28px; height:28px; flex-shrink:0; }
@@ -90,8 +88,8 @@
         .logo-text {
             font-family: 'Barlow Condensed', sans-serif;
             font-weight: 900;
-            font-size: 1.05rem;
-            letter-spacing: 0.06em;
+            font-size: 1.1rem;
+            letter-spacing: 0.07em;
             color: #fff;
             white-space: nowrap;
             transition: var(--t);
@@ -99,29 +97,29 @@
 
         .sidebar.collapsed .logo-text { opacity:0; width:0; overflow:hidden; }
 
-        .nav-menu { flex:1; padding:14px 10px; list-style:none; }
+        .nav-menu { flex:1; padding:16px 10px; list-style:none; overflow-y:auto; }
 
         .nav-link {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 9px 10px;
-            color: rgba(255,255,255,0.45);
+            gap: 11px;
+            padding: 10px 12px;
+            color: rgba(255,255,255,0.5);
             text-decoration: none;
-            border-radius: 6px;
-            margin-bottom: 2px;
-            font-size: 0.82rem;
+            border-radius: 7px;
+            margin-bottom: 3px;
+            font-size: 0.88rem;      /* maior que antes */
             font-weight: 500;
             letter-spacing: 0.01em;
             transition: var(--t);
             white-space: nowrap;
         }
 
-        .nav-link i { width:16px; font-size:0.8rem; flex-shrink:0; text-align:center; }
+        .nav-link i { width:17px; font-size:0.85rem; flex-shrink:0; text-align:center; }
         .nav-link span { transition:var(--t); overflow:hidden; }
         .sidebar.collapsed .nav-link span { opacity:0; width:0; }
 
-        .nav-link:hover { background:var(--navy-mid); color:rgba(255,255,255,0.8); }
+        .nav-link:hover { background:var(--navy-mid); color:rgba(255,255,255,0.85); }
 
         .nav-link.active {
             background: var(--cobalt);
@@ -131,81 +129,94 @@
 
         .sidebar-footer {
             padding: 14px;
-            border-top: 1px solid rgba(255,255,255,0.07);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            flex-shrink: 0;
         }
 
         .user-card {
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 8px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 6px;
+            padding: 9px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 7px;
         }
 
         .user-avatar {
-            width: 30px; height: 30px;
-            border-radius: 6px;
+            width: 32px; height: 32px;
+            border-radius: 7px;
             background: var(--cobalt);
             display: flex; align-items:center; justify-content:center;
             font-family: 'Barlow Condensed', sans-serif;
             font-weight: 900;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             color: #fff;
             flex-shrink: 0;
         }
 
         .user-info { overflow:hidden; transition:var(--t); }
         .sidebar.collapsed .user-info { opacity:0; width:0; }
-        .user-name { display:block; font-size:0.8rem; font-weight:600; color:#fff; }
-        .company-name { display:block; font-size:0.68rem; color:rgba(255,255,255,0.4); }
 
-        /* ── BACKDROP ── */
-        .sidebar-backdrop { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:999; }
+        .user-name    { display:block; font-size:0.85rem; font-weight:600; color:#fff; }
+        .company-name { display:block; font-size:0.72rem; color:rgba(255,255,255,0.45); margin-top:1px; }
+
+        .sidebar-backdrop {
+            display:none; position:fixed; inset:0;
+            background:rgba(0,0,0,0.55); z-index:999;
+        }
         .sidebar-backdrop.show { display:block; }
 
-        /* ─────────────────────────────
+        /* ══════════════════════════════
            MAIN
-        ───────────────────────────────*/
-        .main-content { flex:1; margin-left:var(--sidebar-w); min-height:100vh; transition:var(--t); }
+        ══════════════════════════════*/
+        .main-content {
+            flex:1;
+            margin-left: var(--sidebar-w);
+            min-height: 100vh;
+            transition: margin-left 0.22s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
         .main-content.expanded { margin-left:64px; }
 
-        /* ─────────────────────────────
-           HEADER — navy escuro (estratégico)
-        ───────────────────────────────*/
+        /* ══════════════════════════════
+           HEADER
+        ══════════════════════════════*/
         header {
             height: var(--header-h);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 28px;
+            padding: 0 24px;
             background: var(--navy);
             position: sticky;
             top: 0;
             z-index: 900;
+            flex-shrink: 0;
         }
 
         .header-left { display:flex; align-items:center; gap:14px; }
 
         .toggle-btn {
-            background: none; border: none;
-            color: rgba(255,255,255,0.5);
-            cursor: pointer;
-            width: 32px; height: 32px;
-            display: flex; align-items:center; justify-content:center;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            transition: var(--t);
+            background:none; border:none;
+            color:rgba(255,255,255,0.5);
+            cursor:pointer;
+            width:34px; height:34px;
+            display:flex; align-items:center; justify-content:center;
+            border-radius:7px;
+            font-size:0.95rem;
+            transition:var(--t);
         }
-        .toggle-btn:hover { background:rgba(255,255,255,0.07); color:#fff; }
+        .toggle-btn:hover { background:rgba(255,255,255,0.08); color:#fff; }
 
         .header-title {
             font-family: 'Barlow Condensed', sans-serif;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 1rem;
             letter-spacing: 0.08em;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.55);
+            color: rgba(255,255,255,0.6);
         }
 
         .live-badge {
@@ -213,107 +224,100 @@
             align-items: center;
             gap: 6px;
             font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.68rem;
+            font-size: 0.7rem;
             font-weight: 700;
             letter-spacing: 0.1em;
             text-transform: uppercase;
             color: #fff;
-            padding: 3px 10px;
-            border: 1px solid rgba(26,86,219,0.5);
-            border-radius: 4px;
+            padding: 4px 11px;
+            border-radius: 5px;
             background: var(--cobalt);
         }
 
         .live-dot {
-            width: 5px; height: 5px;
-            border-radius: 50%;
-            background: #fff;
+            width:6px; height:6px;
+            border-radius:50%;
+            background:#fff;
             animation: pulse 1.8s ease-in-out infinite;
         }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
 
-        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-
-        .header-right { display:flex; align-items:center; gap:14px; }
+        .header-right { display:flex; align-items:center; gap:12px; }
 
         .logout-btn {
-            background: none;
-            border: 1px solid rgba(255,255,255,0.15);
-            color: rgba(255,255,255,0.5);
-            cursor: pointer;
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.68rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            padding: 5px 12px;
-            border-radius: 4px;
-            transition: var(--t);
+            background:none;
+            border:1px solid rgba(255,255,255,0.18);
+            color:rgba(255,255,255,0.55);
+            cursor:pointer;
+            font-family:'Barlow Condensed',sans-serif;
+            font-size:0.7rem; font-weight:700;
+            letter-spacing:0.08em; text-transform:uppercase;
+            padding:6px 13px; border-radius:5px;
+            transition:var(--t);
         }
-        .logout-btn:hover { border-color:var(--danger); color:var(--danger); }
+        .logout-btn:hover { border-color:var(--danger); color:#f87171; }
 
-        /* ─────────────────────────────
-           CONTENT — fundo claro
-        ───────────────────────────────*/
-        .content-body { padding: 24px 28px; max-width:1380px; margin:0 auto; }
+        /* ══════════════════════════════
+           CONTENT
+        ══════════════════════════════*/
+        .content-body {
+            padding: 24px;
+            max-width: 1380px;
+            width: 100%;
+            margin: 0 auto;
+            flex: 1;
+        }
 
         /* ── ALERT BANNER ── */
         .alert-banner {
             display: flex;
             align-items: center;
             gap: 14px;
-            padding: 12px 16px;
+            padding: 13px 16px;
             background: #fff5f5;
-            border: 1px solid rgba(220,38,38,0.2);
+            border: 1px solid rgba(200,30,30,0.2);
             border-left: 3px solid var(--danger);
-            border-radius: var(--radius);
-            margin-bottom: 22px;
+            border-radius: var(--r);
+            margin-bottom: 20px;
         }
 
         .alert-icon {
-            width: 30px; height: 30px;
-            background: var(--danger-dim);
-            border-radius: 6px;
+            width:32px; height:32px;
+            background:var(--danger-dim);
+            border-radius:7px;
             display:flex; align-items:center; justify-content:center;
-            color: var(--danger);
-            flex-shrink: 0;
-            font-size: 0.8rem;
+            color:var(--danger); flex-shrink:0; font-size:0.85rem;
         }
 
-        .alert-text { font-size:0.82rem; line-height:1.5; color: var(--text-mid); }
-        .alert-text b { color: var(--danger); }
-
+        .alert-text { font-size:0.85rem; line-height:1.5; color:var(--text-mid); }
+        .alert-text b { color:var(--danger); }
         .alert-cta {
-            margin-left: auto;
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--danger);
-            cursor: pointer;
-            white-space: nowrap;
-            flex-shrink: 0;
+            margin-left:auto;
+            font-family:'Barlow Condensed',sans-serif;
+            font-size:0.72rem; font-weight:700;
+            letter-spacing:0.08em; text-transform:uppercase;
+            color:var(--danger); cursor:pointer; white-space:nowrap; flex-shrink:0;
         }
 
-        /* ── STATS GRID ── */
+        /* ══════════════════════════════
+           STATS GRID
+        ══════════════════════════════*/
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(4,1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 14px;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .stat-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: var(--radius);
+            border-radius: var(--r);
             padding: 20px;
             transition: box-shadow 0.2s;
         }
+        .stat-card:hover { box-shadow:0 2px 14px rgba(0,0,0,0.07); }
 
-        .stat-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
-
-        /* Cobalt accent card — navy escuro estratégico */
         .stat-card.card-accent {
             background: var(--navy);
             border-color: var(--navy);
@@ -321,7 +325,7 @@
 
         .stat-label {
             font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.67rem;
+            font-size: 0.72rem;    /* era 0.67 */
             font-weight: 700;
             letter-spacing: 0.1em;
             text-transform: uppercase;
@@ -332,24 +336,24 @@
             justify-content: space-between;
         }
 
-        .stat-card.card-accent .stat-label { color: rgba(255,255,255,0.45); }
+        .stat-card.card-accent .stat-label { color:rgba(255,255,255,0.5); }
 
         .stat-icon {
-            width: 26px; height: 26px;
-            border-radius: 6px;
+            width:28px; height:28px;
+            border-radius:7px;
             display:flex; align-items:center; justify-content:center;
-            font-size: 0.7rem;
+            font-size:0.75rem;
         }
 
         .si-danger  { background:var(--danger-dim);  color:var(--danger); }
         .si-warning { background:var(--warning-dim); color:var(--warning); }
         .si-cobalt  { background:var(--cobalt-dim);  color:var(--cobalt); }
         .si-ok      { background:var(--ok-dim);      color:var(--ok); }
-        .si-white   { background:rgba(255,255,255,0.1); color:#fff; }
+        .si-white   { background:rgba(255,255,255,0.12); color:#fff; }
 
         .stat-value {
             font-family: 'Barlow Condensed', sans-serif;
-            font-size: 2.5rem;
+            font-size: 2.6rem;
             font-weight: 900;
             letter-spacing: -0.02em;
             line-height: 1;
@@ -357,43 +361,45 @@
             color: var(--text);
         }
 
-        .sv-danger  { color: var(--danger); }
-        .sv-warning { color: var(--warning); }
-        .sv-cobalt  { color: var(--cobalt); }
-        .sv-white   { color: #fff; }
+        .sv-danger  { color:var(--danger); }
+        .sv-warning { color:var(--warning); }
+        .sv-cobalt  { color:var(--cobalt); }
+        .sv-white   { color:#fff; }
 
         .stat-footer {
-            font-size: 0.72rem;
+            font-size: 0.78rem;   /* era 0.72 */
             color: var(--muted);
             font-weight: 400;
         }
+        .stat-card.card-accent .stat-footer { color:rgba(255,255,255,0.45); }
 
-        .stat-card.card-accent .stat-footer { color: rgba(255,255,255,0.4); }
-
-        /* ── GRIDS ── */
+        /* ══════════════════════════════
+           LAYOUT GRIDS
+        ══════════════════════════════*/
         .grid-2-1 { display:grid; grid-template-columns:1fr 320px; gap:14px; margin-bottom:14px; }
         .grid-3   { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:14px; }
 
-        /* ── PANEL ── */
+        /* ══════════════════════════════
+           PANEL
+        ══════════════════════════════*/
         .panel {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: var(--radius);
+            border-radius: var(--r);
             overflow: hidden;
         }
 
         .panel-header {
-            padding: 14px 18px;
+            padding: 15px 18px;
             border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: var(--bg-card);
         }
 
         .panel-title {
             font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.78rem;
+            font-size: 0.82rem;   /* era 0.78 */
             font-weight: 700;
             letter-spacing: 0.08em;
             text-transform: uppercase;
@@ -403,196 +409,168 @@
             gap: 8px;
         }
 
-        .ptag { width:5px; height:5px; border-radius:50%; }
+        .ptag { width:6px; height:6px; border-radius:50%; }
         .pt-danger { background:var(--danger); }
         .pt-cobalt { background:var(--cobalt); }
         .pt-ok     { background:var(--ok); }
 
         .panel-action {
             font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.67rem;
+            font-size: 0.72rem;
             font-weight: 700;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
             color: var(--cobalt);
             cursor: pointer;
             text-decoration: none;
         }
 
-        /* ── DETECTIONS ── */
+        /* ══════════════════════════════
+           DETECTIONS LIST
+        ══════════════════════════════*/
         .detection-list { display:flex; flex-direction:column; }
 
         .detection-item {
             display: grid;
-            grid-template-columns: 34px 1fr auto auto;
+            grid-template-columns: 36px 1fr auto auto;
             align-items: center;
             gap: 12px;
-            padding: 12px 18px;
+            padding: 13px 18px;
             border-bottom: 1px solid var(--border);
             transition: background 0.15s;
             cursor: pointer;
         }
-
         .detection-item:last-child { border-bottom:none; }
-        .detection-item:hover { background: var(--bg-card2); }
+        .detection-item:hover { background:var(--bg-card2); }
 
         .det-avatar {
-            width: 34px; height: 34px;
-            border-radius: 6px;
-            display: flex; align-items:center; justify-content:center;
-            font-family: 'Barlow Condensed', sans-serif;
-            font-weight: 900;
-            font-size: 0.72rem;
-            color: #fff;
-            flex-shrink: 0;
+            width:36px; height:36px;
+            border-radius:8px;
+            display:flex; align-items:center; justify-content:center;
+            font-family:'Barlow Condensed',sans-serif;
+            font-weight:900; font-size:0.78rem;
+            color:#fff; flex-shrink:0;
         }
 
-        .det-user { display:block; font-size:0.82rem; font-weight:600; color:var(--text); margin-bottom:2px; }
-        .det-desc { display:block; font-size:0.72rem; color:var(--muted); }
+        .det-user { display:block; font-size:0.88rem; font-weight:600; color:var(--text); margin-bottom:2px; }
+        .det-desc { display:block; font-size:0.77rem; color:var(--muted); }
 
         .sev-badge {
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.63rem;
-            font-weight: 700;
-            letter-spacing: 0.06em;
-            padding: 3px 8px;
-            border-radius: 4px;
-            text-transform: uppercase;
+            font-family:'Barlow Condensed',sans-serif;
+            font-size:0.67rem; font-weight:700;
+            letter-spacing:0.06em; padding:4px 9px;
+            border-radius:5px; text-transform:uppercase;
         }
 
-        .sb-critical { background:var(--danger-dim);  color:var(--danger);  border:1px solid rgba(220,38,38,0.15); }
-        .sb-high     { background:var(--warning-dim); color:var(--warning); border:1px solid rgba(217,119,6,0.15); }
+        .sb-critical { background:var(--danger-dim);  color:var(--danger);  border:1px solid rgba(200,30,30,0.15); }
+        .sb-high     { background:var(--warning-dim); color:var(--warning); border:1px solid rgba(180,83,9,0.15); }
         .sb-medium   { background:var(--cobalt-dim);  color:var(--cobalt);  border:1px solid var(--cobalt-glow); }
 
-        .det-time { font-size:0.7rem; color:var(--muted-lt); white-space:nowrap; }
+        .det-time { font-size:0.75rem; color:var(--muted-lt); white-space:nowrap; }
 
-        /* ── COMPLIANCE RING ── */
+        /* ══════════════════════════════
+           COMPLIANCE RING
+        ══════════════════════════════*/
         .score-wrap {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
+            display:flex; flex-direction:column;
+            align-items:center; padding:22px 20px;
         }
 
-        .ring-container {
-            position: relative;
-            width: 110px; height: 110px;
-            margin-bottom: 12px;
-        }
-
+        .ring-container { position:relative; width:114px; height:114px; margin-bottom:14px; }
         .ring-container svg { transform:rotate(-90deg); }
 
         .ring-center {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            position:absolute; inset:0;
+            display:flex; flex-direction:column;
+            align-items:center; justify-content:center;
         }
 
         .ring-num {
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 2rem;
-            font-weight: 900;
-            color: var(--cobalt);
-            line-height: 1;
+            font-family:'Barlow Condensed',sans-serif;
+            font-size:2.1rem; font-weight:900;
+            color:var(--cobalt); line-height:1;
         }
 
-        .ring-pct { font-size:0.62rem; color:var(--muted); }
+        .ring-pct { font-size:0.7rem; color:var(--muted); margin-top:1px; }
 
         .score-label {
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.82rem;
-            font-weight: 700;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-            color: var(--warning);
-            margin-bottom: 4px;
+            font-family:'Barlow Condensed',sans-serif;
+            font-size:0.9rem; font-weight:700;
+            letter-spacing:0.04em; text-transform:uppercase;
+            color:var(--warning); margin-bottom:4px;
         }
 
-        .score-sub { font-size:0.72rem; color:var(--muted); text-align:center; line-height:1.5; max-width:170px; }
+        .score-sub { font-size:0.78rem; color:var(--muted); text-align:center; line-height:1.5; max-width:180px; }
 
         .score-breakdown {
-            width: 100%;
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            gap: 9px;
+            width:100%; margin-top:16px; padding-top:16px;
+            border-top:1px solid var(--border);
+            display:flex; flex-direction:column; gap:10px;
         }
 
         .bd-row { display:flex; justify-content:space-between; align-items:center; }
-        .bd-label { font-size:0.72rem; color:var(--muted); }
-        .bd-val { font-family:'Barlow Condensed',sans-serif; font-size:0.8rem; font-weight:700; }
+        .bd-label { font-size:0.78rem; color:var(--muted); }
+        .bd-val { font-family:'Barlow Condensed',sans-serif; font-size:0.85rem; font-weight:700; }
         .bv-ok   { color:var(--ok); }
         .bv-warn { color:var(--warning); }
         .bv-bad  { color:var(--danger); }
 
-        /* ── BAR CHART ── */
+        /* ══════════════════════════════
+           BAR CHART
+        ══════════════════════════════*/
         .bar-chart {
-            display: flex;
-            align-items: flex-end;
-            gap: 8px;
-            height: 120px;
-            padding: 18px 18px 0;
+            display:flex; align-items:flex-end; gap:8px;
+            height:120px; padding:18px 18px 0;
         }
 
-        .bar-col { flex:1; display:flex; flex-direction:column; align-items:center; gap:5px; }
+        .bar-col { flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; }
 
         .bar-track {
             flex:1; width:100%;
-            background: var(--bg);
-            border-radius: 3px;
-            display:flex; align-items:flex-end;
-            overflow:hidden;
-            border: 1px solid var(--border);
+            background:var(--bg); border:1px solid var(--border);
+            border-radius:4px;
+            display:flex; align-items:flex-end; overflow:hidden;
         }
 
         .bar-fill {
-            width: 100%;
-            border-radius: 3px;
-            animation: barGrow 0.9s ease-out both;
-            transform-origin: bottom;
+            width:100%; border-radius:4px;
+            animation:barGrow 0.9s ease-out both;
+            transform-origin:bottom;
         }
-
         @keyframes barGrow { from{transform:scaleY(0)} to{transform:scaleY(1)} }
 
         .bar-lbl {
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.6rem;
-            font-weight: 700;
-            letter-spacing: 0.04em;
-            color: var(--muted);
-            text-transform: uppercase;
+            font-family:'Barlow Condensed',sans-serif;
+            font-size:0.65rem; font-weight:700;
+            letter-spacing:0.04em; color:var(--muted);
+            text-transform:uppercase;
         }
 
-        .chart-legend {
-            display: flex;
-            gap: 14px;
-            padding: 12px 18px 18px;
-        }
+        .chart-legend { display:flex; gap:14px; padding:12px 18px 18px; }
+        .leg-item { display:flex; align-items:center; gap:5px; font-size:0.75rem; color:var(--muted); }
+        .leg-dot  { width:8px; height:8px; border-radius:2px; }
 
-        .leg-item { display:flex; align-items:center; gap:5px; font-size:0.7rem; color:var(--muted); }
-        .leg-dot { width:7px; height:7px; border-radius:2px; }
-
-        /* ── AI TOOLS ── */
-        .tools-list { display:flex; flex-direction:column; gap:14px; padding:18px; }
+        /* ══════════════════════════════
+           AI TOOLS
+        ══════════════════════════════*/
+        .tools-list { display:flex; flex-direction:column; gap:16px; padding:18px; }
 
         .tool-row-top {
             display:flex; justify-content:space-between; align-items:center;
-            margin-bottom:5px;
+            margin-bottom:6px;
         }
 
-        .tool-name { display:flex; align-items:center; gap:8px; font-size:0.82rem; font-weight:600; color:var(--text); }
+        .tool-name {
+            display:flex; align-items:center; gap:9px;
+            font-size:0.88rem; font-weight:600; color:var(--text);
+        }
 
         .tool-logo {
-            width:18px; height:18px;
-            border-radius:4px;
+            width:20px; height:20px;
+            border-radius:5px;
             display:flex; align-items:center; justify-content:center;
             font-family:'Barlow Condensed',sans-serif;
-            font-size:0.62rem; font-weight:900;
+            font-size:0.65rem; font-weight:900;
         }
 
         .tl-gpt { background:rgba(16,163,127,0.12); color:#10a37f; }
@@ -600,115 +578,243 @@
         .tl-cld { background:rgba(200,110,70,0.12); color:#cc785c; }
         .tl-gem { background:rgba(66,133,244,0.12); color:#4285f4; }
 
-        .tool-sessions { font-size:0.72rem; color:var(--muted); }
+        .tool-sessions { font-size:0.78rem; color:var(--muted); }
 
-        .tool-bar-track { height:3px; background:var(--bg); border-radius:2px; overflow:hidden; border:1px solid var(--border); }
-        .tool-bar-fill { height:100%; border-radius:2px; animation:fillSlide 1s ease-out both; transform-origin:left; }
+        .tool-bar-track {
+            height:4px; background:var(--bg);
+            border:1px solid var(--border);
+            border-radius:3px; overflow:hidden;
+        }
+        .tool-bar-fill {
+            height:100%; border-radius:3px;
+            animation:fillSlide 1s ease-out both; transform-origin:left;
+        }
         @keyframes fillSlide { from{transform:scaleX(0)} to{transform:scaleX(1)} }
 
-        /* ── QUICK ACTIONS ── */
+        /* ══════════════════════════════
+           QUICK ACTIONS
+        ══════════════════════════════*/
         .qa-list { display:flex; flex-direction:column; gap:8px; padding:14px; }
 
         .qa-item {
             display:flex; align-items:center; gap:12px;
-            padding:12px 14px;
+            padding:13px 14px;
             background:var(--bg-card2);
             border:1px solid var(--border);
-            border-radius:6px;
-            cursor:pointer;
-            transition: var(--t);
+            border-radius:8px; cursor:pointer;
+            transition:var(--t);
         }
-
-        .qa-item:hover { border-color:var(--cobalt); background:#fff; box-shadow:0 1px 8px rgba(26,86,219,0.08); }
-        .qa-item.qa-danger:hover { border-color:var(--danger); box-shadow:0 1px 8px rgba(220,38,38,0.08); }
+        .qa-item:hover { border-color:var(--cobalt); background:#fff; box-shadow:0 1px 8px rgba(26,86,219,0.09); }
+        .qa-item.qa-danger:hover { border-color:var(--danger); box-shadow:0 1px 8px rgba(200,30,30,0.09); }
 
         .qa-icon {
-            width:30px; height:30px;
-            border-radius:6px;
+            width:32px; height:32px;
+            border-radius:7px;
             display:flex; align-items:center; justify-content:center;
-            font-size:0.78rem;
-            flex-shrink:0;
+            font-size:0.82rem; flex-shrink:0;
         }
 
-        .qa-title { font-size:0.8rem; font-weight:600; color:var(--text); }
-        .qa-sub   { font-size:0.68rem; color:var(--muted); margin-top:1px; }
+        .qa-title { font-size:0.85rem; font-weight:600; color:var(--text); }
+        .qa-sub   { font-size:0.74rem; color:var(--muted); margin-top:2px; }
 
-        /* ── EMPLOYEE TABLE ── */
+        /* ══════════════════════════════
+           EMPLOYEE TABLE
+        ══════════════════════════════*/
         .emp-head {
             display:grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr 90px;
-            padding: 9px 18px;
+            grid-template-columns:2fr 1fr 1fr 1fr 90px;
+            padding:10px 18px;
             font-family:'Barlow Condensed',sans-serif;
-            font-size:0.63rem; font-weight:700;
+            font-size:0.7rem; font-weight:700;
             letter-spacing:0.1em; text-transform:uppercase;
             color:var(--muted);
             border-bottom:1px solid var(--border);
-            background: var(--bg-card2);
+            background:var(--bg-card2);
         }
 
         .emp-row {
             display:grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr 90px;
-            padding: 11px 18px;
+            grid-template-columns:2fr 1fr 1fr 1fr 90px;
+            padding:12px 18px;
             align-items:center;
             border-bottom:1px solid var(--border);
-            transition:background 0.15s;
-            cursor:pointer;
+            transition:background 0.15s; cursor:pointer;
         }
-
         .emp-row:last-child { border-bottom:none; }
         .emp-row:hover { background:var(--bg-card2); }
 
         .emp-name-cell { display:flex; align-items:center; gap:10px; }
 
         .emp-av {
-            width:28px; height:28px;
-            border-radius:6px;
+            width:30px; height:30px;
+            border-radius:7px;
             display:flex; align-items:center; justify-content:center;
             font-family:'Barlow Condensed',sans-serif;
-            font-weight:900; font-size:0.68rem; color:#fff;
+            font-weight:900; font-size:0.72rem; color:#fff;
         }
 
-        .emp-name { font-size:0.82rem; font-weight:600; color:var(--text); }
-        .emp-dept { font-size:0.7rem; color:var(--muted); margin-top:1px; }
-        .emp-cell { font-size:0.78rem; color:var(--text-mid); }
+        .emp-name { font-size:0.85rem; font-weight:600; color:var(--text); }
+        .emp-dept { font-size:0.73rem; color:var(--muted); margin-top:1px; }
+        .emp-cell { font-size:0.82rem; color:var(--text-mid); }
 
         .risk-chip {
             display:inline-flex; align-items:center; gap:4px;
-            padding:3px 8px; border-radius:4px;
+            padding:4px 9px; border-radius:5px;
             font-family:'Barlow Condensed',sans-serif;
-            font-size:0.62rem; font-weight:700;
+            font-size:0.67rem; font-weight:700;
             text-transform:uppercase; letter-spacing:0.06em;
         }
 
-        .rc-critical { background:var(--danger-dim);  color:var(--danger);  border:1px solid rgba(220,38,38,0.15); }
-        .rc-high     { background:var(--warning-dim); color:var(--warning); border:1px solid rgba(217,119,6,0.15); }
-        .rc-low      { background:var(--ok-dim);      color:var(--ok);      border:1px solid rgba(5,150,105,0.15); }
+        .rc-critical { background:var(--danger-dim);  color:var(--danger);  border:1px solid rgba(200,30,30,0.15); }
+        .rc-high     { background:var(--warning-dim); color:var(--warning); border:1px solid rgba(180,83,9,0.15); }
+        .rc-low      { background:var(--ok-dim);      color:var(--ok);      border:1px solid rgba(4,120,87,0.15); }
 
         .chip-dot { width:4px; height:4px; border-radius:50%; }
 
-        /* ── EMPTY STATE ── */
+        /* ══════════════════════════════
+           EMPTY STATE
+        ══════════════════════════════*/
         .empty-state { text-align:center; padding:40px 20px; color:var(--muted); }
-        .empty-state i { font-size:1.8rem; margin-bottom:10px; display:block; color:var(--cobalt); opacity:0.4; }
-        .empty-state p { font-size:0.82rem; }
+        .empty-state i { font-size:2rem; margin-bottom:10px; display:block; color:var(--cobalt); opacity:0.35; }
+        .empty-state p { font-size:0.85rem; }
 
-        /* ── MOBILE ── */
-        @media (max-width:768px) {
-            .sidebar { transform:translateX(-100%); }
-            .sidebar.mobile-open { transform:none; }
-            .main-content { margin-left:0 !important; }
-            .content-body { padding:16px; }
-            .stats-grid { grid-template-columns:1fr 1fr; }
-            .grid-2-1 { grid-template-columns:1fr; }
-            .grid-3 { grid-template-columns:1fr; }
-            .emp-head { display:none; }
-            .emp-row { grid-template-columns:2fr 1fr 1fr; }
-            .emp-row > *:nth-child(4),
-            .emp-row > *:nth-child(5) { display:none; }
+        /* ══════════════════════════════
+           MOBILE — bottom nav
+        ══════════════════════════════*/
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            height: var(--mobile-nav);
+            background: var(--navy);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            z-index: 950;
+            padding: 0 8px;
+            align-items: center;
+            justify-content: space-around;
         }
 
-        @media (max-width:480px) {
-            .stats-grid { grid-template-columns:1fr; }
+        .mob-nav-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: rgba(255,255,255,0.45);
+            font-size: 0.6rem;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            transition: var(--t);
+        }
+
+        .mob-nav-btn i { font-size: 1.1rem; }
+        .mob-nav-btn.active { color: #fff; background: var(--cobalt); }
+        .mob-nav-btn:hover { color: rgba(255,255,255,0.8); }
+
+        /* ══════════════════════════════
+           RESPONSIVE BREAKPOINTS
+        ══════════════════════════════*/
+
+        /* Tablet */
+        @media (max-width: 1024px) {
+            .grid-2-1 { grid-template-columns:1fr; }
+            .grid-3   { grid-template-columns:1fr 1fr; }
+            .stats-grid { grid-template-columns:repeat(2,1fr); }
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.25s ease;
+                width: var(--sidebar-w) !important;
+            }
+            .sidebar.mobile-open { transform: translateX(0); }
+
+            .main-content { margin-left: 0 !important; }
+
+            header { padding: 0 16px; }
+            .header-title { display: none; }
+            .live-badge { font-size: 0.62rem; padding: 3px 8px; }
+
+            .content-body {
+                padding: 16px;
+                padding-bottom: calc(var(--mobile-nav) + 16px);
+            }
+
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 14px; }
+
+            .stat-card { padding: 16px; }
+            .stat-value { font-size: 2rem; }
+            .stat-footer { font-size: 0.74rem; }
+
+            .grid-2-1 { grid-template-columns: 1fr; }
+            .grid-3   { grid-template-columns: 1fr; }
+
+            /* Alert banner wrap */
+            .alert-banner { flex-wrap: wrap; gap: 10px; }
+            .alert-cta    { margin-left: 0; }
+
+            /* Detection items */
+            .detection-item {
+                grid-template-columns: 36px 1fr auto;
+                gap: 10px;
+                padding: 12px 14px;
+            }
+            .det-time { display: none; }
+
+            /* Employee table → card list on mobile */
+            .emp-head { display: none; }
+
+            .emp-row {
+                display: flex;
+                flex-direction: column;
+                gap: 0;
+                padding: 14px;
+                border-radius: 0;
+            }
+
+            .emp-row-top {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 8px;
+            }
+
+            .emp-row-meta {
+                display: flex;
+                gap: 8px;
+                flex-wrap: wrap;
+            }
+
+            .emp-meta-item {
+                font-size: 0.75rem;
+                color: var(--muted);
+                background: var(--bg);
+                border: 1px solid var(--border);
+                border-radius: 5px;
+                padding: 3px 8px;
+            }
+            .emp-meta-item b { color: var(--text-mid); font-weight: 600; }
+
+            /* Hide desktop employee cells */
+            .emp-row .emp-cell   { display: none; }
+            .emp-row .risk-chip  { display: inline-flex; }
+
+            /* Mobile nav show */
+            .mobile-nav { display: flex; }
+
+            /* Bar chart */
+            .bar-chart  { height: 100px; }
+        }
+
+        @media (max-width: 420px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .stat-value { font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -718,14 +824,14 @@
 
 <div class="wrapper">
 
-    <!-- SIDEBAR — navy escuro -->
+    <!-- ═══ SIDEBAR ═══ -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <div class="logo-mark">
                 <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <polygon points="14,2 26,8 26,20 14,26 2,20 2,8" fill="none" stroke="#1a56db" stroke-width="1.8"/>
-                    <polygon points="14,7 22,11 22,17 14,21 6,17 6,11" fill="#1a56db" opacity="0.2"/>
-                    <text x="14" y="18" font-size="9" font-weight="900" fill="#fff" text-anchor="middle" font-family="Arial">AI</text>
+                    <polygon points="14,7 22,11 22,17 14,21 6,17 6,11" fill="#1a56db" opacity="0.25"/>
+                    <text x="14" y="18.5" font-size="8.5" font-weight="900" fill="#fff" text-anchor="middle" font-family="Arial">AI</text>
                 </svg>
             </div>
             <span class="logo-text">AI SHIELD</span>
@@ -735,26 +841,25 @@
             <li><a href="/dashboard" class="nav-link active"><i class="fas fa-th-large"></i><span>Dashboard</span></a></li>
             <li><a href="/employees" class="nav-link"><i class="fas fa-users"></i><span>Employees</span></a></li>
             <li><a href="/detections" class="nav-link"><i class="fas fa-search"></i><span>Detections</span></a></li>
-            <li><a href="/policies" class="nav-link"><i class="fas fa-shield-alt"></i><span>Policies</span></a></li>
-            <li><a href="/reports" class="nav-link"><i class="fas fa-file-alt"></i><span>Reports</span></a></li>
-            <li><a href="/settings" class="nav-link"><i class="fas fa-cog"></i><span>Settings</span></a></li>
+            <li><a href="/policies"  class="nav-link"><i class="fas fa-shield-alt"></i><span>Policies</span></a></li>
+            <li><a href="/reports"   class="nav-link"><i class="fas fa-file-alt"></i><span>Reports</span></a></li>
+            <li><a href="/settings"  class="nav-link"><i class="fas fa-cog"></i><span>Settings</span></a></li>
         </ul>
 
         <div class="sidebar-footer">
             <div class="user-card">
                 <div class="user-avatar" id="userAvatar">AD</div>
                 <div class="user-info">
-                    <span class="user-name" id="userName">Admin</span>
+                    <span class="user-name"    id="userName">Admin</span>
                     <span class="company-name" id="companyName">AI Shield</span>
                 </div>
             </div>
         </div>
     </aside>
 
-    <!-- MAIN -->
+    <!-- ═══ MAIN ═══ -->
     <main class="main-content" id="mainContent">
 
-        <!-- HEADER — navy escuro -->
         <header>
             <div class="header-left">
                 <button class="toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
@@ -766,59 +871,41 @@
             </div>
         </header>
 
-        <!-- CONTENT — fundo claro -->
         <div class="content-body">
 
-            <!-- ALERT BANNER -->
+            <!-- ALERT -->
             <div class="alert-banner" id="alertBanner" style="display:none">
                 <div class="alert-icon"><i class="fas fa-exclamation-triangle"></i></div>
-                <div class="alert-text"><b id="alertMsg">Critical violations detected</b> — sensitive data shared via AI tools without data classification.</div>
+                <div class="alert-text"><b id="alertMsg">Critical violations detected</b> — sensitive data shared via AI tools without classification.</div>
                 <span class="alert-cta" onclick="window.location='/detections'">Review →</span>
             </div>
 
             <!-- STATS -->
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-label">
-                        Total Detections
-                        <div class="stat-icon si-danger"><i class="fas fa-exclamation-triangle"></i></div>
-                    </div>
+                    <div class="stat-label">Total Detections <div class="stat-icon si-danger"><i class="fas fa-exclamation-triangle"></i></div></div>
                     <div class="stat-value sv-danger" id="totalDetections">—</div>
                     <div class="stat-footer">All time activity</div>
                 </div>
-
                 <div class="stat-card">
-                    <div class="stat-label">
-                        Critical Risks
-                        <div class="stat-icon si-danger"><i class="fas fa-radiation-alt"></i></div>
-                    </div>
+                    <div class="stat-label">Critical Risks <div class="stat-icon si-danger"><i class="fas fa-radiation-alt"></i></div></div>
                     <div class="stat-value sv-danger" id="criticalDetections">—</div>
                     <div class="stat-footer">Immediate action required</div>
                 </div>
-
                 <div class="stat-card">
-                    <div class="stat-label">
-                        Suspicious Activity
-                        <div class="stat-icon si-warning"><i class="fas fa-eye"></i></div>
-                    </div>
+                    <div class="stat-label">Suspicious Activity <div class="stat-icon si-warning"><i class="fas fa-eye"></i></div></div>
                     <div class="stat-value sv-warning" id="suspiciousDetections">—</div>
                     <div class="stat-footer">Under review</div>
                 </div>
-
-                <!-- Card de destaque — navy (ponto estratégico) -->
                 <div class="stat-card card-accent">
-                    <div class="stat-label">
-                        Fines Prevented
-                        <div class="stat-icon si-white"><i class="fas fa-shield-alt"></i></div>
-                    </div>
+                    <div class="stat-label">Fines Prevented <div class="stat-icon si-white"><i class="fas fa-shield-alt"></i></div></div>
                     <div class="stat-value sv-white" id="savedAmount">€0</div>
                     <div class="stat-footer">Estimated GDPR savings</div>
                 </div>
             </div>
 
-            <!-- DETECTIONS + COMPLIANCE SCORE -->
+            <!-- DETECTIONS + SCORE -->
             <div class="grid-2-1">
-
                 <div class="panel">
                     <div class="panel-header">
                         <div class="panel-title"><span class="ptag pt-danger"></span>Recent Detections</div>
@@ -839,11 +926,11 @@
                     </div>
                     <div class="score-wrap">
                         <div class="ring-container">
-                            <svg width="110" height="110" viewBox="0 0 110 110">
-                                <circle cx="55" cy="55" r="45" fill="none" stroke="#e2e8f0" stroke-width="9"/>
-                                <circle cx="55" cy="55" r="45" fill="none" stroke="#1a56db" stroke-width="9"
-                                    stroke-dasharray="282.74" stroke-dashoffset="62.2"
-                                    stroke-linecap="round" style="transition:stroke-dashoffset 1.2s ease-out"/>
+                            <svg width="114" height="114" viewBox="0 0 114 114">
+                                <circle cx="57" cy="57" r="47" fill="none" stroke="#dde3ec" stroke-width="9"/>
+                                <circle cx="57" cy="57" r="47" fill="none" stroke="#1a56db" stroke-width="9"
+                                    stroke-dasharray="295.31" stroke-dashoffset="64.97"
+                                    stroke-linecap="round"/>
                             </svg>
                             <div class="ring-center">
                                 <div class="ring-num">78</div>
@@ -861,41 +948,22 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
-            <!-- RISK CHART + AI TOOLS + QUICK ACTIONS -->
+            <!-- 3 PANELS -->
             <div class="grid-3">
-
+                <!-- Risk by dept -->
                 <div class="panel">
                     <div class="panel-header">
                         <div class="panel-title"><span class="ptag pt-danger"></span>Risk by Department</div>
                     </div>
                     <div class="bar-chart">
-                        <div class="bar-col">
-                            <div class="bar-track"><div class="bar-fill" style="height:85%;background:var(--danger);animation-delay:0.05s"></div></div>
-                            <div class="bar-lbl">Finance</div>
-                        </div>
-                        <div class="bar-col">
-                            <div class="bar-track"><div class="bar-fill" style="height:70%;background:var(--warning);animation-delay:0.1s"></div></div>
-                            <div class="bar-lbl">Legal</div>
-                        </div>
-                        <div class="bar-col">
-                            <div class="bar-track"><div class="bar-fill" style="height:50%;background:var(--warning);animation-delay:0.15s"></div></div>
-                            <div class="bar-lbl">Eng</div>
-                        </div>
-                        <div class="bar-col">
-                            <div class="bar-track"><div class="bar-fill" style="height:35%;background:var(--cobalt);animation-delay:0.2s"></div></div>
-                            <div class="bar-lbl">HR</div>
-                        </div>
-                        <div class="bar-col">
-                            <div class="bar-track"><div class="bar-fill" style="height:20%;background:var(--ok);animation-delay:0.25s"></div></div>
-                            <div class="bar-lbl">Sales</div>
-                        </div>
-                        <div class="bar-col">
-                            <div class="bar-track"><div class="bar-fill" style="height:10%;background:var(--ok);animation-delay:0.3s"></div></div>
-                            <div class="bar-lbl">Ops</div>
-                        </div>
+                        <div class="bar-col"><div class="bar-track"><div class="bar-fill" style="height:85%;background:var(--danger);animation-delay:.05s"></div></div><div class="bar-lbl">Finance</div></div>
+                        <div class="bar-col"><div class="bar-track"><div class="bar-fill" style="height:70%;background:var(--warning);animation-delay:.1s"></div></div><div class="bar-lbl">Legal</div></div>
+                        <div class="bar-col"><div class="bar-track"><div class="bar-fill" style="height:50%;background:var(--warning);animation-delay:.15s"></div></div><div class="bar-lbl">Eng</div></div>
+                        <div class="bar-col"><div class="bar-track"><div class="bar-fill" style="height:35%;background:var(--cobalt);animation-delay:.2s"></div></div><div class="bar-lbl">HR</div></div>
+                        <div class="bar-col"><div class="bar-track"><div class="bar-fill" style="height:20%;background:var(--ok);animation-delay:.25s"></div></div><div class="bar-lbl">Sales</div></div>
+                        <div class="bar-col"><div class="bar-track"><div class="bar-fill" style="height:10%;background:var(--ok);animation-delay:.3s"></div></div><div class="bar-lbl">Ops</div></div>
                     </div>
                     <div class="chart-legend">
                         <div class="leg-item"><div class="leg-dot" style="background:var(--danger)"></div>Critical</div>
@@ -904,6 +972,7 @@
                     </div>
                 </div>
 
+                <!-- AI Tools -->
                 <div class="panel">
                     <div class="panel-header">
                         <div class="panel-title"><span class="ptag pt-cobalt"></span>AI Tool Usage</div>
@@ -915,32 +984,33 @@
                                 <div class="tool-name"><div class="tool-logo tl-gpt">G</div>ChatGPT</div>
                                 <span class="tool-sessions">712 sessions</span>
                             </div>
-                            <div class="tool-bar-track"><div class="tool-bar-fill" style="width:86%;background:#10a37f;animation-delay:0.1s"></div></div>
+                            <div class="tool-bar-track"><div class="tool-bar-fill" style="width:86%;background:#10a37f;animation-delay:.1s"></div></div>
                         </div>
                         <div>
                             <div class="tool-row-top">
                                 <div class="tool-name"><div class="tool-logo tl-cop">M</div>Copilot</div>
                                 <span class="tool-sessions">531 sessions</span>
                             </div>
-                            <div class="tool-bar-track"><div class="tool-bar-fill" style="width:64%;background:#6450dc;animation-delay:0.15s"></div></div>
+                            <div class="tool-bar-track"><div class="tool-bar-fill" style="width:64%;background:#6450dc;animation-delay:.15s"></div></div>
                         </div>
                         <div>
                             <div class="tool-row-top">
                                 <div class="tool-name"><div class="tool-logo tl-cld">C</div>Claude</div>
                                 <span class="tool-sessions">348 sessions</span>
                             </div>
-                            <div class="tool-bar-track"><div class="tool-bar-fill" style="width:42%;background:#cc785c;animation-delay:0.2s"></div></div>
+                            <div class="tool-bar-track"><div class="tool-bar-fill" style="width:42%;background:#cc785c;animation-delay:.2s"></div></div>
                         </div>
                         <div>
                             <div class="tool-row-top">
                                 <div class="tool-name"><div class="tool-logo tl-gem">G</div>Gemini</div>
                                 <span class="tool-sessions">256 sessions</span>
                             </div>
-                            <div class="tool-bar-track"><div class="tool-bar-fill" style="width:31%;background:#4285f4;animation-delay:0.25s"></div></div>
+                            <div class="tool-bar-track"><div class="tool-bar-fill" style="width:31%;background:#4285f4;animation-delay:.25s"></div></div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Quick Actions -->
                 <div class="panel">
                     <div class="panel-header">
                         <div class="panel-title"><span class="ptag pt-ok"></span>Quick Actions</div>
@@ -948,35 +1018,22 @@
                     <div class="qa-list">
                         <div class="qa-item" onclick="window.location='/reports'">
                             <div class="qa-icon" style="background:var(--cobalt-dim);color:var(--cobalt)"><i class="fas fa-file-pdf"></i></div>
-                            <div>
-                                <div class="qa-title">Generate Compliance Report</div>
-                                <div class="qa-sub">PDF · GDPR + EU AI Act</div>
-                            </div>
+                            <div><div class="qa-title">Generate Compliance Report</div><div class="qa-sub">PDF · GDPR + EU AI Act</div></div>
                         </div>
                         <div class="qa-item" onclick="window.location='/policies'">
-                            <div class="qa-icon" style="background:rgba(5,150,105,0.08);color:var(--ok)"><i class="fas fa-paper-plane"></i></div>
-                            <div>
-                                <div class="qa-title">Send Policy to All Users</div>
-                                <div class="qa-sub" id="employeeCount">Loading recipients...</div>
-                            </div>
+                            <div class="qa-icon" style="background:var(--ok-dim);color:var(--ok)"><i class="fas fa-paper-plane"></i></div>
+                            <div><div class="qa-title">Send Policy to All Users</div><div class="qa-sub" id="employeeCount">Loading recipients...</div></div>
                         </div>
                         <div class="qa-item qa-danger" onclick="window.location='/detections'">
                             <div class="qa-icon" style="background:var(--danger-dim);color:var(--danger)"><i class="fas fa-exclamation-circle"></i></div>
-                            <div>
-                                <div class="qa-title" style="color:var(--danger)">Review Critical Violations</div>
-                                <div class="qa-sub" id="criticalCount">Loading...</div>
-                            </div>
+                            <div><div class="qa-title" style="color:var(--danger)">Review Critical Violations</div><div class="qa-sub" id="criticalCount">Loading...</div></div>
                         </div>
                         <div class="qa-item" onclick="window.location='/policies'">
                             <div class="qa-icon" style="background:var(--warning-dim);color:var(--warning)"><i class="fas fa-shield-alt"></i></div>
-                            <div>
-                                <div class="qa-title">Update Blocking Rules</div>
-                                <div class="qa-sub">Review active policies</div>
-                            </div>
+                            <div><div class="qa-title">Update Blocking Rules</div><div class="qa-sub">Review active policies</div></div>
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <!-- EMPLOYEE TABLE -->
@@ -986,63 +1043,79 @@
                     <a href="/employees" class="panel-action">View all</a>
                 </div>
                 <div class="emp-head">
-                    <span>Employee</span>
-                    <span>Sessions</span>
-                    <span>Violations</span>
-                    <span>Risk Level</span>
-                    <span>Status</span>
+                    <span>Employee</span><span>Sessions</span><span>Violations</span><span>Risk Level</span><span>Status</span>
                 </div>
                 <div id="empTableContent">
-                    <div class="emp-row">
+
+                    <!-- M. Santos -->
+                    <div class="emp-row" id="empDesktop">
                         <div class="emp-name-cell">
-                            <div class="emp-av" style="background:linear-gradient(135deg,#dc2626,#f87171)">MS</div>
+                            <div class="emp-av" style="background:linear-gradient(135deg,#c81e1e,#f87171)">MS</div>
                             <div><div class="emp-name">M. Santos</div><div class="emp-dept">Finance · Senior Analyst</div></div>
                         </div>
                         <div class="emp-cell">47</div>
-                        <div class="emp-cell" style="color:var(--danger);font-weight:600">5</div>
+                        <div class="emp-cell" style="color:var(--danger);font-weight:700">5</div>
                         <div><span class="risk-chip rc-critical"><span class="chip-dot" style="background:var(--danger)"></span>Critical</span></div>
-                        <div class="emp-cell" style="color:var(--warning)">Flagged</div>
+                        <div class="emp-cell" style="color:var(--warning);font-weight:600">Flagged</div>
+                        <!-- mobile view -->
+                        <div class="emp-row-top" style="display:none">
+                            <div class="emp-name-cell">
+                                <div class="emp-av" style="background:linear-gradient(135deg,#c81e1e,#f87171)">MS</div>
+                                <div><div class="emp-name">M. Santos</div><div class="emp-dept">Finance · Senior Analyst</div></div>
+                            </div>
+                            <span class="risk-chip rc-critical"><span class="chip-dot" style="background:var(--danger)"></span>Critical</span>
+                        </div>
+                        <div class="emp-row-meta" style="display:none">
+                            <div class="emp-meta-item">Sessions: <b>47</b></div>
+                            <div class="emp-meta-item">Violations: <b style="color:var(--danger)">5</b></div>
+                            <div class="emp-meta-item">Status: <b style="color:var(--warning)">Flagged</b></div>
+                        </div>
                     </div>
+
                     <div class="emp-row">
                         <div class="emp-name-cell">
-                            <div class="emp-av" style="background:linear-gradient(135deg,#d97706,#fbbf24)">RC</div>
+                            <div class="emp-av" style="background:linear-gradient(135deg,#b45309,#fbbf24)">RC</div>
                             <div><div class="emp-name">R. Costa</div><div class="emp-dept">Legal · Compliance Officer</div></div>
                         </div>
                         <div class="emp-cell">62</div>
-                        <div class="emp-cell" style="color:var(--warning);font-weight:600">3</div>
+                        <div class="emp-cell" style="color:var(--warning);font-weight:700">3</div>
                         <div><span class="risk-chip rc-high"><span class="chip-dot" style="background:var(--warning)"></span>High</span></div>
-                        <div class="emp-cell" style="color:var(--warning)">Flagged</div>
+                        <div class="emp-cell" style="color:var(--warning);font-weight:600">Flagged</div>
                     </div>
+
                     <div class="emp-row">
                         <div class="emp-name-cell">
                             <div class="emp-av" style="background:linear-gradient(135deg,#1a56db,#3b72f0)">JF</div>
                             <div><div class="emp-name">J. Ferreira</div><div class="emp-dept">Engineering · Lead Dev</div></div>
                         </div>
                         <div class="emp-cell">138</div>
-                        <div class="emp-cell" style="color:var(--warning);font-weight:600">2</div>
+                        <div class="emp-cell" style="color:var(--warning);font-weight:700">2</div>
                         <div><span class="risk-chip rc-high"><span class="chip-dot" style="background:var(--warning)"></span>High</span></div>
                         <div class="emp-cell" style="color:var(--muted)">Active</div>
                     </div>
+
                     <div class="emp-row">
                         <div class="emp-name-cell">
-                            <div class="emp-av" style="background:linear-gradient(135deg,#1a56db,#059669)">AL</div>
+                            <div class="emp-av" style="background:linear-gradient(135deg,#1a56db,#047857)">AL</div>
                             <div><div class="emp-name">A. Lima</div><div class="emp-dept">HR · Recruiter</div></div>
                         </div>
                         <div class="emp-cell">29</div>
-                        <div class="emp-cell" style="font-weight:600">1</div>
+                        <div class="emp-cell" style="font-weight:700">1</div>
                         <div><span class="risk-chip rc-high"><span class="chip-dot" style="background:var(--warning)"></span>High</span></div>
                         <div class="emp-cell" style="color:var(--muted)">Active</div>
                     </div>
+
                     <div class="emp-row">
                         <div class="emp-name-cell">
-                            <div class="emp-av" style="background:linear-gradient(135deg,#059669,#34d399)">TB</div>
+                            <div class="emp-av" style="background:linear-gradient(135deg,#047857,#34d399)">TB</div>
                             <div><div class="emp-name">T. Barros</div><div class="emp-dept">Sales · Account Executive</div></div>
                         </div>
                         <div class="emp-cell">81</div>
-                        <div class="emp-cell" style="font-weight:600">1</div>
+                        <div class="emp-cell" style="font-weight:700">1</div>
                         <div><span class="risk-chip rc-low"><span class="chip-dot" style="background:var(--ok)"></span>Low</span></div>
                         <div class="emp-cell" style="color:var(--muted)">Active</div>
                     </div>
+
                 </div>
             </div>
 
@@ -1050,13 +1123,24 @@
     </main>
 </div>
 
+<!-- MOBILE BOTTOM NAV -->
+<nav class="mobile-nav">
+    <a href="/dashboard"  class="mob-nav-btn active"><i class="fas fa-th-large"></i>Home</a>
+    <a href="/detections" class="mob-nav-btn"><i class="fas fa-search"></i>Detections</a>
+    <a href="/employees"  class="mob-nav-btn"><i class="fas fa-users"></i>Employees</a>
+    <a href="/policies"   class="mob-nav-btn"><i class="fas fa-shield-alt"></i>Policies</a>
+    <a href="/reports"    class="mob-nav-btn"><i class="fas fa-file-alt"></i>Reports</a>
+</nav>
+
 <script>
     const API_URL = 'https://ai-shield-backend-production.up.railway.app';
 
+    /* ── Sidebar ── */
     function toggleSidebar() {
         const sb = document.getElementById('sidebar');
         const mc = document.getElementById('mainContent');
         const bd = document.getElementById('sidebarBackdrop');
+
         if (window.innerWidth <= 768) {
             sb.classList.toggle('mobile-open');
             bd.classList.toggle('show');
@@ -1087,9 +1171,28 @@
         document.getElementById('mainContent').classList.add('expanded');
     }
 
+    /* Mobile: show emp row meta */
+    function applyMobileEmpRows() {
+        const isMob = window.innerWidth <= 768;
+        document.querySelectorAll('.emp-row').forEach(row => {
+            const top   = row.querySelector('.emp-row-top');
+            const meta  = row.querySelector('.emp-row-meta');
+            const cells = row.querySelectorAll('.emp-cell, .emp-name-cell, .risk-chip:not(.emp-row-top .risk-chip)');
+            if (top && meta) {
+                top.style.display  = isMob ? 'flex'   : 'none';
+                meta.style.display = isMob ? 'flex'   : 'none';
+                cells.forEach(c => c.style.display = isMob ? 'none' : '');
+            }
+        });
+    }
+
+    applyMobileEmpRows();
+    window.addEventListener('resize', applyMobileEmpRows);
+
+    /* ── Auth ── */
     const authToken = localStorage.getItem('authToken');
-    const user    = JSON.parse(localStorage.getItem('user')    || '{}');
-    const company = JSON.parse(localStorage.getItem('company') || '{}');
+    const user      = JSON.parse(localStorage.getItem('user')    || '{}');
+    const company   = JSON.parse(localStorage.getItem('company') || '{}');
 
     if (!authToken) window.location.href = '/login';
 
@@ -1098,6 +1201,7 @@
     const initials = company.name?.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase() || 'AS';
     document.getElementById('userAvatar').textContent  = initials;
 
+    /* ── Stats ── */
     async function loadStats() {
         try {
             const res = await fetch(`${API_URL}/api/dashboard/stats/${company.id}`, {
@@ -1124,9 +1228,10 @@
             document.getElementById('criticalCount').textContent =
                 `${s.criticalDetections ?? 0} unresolved · Urgent`;
 
-        } catch(e) { console.error('Stats error:', e); }
+        } catch(e) { console.error('Stats:', e); }
     }
 
+    /* ── Detections ── */
     async function loadDetections() {
         try {
             const res = await fetch(`${API_URL}/api/detections/${company.id}`, {
@@ -1141,16 +1246,16 @@
                 return;
             }
 
-            const avatarColors = ['#dc2626','#d97706','#1a56db','#059669','#6450dc','#0891b2'];
+            const colors = ['#c81e1e','#b45309','#1a56db','#047857','#6450dc','#0891b2'];
 
-            el.innerHTML = detections.slice(0,8).map((d, i) => {
-                const time     = new Date(d.timestamp).toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'});
+            el.innerHTML = detections.slice(0,8).map((d,i) => {
+                const time     = new Date(d.timestamp).toLocaleTimeString('en-GB', {hour:'2-digit',minute:'2-digit'});
                 const init     = d.user_id.substring(0,2).toUpperCase();
                 const sevClass = d.risk_level === 'critical' ? 'sb-critical' : d.risk_level === 'high' ? 'sb-high' : 'sb-medium';
                 const sevLabel = d.risk_level ? d.risk_level.charAt(0).toUpperCase() + d.risk_level.slice(1) : 'Medium';
                 return `
                 <div class="detection-item">
-                    <div class="det-avatar" style="background:${avatarColors[i % avatarColors.length]}">${init}</div>
+                    <div class="det-avatar" style="background:${colors[i%colors.length]}">${init}</div>
                     <div>
                         <span class="det-user">${d.user_id}</span>
                         <span class="det-desc">${d.detection_type} · ${d.ai_platform || 'AI Platform'}</span>
@@ -1159,9 +1264,10 @@
                     <div class="det-time">${time}</div>
                 </div>`;
             }).join('');
-        } catch(e) { console.error('Detections error:', e); }
+        } catch(e) { console.error('Detections:', e); }
     }
 
+    /* ── Employee count ── */
     async function loadEmployeeCount() {
         try {
             const res = await fetch(`${API_URL}/api/employees/${company.id}`, {
