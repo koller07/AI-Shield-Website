@@ -4,670 +4,1183 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Shield | Admin Dashboard</title>
-    
-    <!-- Fonts & Icons -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <style>
         :root {
-            --primary: #3b82f6;
-            --primary-dark: #2563eb;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            
-            --bg-body: #0f172a;
-            --bg-sidebar: #1e293b;
-            --bg-card: #1e293b;
-            --border: rgba(255, 255, 255, 0.05);
-            
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            
-            --sidebar-width: 240px;
-            --header-height: 64px;
-            --transition: all 0.2s ease;
+            /* Brand palette - AI Shield */
+            --navy:       #0d1b2e;         /* sidebar, header — escuro estratégico */
+            --navy-mid:   #152338;         /* hover states no sidebar */
+            --cobalt:     #1a56db;         /* acento principal, activo, CTAs */
+            --cobalt-lt:  #3b72f0;         /* hover do cobalt */
+            --cobalt-dim: rgba(26,86,219,0.08);
+            --cobalt-glow:rgba(26,86,219,0.18);
+
+            /* Page background — claro, limpo */
+            --bg:         #f4f6f9;
+            --bg-card:    #ffffff;
+            --bg-card2:   #f8fafc;
+
+            /* Borders */
+            --border:     #e2e8f0;
+            --border2:    #cbd5e0;
+
+            /* Semantic */
+            --danger:     #dc2626;
+            --danger-dim: rgba(220,38,38,0.08);
+            --warning:    #d97706;
+            --warning-dim:rgba(217,119,6,0.08);
+            --ok:         #059669;
+            --ok-dim:     rgba(5,150,105,0.08);
+
+            /* Text */
+            --text:       #0d1b2e;
+            --text-mid:   #374151;
+            --muted:      #6b7280;
+            --muted-lt:   #9ca3af;
+
+            --sidebar-w:  220px;
+            --header-h:   60px;
+            --t:          all 0.2s ease;
+            --radius:     8px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin:0; padding:0; box-sizing:border-box; }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-body);
-            color: var(--text-main);
+            font-family: 'Barlow', sans-serif;
+            background: var(--bg);
+            color: var(--text);
             -webkit-font-smoothing: antialiased;
         }
 
-        .wrapper { display: flex; min-height: 100vh; }
+        .wrapper { display:flex; min-height:100vh; }
 
-        /* --- Sidebar --- */
+        /* ─────────────────────────────
+           SIDEBAR — navy escuro (estratégico)
+        ───────────────────────────────*/
         .sidebar {
-            width: var(--sidebar-width);
-            background: var(--bg-sidebar);
-            border-right: 1px solid var(--border);
+            width: var(--sidebar-w);
+            background: var(--navy);
             position: fixed;
             height: 100vh;
             display: flex;
             flex-direction: column;
             z-index: 1000;
-            transition: var(--transition);
-            left: 0;
-            top: 0;
+            transition: var(--t);
         }
 
-        .sidebar.collapsed { width: 80px; }
+        .sidebar.collapsed { width: 64px; }
 
         .sidebar-header {
-            height: var(--header-height);
+            height: var(--header-h);
             display: flex;
             align-items: center;
-            padding: 0 1.25rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .logo-box {
-            display: flex;
-            align-items: center;
+            padding: 0 18px;
             gap: 10px;
-            text-decoration: none;
-            color: var(--text-main);
+            border-bottom: 1px solid rgba(255,255,255,0.07);
         }
 
-        .logo-img {
-            width: 32px;
-            height: 32px;
-            object-fit: contain;
-            flex-shrink: 0;
-        }
+        .logo-mark { width:28px; height:28px; flex-shrink:0; }
 
         .logo-text {
-            font-size: 1.1rem;
-            font-weight: 700;
-            letter-spacing: -0.3px;
-            transition: var(--transition);
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 900;
+            font-size: 1.05rem;
+            letter-spacing: 0.06em;
+            color: #fff;
             white-space: nowrap;
+            transition: var(--t);
         }
 
-        .sidebar.collapsed .logo-text { 
-            opacity: 0; 
-            width: 0; 
-            display: none; 
-        }
+        .sidebar.collapsed .logo-text { opacity:0; width:0; overflow:hidden; }
 
-        .nav-menu {
-            flex: 1;
-            padding: 1.25rem 0.75rem;
-            list-style: none;
-            overflow-y: auto;
-        }
-
-        .nav-item { margin: 0; }
+        .nav-menu { flex:1; padding:14px 10px; list-style:none; }
 
         .nav-link {
             display: flex;
             align-items: center;
-            padding: 0.65rem 0.85rem;
-            color: var(--text-muted);
+            gap: 10px;
+            padding: 9px 10px;
+            color: rgba(255,255,255,0.45);
             text-decoration: none;
-            border-radius: 8px;
-            margin-bottom: 4px;
-            font-size: 0.9rem;
+            border-radius: 6px;
+            margin-bottom: 2px;
+            font-size: 0.82rem;
             font-weight: 500;
-            transition: var(--transition);
-        }
-
-        .nav-link i { 
-            width: 20px; 
-            margin-right: 10px; 
-            font-size: 1rem; 
-            flex-shrink: 0;
-        }
-
-        .nav-link span {
+            letter-spacing: 0.01em;
+            transition: var(--t);
             white-space: nowrap;
-            overflow: hidden;
-            transition: var(--transition);
         }
 
-        .nav-link:hover, .nav-link.active {
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--primary);
-        }
+        .nav-link i { width:16px; font-size:0.8rem; flex-shrink:0; text-align:center; }
+        .nav-link span { transition:var(--t); overflow:hidden; }
+        .sidebar.collapsed .nav-link span { opacity:0; width:0; }
 
-        .sidebar.collapsed .nav-link span { 
-            opacity: 0;
-            width: 0;
-            display: none; 
+        .nav-link:hover { background:var(--navy-mid); color:rgba(255,255,255,0.8); }
+
+        .nav-link.active {
+            background: var(--cobalt);
+            color: #fff;
+            font-weight: 600;
         }
 
         .sidebar-footer {
-            padding: 1rem 1.25rem;
-            border-top: 1px solid var(--border);
+            padding: 14px;
+            border-top: 1px solid rgba(255,255,255,0.07);
         }
 
         .user-card {
             display: flex;
             align-items: center;
             gap: 10px;
-            background: rgba(255,255,255,0.03);
             padding: 8px;
-            border-radius: 8px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 6px;
         }
 
         .user-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 0.8rem;
+            width: 30px; height: 30px;
+            border-radius: 6px;
+            background: var(--cobalt);
+            display: flex; align-items:center; justify-content:center;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 900;
+            font-size: 0.75rem;
+            color: #fff;
             flex-shrink: 0;
         }
 
-        .user-info { 
-            transition: var(--transition);
-            overflow: hidden;
-        }
+        .user-info { overflow:hidden; transition:var(--t); }
+        .sidebar.collapsed .user-info { opacity:0; width:0; }
+        .user-name { display:block; font-size:0.8rem; font-weight:600; color:#fff; }
+        .company-name { display:block; font-size:0.68rem; color:rgba(255,255,255,0.4); }
 
-        .sidebar.collapsed .user-info { 
-            opacity: 0;
-            width: 0;
-            display: none; 
-        }
+        /* ── BACKDROP ── */
+        .sidebar-backdrop { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:999; }
+        .sidebar-backdrop.show { display:block; }
 
-        .user-name { 
-            display: block; 
-            font-size: 0.85rem; 
-            font-weight: 600; 
-        }
+        /* ─────────────────────────────
+           MAIN
+        ───────────────────────────────*/
+        .main-content { flex:1; margin-left:var(--sidebar-w); min-height:100vh; transition:var(--t); }
+        .main-content.expanded { margin-left:64px; }
 
-        .company-name { 
-            display: block; 
-            font-size: 0.7rem; 
-            color: var(--text-muted); 
-        }
-
-        /* Sidebar Backdrop (Mobile) */
-        .sidebar-backdrop {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
-
-        .sidebar-backdrop.show { display: block; }
-
-        /* --- Main Content --- */
-        .main-content {
-            flex: 1;
-            margin-left: var(--sidebar-width);
-            min-height: 100vh;
-            transition: var(--transition);
-        }
-
-        .main-content.expanded { margin-left: 80px; }
-
+        /* ─────────────────────────────
+           HEADER — navy escuro (estratégico)
+        ───────────────────────────────*/
         header {
-            height: var(--header-height);
+            height: var(--header-h);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 2rem;
-            border-bottom: 1px solid var(--border);
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(8px);
+            padding: 0 28px;
+            background: var(--navy);
             position: sticky;
             top: 0;
             z-index: 900;
         }
 
-        .header-left { 
-            display: flex; 
-            align-items: center; 
-            gap: 15px; 
-        }
+        .header-left { display:flex; align-items:center; gap:14px; }
 
-        .toggle-btn { 
-            background: none; 
-            border: none; 
-            color: var(--text-muted); 
-            cursor: pointer; 
-            font-size: 1.1rem;
-            padding: 5px;
+        .toggle-btn {
+            background: none; border: none;
+            color: rgba(255,255,255,0.5);
+            cursor: pointer;
+            width: 32px; height: 32px;
+            display: flex; align-items:center; justify-content:center;
             border-radius: 6px;
-            transition: var(--transition);
+            font-size: 0.9rem;
+            transition: var(--t);
+        }
+        .toggle-btn:hover { background:rgba(255,255,255,0.07); color:#fff; }
+
+        .header-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.55);
         }
 
-        .toggle-btn:hover {
-            background: rgba(255,255,255,0.05);
-            color: var(--text-main);
+        .live-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #fff;
+            padding: 3px 10px;
+            border: 1px solid rgba(26,86,219,0.5);
+            border-radius: 4px;
+            background: var(--cobalt);
         }
 
-        .header-title { font-size: 1rem; font-weight: 600; }
-
-        .header-right { display: flex; align-items: center; gap: 15px; }
-
-        .content-body { 
-            padding: 2rem; 
-            max-width: 1400px; 
-            margin: 0 auto; 
+        .live-dot {
+            width: 5px; height: 5px;
+            border-radius: 50%;
+            background: #fff;
+            animation: pulse 1.8s ease-in-out infinite;
         }
 
-        /* Stats Grid */
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+        .header-right { display:flex; align-items:center; gap:14px; }
+
+        .logout-btn {
+            background: none;
+            border: 1px solid rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.5);
+            cursor: pointer;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 5px 12px;
+            border-radius: 4px;
+            transition: var(--t);
+        }
+        .logout-btn:hover { border-color:var(--danger); color:var(--danger); }
+
+        /* ─────────────────────────────
+           CONTENT — fundo claro
+        ───────────────────────────────*/
+        .content-body { padding: 24px 28px; max-width:1380px; margin:0 auto; }
+
+        /* ── ALERT BANNER ── */
+        .alert-banner {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            background: #fff5f5;
+            border: 1px solid rgba(220,38,38,0.2);
+            border-left: 3px solid var(--danger);
+            border-radius: var(--radius);
+            margin-bottom: 22px;
+        }
+
+        .alert-icon {
+            width: 30px; height: 30px;
+            background: var(--danger-dim);
+            border-radius: 6px;
+            display:flex; align-items:center; justify-content:center;
+            color: var(--danger);
+            flex-shrink: 0;
+            font-size: 0.8rem;
+        }
+
+        .alert-text { font-size:0.82rem; line-height:1.5; color: var(--text-mid); }
+        .alert-text b { color: var(--danger); }
+
+        .alert-cta {
+            margin-left: auto;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--danger);
+            cursor: pointer;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        /* ── STATS GRID ── */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.25rem;
-            margin-bottom: 2rem;
+            grid-template-columns: repeat(4,1fr);
+            gap: 14px;
+            margin-bottom: 20px;
         }
 
         .stat-card {
             background: var(--bg-card);
-            padding: 1.25rem;
-            border-radius: 12px;
             border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            transition: box-shadow 0.2s;
         }
 
-        .stat-label { 
-            font-size: 0.75rem; 
-            color: var(--text-muted); 
-            margin-bottom: 0.5rem; 
-            display: block; 
-            text-transform: uppercase; 
-            letter-spacing: 0.05em; 
+        .stat-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+
+        /* Cobalt accent card — navy escuro estratégico */
+        .stat-card.card-accent {
+            background: var(--navy);
+            border-color: var(--navy);
         }
 
-        .stat-value { 
-            font-size: 1.75rem; 
-            font-weight: 700; 
-            color: var(--text-main); 
-        }
-
-        .stat-footer { 
-            margin-top: 0.5rem; 
-            font-size: 0.75rem; 
-            color: var(--text-muted); 
-        }
-
-        /* Detections Section */
-        .section-card {
-            background: var(--bg-card);
-            padding: 1.5rem;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-        }
-
-        .section-header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 1.5rem; 
-        }
-
-        .section-title { 
-            font-size: 1rem; 
-            font-weight: 600; 
-        }
-
-        .detection-list { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 10px; 
-        }
-        
-        .detection-item {
+        .stat-label {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.67rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
-            padding: 12px;
-            background: rgba(255,255,255,0.02);
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            transition: var(--transition);
+            justify-content: space-between;
         }
 
-        .detection-item:hover { 
-            background: rgba(255,255,255,0.04); 
+        .stat-card.card-accent .stat-label { color: rgba(255,255,255,0.45); }
+
+        .stat-icon {
+            width: 26px; height: 26px;
+            border-radius: 6px;
+            display:flex; align-items:center; justify-content:center;
+            font-size: 0.7rem;
         }
+
+        .si-danger  { background:var(--danger-dim);  color:var(--danger); }
+        .si-warning { background:var(--warning-dim); color:var(--warning); }
+        .si-cobalt  { background:var(--cobalt-dim);  color:var(--cobalt); }
+        .si-ok      { background:var(--ok-dim);      color:var(--ok); }
+        .si-white   { background:rgba(255,255,255,0.1); color:#fff; }
+
+        .stat-value {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            line-height: 1;
+            margin-bottom: 6px;
+            color: var(--text);
+        }
+
+        .sv-danger  { color: var(--danger); }
+        .sv-warning { color: var(--warning); }
+        .sv-cobalt  { color: var(--cobalt); }
+        .sv-white   { color: #fff; }
+
+        .stat-footer {
+            font-size: 0.72rem;
+            color: var(--muted);
+            font-weight: 400;
+        }
+
+        .stat-card.card-accent .stat-footer { color: rgba(255,255,255,0.4); }
+
+        /* ── GRIDS ── */
+        .grid-2-1 { display:grid; grid-template-columns:1fr 320px; gap:14px; margin-bottom:14px; }
+        .grid-3   { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:14px; }
+
+        /* ── PANEL ── */
+        .panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-card);
+        }
+
+        .panel-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ptag { width:5px; height:5px; border-radius:50%; }
+        .pt-danger { background:var(--danger); }
+        .pt-cobalt { background:var(--cobalt); }
+        .pt-ok     { background:var(--ok); }
+
+        .panel-action {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.67rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--cobalt);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        /* ── DETECTIONS ── */
+        .detection-list { display:flex; flex-direction:column; }
+
+        .detection-item {
+            display: grid;
+            grid-template-columns: 34px 1fr auto auto;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.15s;
+            cursor: pointer;
+        }
+
+        .detection-item:last-child { border-bottom:none; }
+        .detection-item:hover { background: var(--bg-card2); }
 
         .det-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: #475569;
+            width: 34px; height: 34px;
+            border-radius: 6px;
+            display: flex; align-items:center; justify-content:center;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 900;
+            font-size: 0.72rem;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .det-user { display:block; font-size:0.82rem; font-weight:600; color:var(--text); margin-bottom:2px; }
+        .det-desc { display:block; font-size:0.72rem; color:var(--muted); }
+
+        .sev-badge {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.63rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            padding: 3px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .sb-critical { background:var(--danger-dim);  color:var(--danger);  border:1px solid rgba(220,38,38,0.15); }
+        .sb-high     { background:var(--warning-dim); color:var(--warning); border:1px solid rgba(217,119,6,0.15); }
+        .sb-medium   { background:var(--cobalt-dim);  color:var(--cobalt);  border:1px solid var(--cobalt-glow); }
+
+        .det-time { font-size:0.7rem; color:var(--muted-lt); white-space:nowrap; }
+
+        /* ── COMPLIANCE RING ── */
+        .score-wrap {
             display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .ring-container {
+            position: relative;
+            width: 110px; height: 110px;
+            margin-bottom: 12px;
+        }
+
+        .ring-container svg { transform:rotate(-90deg); }
+
+        .ring-center {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-right: 12px;
-            flex-shrink: 0;
         }
 
-        .det-info { 
-            flex: 1; 
+        .ring-num {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--cobalt);
+            line-height: 1;
         }
 
-        .det-user { 
-            display: block; 
-            font-size: 0.85rem; 
-            font-weight: 600; 
-        }
+        .ring-pct { font-size:0.62rem; color:var(--muted); }
 
-        .det-desc { 
-            display: block; 
-            font-size: 0.75rem; 
-            color: var(--text-muted); 
-        }
-
-        .det-badge {
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.7rem;
+        .score-label {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.82rem;
             font-weight: 700;
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--danger);
-            margin-right: 15px;
-            flex-shrink: 0;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--warning);
+            margin-bottom: 4px;
         }
 
-        .det-time { 
-            font-size: 0.75rem; 
-            color: var(--text-muted);
-            flex-shrink: 0;
+        .score-sub { font-size:0.72rem; color:var(--muted); text-align:center; line-height:1.5; max-width:170px; }
+
+        .score-breakdown {
+            width: 100%;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
         }
 
-        .empty-state { 
-            text-align: center; 
-            padding: 3rem; 
-            color: var(--text-muted); 
+        .bd-row { display:flex; justify-content:space-between; align-items:center; }
+        .bd-label { font-size:0.72rem; color:var(--muted); }
+        .bd-val { font-family:'Barlow Condensed',sans-serif; font-size:0.8rem; font-weight:700; }
+        .bv-ok   { color:var(--ok); }
+        .bv-warn { color:var(--warning); }
+        .bv-bad  { color:var(--danger); }
+
+        /* ── BAR CHART ── */
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            height: 120px;
+            padding: 18px 18px 0;
         }
 
-        .empty-icon { 
-            font-size: 2rem; 
-            margin-bottom: 1rem; 
-            display: block; 
+        .bar-col { flex:1; display:flex; flex-direction:column; align-items:center; gap:5px; }
+
+        .bar-track {
+            flex:1; width:100%;
+            background: var(--bg);
+            border-radius: 3px;
+            display:flex; align-items:flex-end;
+            overflow:hidden;
+            border: 1px solid var(--border);
         }
 
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-                width: 240px;
-                box-shadow: 2px 0 10px rgba(0,0,0,0.3);
-            }
+        .bar-fill {
+            width: 100%;
+            border-radius: 3px;
+            animation: barGrow 0.9s ease-out both;
+            transform-origin: bottom;
+        }
 
-            .sidebar.mobile-open {
-                transform: translateX(0);
-            }
+        @keyframes barGrow { from{transform:scaleY(0)} to{transform:scaleY(1)} }
 
-            .main-content {
-                margin-left: 0;
-            }
+        .bar-lbl {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            color: var(--muted);
+            text-transform: uppercase;
+        }
 
-            .main-content.expanded {
-                margin-left: 0;
-            }
+        .chart-legend {
+            display: flex;
+            gap: 14px;
+            padding: 12px 18px 18px;
+        }
 
-            .content-body {
-                padding: 1.5rem;
-            }
+        .leg-item { display:flex; align-items:center; gap:5px; font-size:0.7rem; color:var(--muted); }
+        .leg-dot { width:7px; height:7px; border-radius:2px; }
 
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
+        /* ── AI TOOLS ── */
+        .tools-list { display:flex; flex-direction:column; gap:14px; padding:18px; }
 
-            .header {
-                padding: 0 1rem;
-            }
+        .tool-row-top {
+            display:flex; justify-content:space-between; align-items:center;
+            margin-bottom:5px;
+        }
 
-            .detection-item {
-                flex-wrap: wrap;
-            }
+        .tool-name { display:flex; align-items:center; gap:8px; font-size:0.82rem; font-weight:600; color:var(--text); }
 
-            .det-badge {
-                margin-right: 0;
-                margin-top: 8px;
-            }
+        .tool-logo {
+            width:18px; height:18px;
+            border-radius:4px;
+            display:flex; align-items:center; justify-content:center;
+            font-family:'Barlow Condensed',sans-serif;
+            font-size:0.62rem; font-weight:900;
+        }
 
-            .det-time {
-                width: 100%;
-                text-align: right;
-                margin-top: 8px;
-            }
+        .tl-gpt { background:rgba(16,163,127,0.12); color:#10a37f; }
+        .tl-cop { background:rgba(100,80,220,0.12); color:#6450dc; }
+        .tl-cld { background:rgba(200,110,70,0.12); color:#cc785c; }
+        .tl-gem { background:rgba(66,133,244,0.12); color:#4285f4; }
+
+        .tool-sessions { font-size:0.72rem; color:var(--muted); }
+
+        .tool-bar-track { height:3px; background:var(--bg); border-radius:2px; overflow:hidden; border:1px solid var(--border); }
+        .tool-bar-fill { height:100%; border-radius:2px; animation:fillSlide 1s ease-out both; transform-origin:left; }
+        @keyframes fillSlide { from{transform:scaleX(0)} to{transform:scaleX(1)} }
+
+        /* ── QUICK ACTIONS ── */
+        .qa-list { display:flex; flex-direction:column; gap:8px; padding:14px; }
+
+        .qa-item {
+            display:flex; align-items:center; gap:12px;
+            padding:12px 14px;
+            background:var(--bg-card2);
+            border:1px solid var(--border);
+            border-radius:6px;
+            cursor:pointer;
+            transition: var(--t);
+        }
+
+        .qa-item:hover { border-color:var(--cobalt); background:#fff; box-shadow:0 1px 8px rgba(26,86,219,0.08); }
+        .qa-item.qa-danger:hover { border-color:var(--danger); box-shadow:0 1px 8px rgba(220,38,38,0.08); }
+
+        .qa-icon {
+            width:30px; height:30px;
+            border-radius:6px;
+            display:flex; align-items:center; justify-content:center;
+            font-size:0.78rem;
+            flex-shrink:0;
+        }
+
+        .qa-title { font-size:0.8rem; font-weight:600; color:var(--text); }
+        .qa-sub   { font-size:0.68rem; color:var(--muted); margin-top:1px; }
+
+        /* ── EMPLOYEE TABLE ── */
+        .emp-head {
+            display:grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 90px;
+            padding: 9px 18px;
+            font-family:'Barlow Condensed',sans-serif;
+            font-size:0.63rem; font-weight:700;
+            letter-spacing:0.1em; text-transform:uppercase;
+            color:var(--muted);
+            border-bottom:1px solid var(--border);
+            background: var(--bg-card2);
+        }
+
+        .emp-row {
+            display:grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 90px;
+            padding: 11px 18px;
+            align-items:center;
+            border-bottom:1px solid var(--border);
+            transition:background 0.15s;
+            cursor:pointer;
+        }
+
+        .emp-row:last-child { border-bottom:none; }
+        .emp-row:hover { background:var(--bg-card2); }
+
+        .emp-name-cell { display:flex; align-items:center; gap:10px; }
+
+        .emp-av {
+            width:28px; height:28px;
+            border-radius:6px;
+            display:flex; align-items:center; justify-content:center;
+            font-family:'Barlow Condensed',sans-serif;
+            font-weight:900; font-size:0.68rem; color:#fff;
+        }
+
+        .emp-name { font-size:0.82rem; font-weight:600; color:var(--text); }
+        .emp-dept { font-size:0.7rem; color:var(--muted); margin-top:1px; }
+        .emp-cell { font-size:0.78rem; color:var(--text-mid); }
+
+        .risk-chip {
+            display:inline-flex; align-items:center; gap:4px;
+            padding:3px 8px; border-radius:4px;
+            font-family:'Barlow Condensed',sans-serif;
+            font-size:0.62rem; font-weight:700;
+            text-transform:uppercase; letter-spacing:0.06em;
+        }
+
+        .rc-critical { background:var(--danger-dim);  color:var(--danger);  border:1px solid rgba(220,38,38,0.15); }
+        .rc-high     { background:var(--warning-dim); color:var(--warning); border:1px solid rgba(217,119,6,0.15); }
+        .rc-low      { background:var(--ok-dim);      color:var(--ok);      border:1px solid rgba(5,150,105,0.15); }
+
+        .chip-dot { width:4px; height:4px; border-radius:50%; }
+
+        /* ── EMPTY STATE ── */
+        .empty-state { text-align:center; padding:40px 20px; color:var(--muted); }
+        .empty-state i { font-size:1.8rem; margin-bottom:10px; display:block; color:var(--cobalt); opacity:0.4; }
+        .empty-state p { font-size:0.82rem; }
+
+        /* ── MOBILE ── */
+        @media (max-width:768px) {
+            .sidebar { transform:translateX(-100%); }
+            .sidebar.mobile-open { transform:none; }
+            .main-content { margin-left:0 !important; }
+            .content-body { padding:16px; }
+            .stats-grid { grid-template-columns:1fr 1fr; }
+            .grid-2-1 { grid-template-columns:1fr; }
+            .grid-3 { grid-template-columns:1fr; }
+            .emp-head { display:none; }
+            .emp-row { grid-template-columns:2fr 1fr 1fr; }
+            .emp-row > *:nth-child(4),
+            .emp-row > *:nth-child(5) { display:none; }
+        }
+
+        @media (max-width:480px) {
+            .stats-grid { grid-template-columns:1fr; }
         }
     </style>
 </head>
 <body>
 
-    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
-    <div class="wrapper">
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <a href="#" class="logo-box">
-                    <svg class="logo-img" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
-                                <stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />
-                            </linearGradient>
-                        </defs>
-                        <path d="M128 20C67.2 20 20 67.2 20 128s47.2 108 108 108 108-47.2 108-108S188.8 20 128 20zm0 196c-48.5 0-88-39.5-88-88s39.5-88 88-88 88 39.5 88 88-39.5 88-88 88z" fill="url(#grad1)"/>
-                        <text x="128" y="145" font-size="80" font-weight="bold" fill="white" text-anchor="middle" font-family="Arial, sans-serif">A</text>
-                    </svg>
-                    <span class="logo-text">AI Shield</span>
-                </a>
+<div class="wrapper">
+
+    <!-- SIDEBAR — navy escuro -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-mark">
+                <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <polygon points="14,2 26,8 26,20 14,26 2,20 2,8" fill="none" stroke="#1a56db" stroke-width="1.8"/>
+                    <polygon points="14,7 22,11 22,17 14,21 6,17 6,11" fill="#1a56db" opacity="0.2"/>
+                    <text x="14" y="18" font-size="9" font-weight="900" fill="#fff" text-anchor="middle" font-family="Arial">AI</text>
+                </svg>
             </div>
+            <span class="logo-text">AI SHIELD</span>
+        </div>
 
-            <nav class="nav-menu">
-                <li class="nav-item"><a href="/dashboard" class="nav-link active"><i class="fas fa-th-large"></i> <span>Dashboard</span></a></li>
-                <li class="nav-item"><a href="/employees" class="nav-link"><i class="fas fa-users"></i> <span>Employees</span></a></li>
-                <li class="nav-item"><a href="/detections" class="nav-link"><i class="fas fa-search"></i> <span>Detections</span></a></li>
-                <li class="nav-item"><a href="/policies" class="nav-link"><i class="fas fa-shield-alt"></i> <span>Policies</span></a></li>
-                <li class="nav-item"><a href="/settings" class="nav-link"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
-            </nav>
+        <ul class="nav-menu">
+            <li><a href="/dashboard" class="nav-link active"><i class="fas fa-th-large"></i><span>Dashboard</span></a></li>
+            <li><a href="/employees" class="nav-link"><i class="fas fa-users"></i><span>Employees</span></a></li>
+            <li><a href="/detections" class="nav-link"><i class="fas fa-search"></i><span>Detections</span></a></li>
+            <li><a href="/policies" class="nav-link"><i class="fas fa-shield-alt"></i><span>Policies</span></a></li>
+            <li><a href="/reports" class="nav-link"><i class="fas fa-file-alt"></i><span>Reports</span></a></li>
+            <li><a href="/settings" class="nav-link"><i class="fas fa-cog"></i><span>Settings</span></a></li>
+        </ul>
 
-            <div class="sidebar-footer">
-                <div class="user-card">
-                    <div class="user-avatar" id="userAvatar">AD</div>
-                    <div class="user-info">
-                        <span class="user-name" id="userName">Admin</span>
-                        <span class="company-name" id="companyName">AI Shield</span>
-                    </div>
+        <div class="sidebar-footer">
+            <div class="user-card">
+                <div class="user-avatar" id="userAvatar">AD</div>
+                <div class="user-info">
+                    <span class="user-name" id="userName">Admin</span>
+                    <span class="company-name" id="companyName">AI Shield</span>
                 </div>
             </div>
-        </aside>
+        </div>
+    </aside>
 
-        <main class="main-content" id="mainContent">
-            <header>
-                <div class="header-left">
-                    <button class="toggle-btn" id="toggleBtn" onclick="toggleSidebar()">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    <div class="header-title">Security Overview</div>
-                </div>
-                <div class="header-right">
-                    <button onclick="logout()" style="background:none; border:none; color:var(--danger); cursor:pointer; font-size:0.8rem; font-weight:600;">LOGOUT</button>
-                </div>
-            </header>
+    <!-- MAIN -->
+    <main class="main-content" id="mainContent">
 
-            <div class="content-body">
-                <!-- Stats -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <span class="stat-label">Total Detections</span>
-                        <div class="stat-value" id="totalDetections">0</div>
-                        <div class="stat-footer">All time activity</div>
+        <!-- HEADER — navy escuro -->
+        <header>
+            <div class="header-left">
+                <button class="toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+                <span class="header-title">Security Overview</span>
+                <div class="live-badge"><div class="live-dot"></div>Monitoring Active</div>
+            </div>
+            <div class="header-right">
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </header>
+
+        <!-- CONTENT — fundo claro -->
+        <div class="content-body">
+
+            <!-- ALERT BANNER -->
+            <div class="alert-banner" id="alertBanner" style="display:none">
+                <div class="alert-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                <div class="alert-text"><b id="alertMsg">Critical violations detected</b> — sensitive data shared via AI tools without data classification.</div>
+                <span class="alert-cta" onclick="window.location='/detections'">Review →</span>
+            </div>
+
+            <!-- STATS -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">
+                        Total Detections
+                        <div class="stat-icon si-danger"><i class="fas fa-exclamation-triangle"></i></div>
                     </div>
-                    <div class="stat-card">
-                        <span class="stat-label">Critical Risks</span>
-                        <div class="stat-value" id="criticalDetections" style="color: var(--danger);">0</div>
-                        <div class="stat-footer">Immediate action required</div>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-label">Suspicious Activity</span>
-                        <div class="stat-value" id="suspiciousDetections" style="color: var(--warning);">0</div>
-                        <div class="stat-footer">Under review</div>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-label">Fines Prevented</span>
-                        <div class="stat-value" id="savedAmount">€0</div>
-                        <div class="stat-footer">Estimated GDPR savings</div>
-                    </div>
+                    <div class="stat-value sv-danger" id="totalDetections">—</div>
+                    <div class="stat-footer">All time activity</div>
                 </div>
 
-                <!-- Detections -->
-                <div class="section-card">
-                    <div class="section-header">
-                        <h3 class="section-title">Recent Real-Time Detections</h3>
-                        <a href="/detections" style="color: var(--primary); font-size: 0.8rem; text-decoration: none; font-weight: 600;">VIEW ALL</a>
+                <div class="stat-card">
+                    <div class="stat-label">
+                        Critical Risks
+                        <div class="stat-icon si-danger"><i class="fas fa-radiation-alt"></i></div>
                     </div>
-                    <div id="detectionsContent" class="detection-list">
+                    <div class="stat-value sv-danger" id="criticalDetections">—</div>
+                    <div class="stat-footer">Immediate action required</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">
+                        Suspicious Activity
+                        <div class="stat-icon si-warning"><i class="fas fa-eye"></i></div>
+                    </div>
+                    <div class="stat-value sv-warning" id="suspiciousDetections">—</div>
+                    <div class="stat-footer">Under review</div>
+                </div>
+
+                <!-- Card de destaque — navy (ponto estratégico) -->
+                <div class="stat-card card-accent">
+                    <div class="stat-label">
+                        Fines Prevented
+                        <div class="stat-icon si-white"><i class="fas fa-shield-alt"></i></div>
+                    </div>
+                    <div class="stat-value sv-white" id="savedAmount">€0</div>
+                    <div class="stat-footer">Estimated GDPR savings</div>
+                </div>
+            </div>
+
+            <!-- DETECTIONS + COMPLIANCE SCORE -->
+            <div class="grid-2-1">
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title"><span class="ptag pt-danger"></span>Recent Detections</div>
+                        <a href="/detections" class="panel-action">View all</a>
+                    </div>
+                    <div class="detection-list" id="detectionsContent">
                         <div class="empty-state">
-                            <span class="empty-icon">🛡️</span>
-                            <p>Connecting to secure monitoring server...</p>
+                            <i class="fas fa-shield-alt"></i>
+                            <p>Connecting to monitoring server...</p>
                         </div>
                     </div>
                 </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title"><span class="ptag pt-cobalt"></span>Compliance Score</div>
+                        <span class="panel-action">Details</span>
+                    </div>
+                    <div class="score-wrap">
+                        <div class="ring-container">
+                            <svg width="110" height="110" viewBox="0 0 110 110">
+                                <circle cx="55" cy="55" r="45" fill="none" stroke="#e2e8f0" stroke-width="9"/>
+                                <circle cx="55" cy="55" r="45" fill="none" stroke="#1a56db" stroke-width="9"
+                                    stroke-dasharray="282.74" stroke-dashoffset="62.2"
+                                    stroke-linecap="round" style="transition:stroke-dashoffset 1.2s ease-out"/>
+                            </svg>
+                            <div class="ring-center">
+                                <div class="ring-num">78</div>
+                                <div class="ring-pct">/ 100</div>
+                            </div>
+                        </div>
+                        <div class="score-label">Needs Improvement</div>
+                        <div class="score-sub">Target 95% for full GDPR &amp; EU AI Act compliance</div>
+                        <div class="score-breakdown">
+                            <div class="bd-row"><span class="bd-label">GDPR Adherence</span><span class="bd-val bv-warn">72%</span></div>
+                            <div class="bd-row"><span class="bd-label">EU AI Act (Art.13)</span><span class="bd-val bv-bad">64%</span></div>
+                            <div class="bd-row"><span class="bd-label">Data Classification</span><span class="bd-val bv-warn">81%</span></div>
+                            <div class="bd-row"><span class="bd-label">Policy Acknowledgement</span><span class="bd-val bv-ok">94%</span></div>
+                            <div class="bd-row"><span class="bd-label">Incident Response</span><span class="bd-val bv-ok">91%</span></div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-        </main>
-    </div>
 
-    <script>
-        const API_URL = 'https://ai-shield-backend-production.up.railway.app';
+            <!-- RISK CHART + AI TOOLS + QUICK ACTIONS -->
+            <div class="grid-3">
 
-        // Sidebar toggle - Desktop
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const mainContent = document.getElementById('mainContent');
-            const backdrop = document.getElementById('sidebarBackdrop');
-            
-            if (window.innerWidth <= 768) {
-                // Mobile: toggle mobile-open class
-                sidebar.classList.toggle('mobile-open');
-                backdrop.classList.toggle('show');
-                if (sidebar.classList.contains('mobile-open')) {
-                    document.body.style.overflow = 'hidden';
-                } else {
-                    document.body.style.overflow = '';
-                }
-            } else {
-                // Desktop: toggle collapsed class
-                sidebar.classList.toggle('collapsed');
-                mainContent.classList.toggle('expanded');
-                localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
-            }
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title"><span class="ptag pt-danger"></span>Risk by Department</div>
+                    </div>
+                    <div class="bar-chart">
+                        <div class="bar-col">
+                            <div class="bar-track"><div class="bar-fill" style="height:85%;background:var(--danger);animation-delay:0.05s"></div></div>
+                            <div class="bar-lbl">Finance</div>
+                        </div>
+                        <div class="bar-col">
+                            <div class="bar-track"><div class="bar-fill" style="height:70%;background:var(--warning);animation-delay:0.1s"></div></div>
+                            <div class="bar-lbl">Legal</div>
+                        </div>
+                        <div class="bar-col">
+                            <div class="bar-track"><div class="bar-fill" style="height:50%;background:var(--warning);animation-delay:0.15s"></div></div>
+                            <div class="bar-lbl">Eng</div>
+                        </div>
+                        <div class="bar-col">
+                            <div class="bar-track"><div class="bar-fill" style="height:35%;background:var(--cobalt);animation-delay:0.2s"></div></div>
+                            <div class="bar-lbl">HR</div>
+                        </div>
+                        <div class="bar-col">
+                            <div class="bar-track"><div class="bar-fill" style="height:20%;background:var(--ok);animation-delay:0.25s"></div></div>
+                            <div class="bar-lbl">Sales</div>
+                        </div>
+                        <div class="bar-col">
+                            <div class="bar-track"><div class="bar-fill" style="height:10%;background:var(--ok);animation-delay:0.3s"></div></div>
+                            <div class="bar-lbl">Ops</div>
+                        </div>
+                    </div>
+                    <div class="chart-legend">
+                        <div class="leg-item"><div class="leg-dot" style="background:var(--danger)"></div>Critical</div>
+                        <div class="leg-item"><div class="leg-dot" style="background:var(--warning)"></div>High</div>
+                        <div class="leg-item"><div class="leg-dot" style="background:var(--ok)"></div>Low</div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title"><span class="ptag pt-cobalt"></span>AI Tool Usage</div>
+                        <span class="panel-action">This week</span>
+                    </div>
+                    <div class="tools-list">
+                        <div>
+                            <div class="tool-row-top">
+                                <div class="tool-name"><div class="tool-logo tl-gpt">G</div>ChatGPT</div>
+                                <span class="tool-sessions">712 sessions</span>
+                            </div>
+                            <div class="tool-bar-track"><div class="tool-bar-fill" style="width:86%;background:#10a37f;animation-delay:0.1s"></div></div>
+                        </div>
+                        <div>
+                            <div class="tool-row-top">
+                                <div class="tool-name"><div class="tool-logo tl-cop">M</div>Copilot</div>
+                                <span class="tool-sessions">531 sessions</span>
+                            </div>
+                            <div class="tool-bar-track"><div class="tool-bar-fill" style="width:64%;background:#6450dc;animation-delay:0.15s"></div></div>
+                        </div>
+                        <div>
+                            <div class="tool-row-top">
+                                <div class="tool-name"><div class="tool-logo tl-cld">C</div>Claude</div>
+                                <span class="tool-sessions">348 sessions</span>
+                            </div>
+                            <div class="tool-bar-track"><div class="tool-bar-fill" style="width:42%;background:#cc785c;animation-delay:0.2s"></div></div>
+                        </div>
+                        <div>
+                            <div class="tool-row-top">
+                                <div class="tool-name"><div class="tool-logo tl-gem">G</div>Gemini</div>
+                                <span class="tool-sessions">256 sessions</span>
+                            </div>
+                            <div class="tool-bar-track"><div class="tool-bar-fill" style="width:31%;background:#4285f4;animation-delay:0.25s"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title"><span class="ptag pt-ok"></span>Quick Actions</div>
+                    </div>
+                    <div class="qa-list">
+                        <div class="qa-item" onclick="window.location='/reports'">
+                            <div class="qa-icon" style="background:var(--cobalt-dim);color:var(--cobalt)"><i class="fas fa-file-pdf"></i></div>
+                            <div>
+                                <div class="qa-title">Generate Compliance Report</div>
+                                <div class="qa-sub">PDF · GDPR + EU AI Act</div>
+                            </div>
+                        </div>
+                        <div class="qa-item" onclick="window.location='/policies'">
+                            <div class="qa-icon" style="background:rgba(5,150,105,0.08);color:var(--ok)"><i class="fas fa-paper-plane"></i></div>
+                            <div>
+                                <div class="qa-title">Send Policy to All Users</div>
+                                <div class="qa-sub" id="employeeCount">Loading recipients...</div>
+                            </div>
+                        </div>
+                        <div class="qa-item qa-danger" onclick="window.location='/detections'">
+                            <div class="qa-icon" style="background:var(--danger-dim);color:var(--danger)"><i class="fas fa-exclamation-circle"></i></div>
+                            <div>
+                                <div class="qa-title" style="color:var(--danger)">Review Critical Violations</div>
+                                <div class="qa-sub" id="criticalCount">Loading...</div>
+                            </div>
+                        </div>
+                        <div class="qa-item" onclick="window.location='/policies'">
+                            <div class="qa-icon" style="background:var(--warning-dim);color:var(--warning)"><i class="fas fa-shield-alt"></i></div>
+                            <div>
+                                <div class="qa-title">Update Blocking Rules</div>
+                                <div class="qa-sub">Review active policies</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- EMPLOYEE TABLE -->
+            <div class="panel">
+                <div class="panel-header">
+                    <div class="panel-title"><span class="ptag pt-cobalt"></span>High-Risk Employees</div>
+                    <a href="/employees" class="panel-action">View all</a>
+                </div>
+                <div class="emp-head">
+                    <span>Employee</span>
+                    <span>Sessions</span>
+                    <span>Violations</span>
+                    <span>Risk Level</span>
+                    <span>Status</span>
+                </div>
+                <div id="empTableContent">
+                    <div class="emp-row">
+                        <div class="emp-name-cell">
+                            <div class="emp-av" style="background:linear-gradient(135deg,#dc2626,#f87171)">MS</div>
+                            <div><div class="emp-name">M. Santos</div><div class="emp-dept">Finance · Senior Analyst</div></div>
+                        </div>
+                        <div class="emp-cell">47</div>
+                        <div class="emp-cell" style="color:var(--danger);font-weight:600">5</div>
+                        <div><span class="risk-chip rc-critical"><span class="chip-dot" style="background:var(--danger)"></span>Critical</span></div>
+                        <div class="emp-cell" style="color:var(--warning)">Flagged</div>
+                    </div>
+                    <div class="emp-row">
+                        <div class="emp-name-cell">
+                            <div class="emp-av" style="background:linear-gradient(135deg,#d97706,#fbbf24)">RC</div>
+                            <div><div class="emp-name">R. Costa</div><div class="emp-dept">Legal · Compliance Officer</div></div>
+                        </div>
+                        <div class="emp-cell">62</div>
+                        <div class="emp-cell" style="color:var(--warning);font-weight:600">3</div>
+                        <div><span class="risk-chip rc-high"><span class="chip-dot" style="background:var(--warning)"></span>High</span></div>
+                        <div class="emp-cell" style="color:var(--warning)">Flagged</div>
+                    </div>
+                    <div class="emp-row">
+                        <div class="emp-name-cell">
+                            <div class="emp-av" style="background:linear-gradient(135deg,#1a56db,#3b72f0)">JF</div>
+                            <div><div class="emp-name">J. Ferreira</div><div class="emp-dept">Engineering · Lead Dev</div></div>
+                        </div>
+                        <div class="emp-cell">138</div>
+                        <div class="emp-cell" style="color:var(--warning);font-weight:600">2</div>
+                        <div><span class="risk-chip rc-high"><span class="chip-dot" style="background:var(--warning)"></span>High</span></div>
+                        <div class="emp-cell" style="color:var(--muted)">Active</div>
+                    </div>
+                    <div class="emp-row">
+                        <div class="emp-name-cell">
+                            <div class="emp-av" style="background:linear-gradient(135deg,#1a56db,#059669)">AL</div>
+                            <div><div class="emp-name">A. Lima</div><div class="emp-dept">HR · Recruiter</div></div>
+                        </div>
+                        <div class="emp-cell">29</div>
+                        <div class="emp-cell" style="font-weight:600">1</div>
+                        <div><span class="risk-chip rc-high"><span class="chip-dot" style="background:var(--warning)"></span>High</span></div>
+                        <div class="emp-cell" style="color:var(--muted)">Active</div>
+                    </div>
+                    <div class="emp-row">
+                        <div class="emp-name-cell">
+                            <div class="emp-av" style="background:linear-gradient(135deg,#059669,#34d399)">TB</div>
+                            <div><div class="emp-name">T. Barros</div><div class="emp-dept">Sales · Account Executive</div></div>
+                        </div>
+                        <div class="emp-cell">81</div>
+                        <div class="emp-cell" style="font-weight:600">1</div>
+                        <div><span class="risk-chip rc-low"><span class="chip-dot" style="background:var(--ok)"></span>Low</span></div>
+                        <div class="emp-cell" style="color:var(--muted)">Active</div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /content-body -->
+    </main>
+</div>
+
+<script>
+    const API_URL = 'https://ai-shield-backend-production.up.railway.app';
+
+    function toggleSidebar() {
+        const sb = document.getElementById('sidebar');
+        const mc = document.getElementById('mainContent');
+        const bd = document.getElementById('sidebarBackdrop');
+        if (window.innerWidth <= 768) {
+            sb.classList.toggle('mobile-open');
+            bd.classList.toggle('show');
+            document.body.style.overflow = sb.classList.contains('mobile-open') ? 'hidden' : '';
+        } else {
+            sb.classList.toggle('collapsed');
+            mc.classList.toggle('expanded');
+            localStorage.setItem('sidebarCollapsed', sb.classList.contains('collapsed'));
         }
+    }
 
-        // Close mobile menu on nav click
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth <= 768) {
-                    document.getElementById('sidebar').classList.remove('mobile-open');
-                    document.getElementById('sidebarBackdrop').classList.remove('show');
-                    document.body.style.overflow = '';
-                }
-            });
-        });
-
-        // Close mobile menu on backdrop click
-        document.getElementById('sidebarBackdrop').addEventListener('click', () => {
+    document.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
             document.getElementById('sidebar').classList.remove('mobile-open');
             document.getElementById('sidebarBackdrop').classList.remove('show');
             document.body.style.overflow = '';
-        });
-
-        // Restore desktop sidebar state
-        if (localStorage.getItem('sidebarCollapsed') === 'true' && window.innerWidth > 768) {
-            document.getElementById('sidebar').classList.add('collapsed');
-            document.getElementById('mainContent').classList.add('expanded');
         }
+    }));
 
-        // Auth & UI Data
-        const authToken = localStorage.getItem('authToken');
-        const user = JSON.parse(localStorage.getItem('user') || '{}');
-        const company = JSON.parse(localStorage.getItem('company') || '{}');
+    document.getElementById('sidebarBackdrop').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.remove('mobile-open');
+        document.getElementById('sidebarBackdrop').classList.remove('show');
+        document.body.style.overflow = '';
+    });
 
-        if (!authToken) window.location.href = '/login';
+    if (localStorage.getItem('sidebarCollapsed') === 'true' && window.innerWidth > 768) {
+        document.getElementById('sidebar').classList.add('collapsed');
+        document.getElementById('mainContent').classList.add('expanded');
+    }
 
-        document.getElementById('userName').textContent = user.email?.split('@')[0] || 'Admin';
-        document.getElementById('companyName').textContent = company.name || 'AI Shield';
-        const initials = company.name?.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase() || 'AS';
-        document.getElementById('userAvatar').textContent = initials;
+    const authToken = localStorage.getItem('authToken');
+    const user    = JSON.parse(localStorage.getItem('user')    || '{}');
+    const company = JSON.parse(localStorage.getItem('company') || '{}');
 
-        // Fetch Stats
-        async function loadStats() {
-            try {
-                const response = await fetch(`${API_URL}/api/dashboard/stats/${company.id}`, {
-                    headers: { 'Authorization': `Bearer ${authToken}` }
-                });
-                if (!response.ok) return;
-                const stats = await response.json();
+    if (!authToken) window.location.href = '/login';
 
-                document.getElementById('totalDetections').textContent = stats.totalDetections || 0;
-                document.getElementById('criticalDetections').textContent = stats.criticalDetections || 0;
-                document.getElementById('suspiciousDetections').textContent = stats.suspiciousDetections || 0;
-                
-                const saved = ((stats.totalDetections || 0) * 50000);
-                document.getElementById('savedAmount').textContent = saved > 1000000 
-                    ? `€${(saved / 1000000).toFixed(1)}M`
-                    : `€${(saved / 1000).toFixed(0)}k`;
+    document.getElementById('userName').textContent    = user.email?.split('@')[0] || 'Admin';
+    document.getElementById('companyName').textContent = company.name || 'AI Shield';
+    const initials = company.name?.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase() || 'AS';
+    document.getElementById('userAvatar').textContent  = initials;
 
-            } catch (e) { console.error('Stats error:', e); }
-        }
+    async function loadStats() {
+        try {
+            const res = await fetch(`${API_URL}/api/dashboard/stats/${company.id}`, {
+                headers: { 'Authorization': `Bearer ${authToken}` }
+            });
+            if (!res.ok) return;
+            const s = await res.json();
 
-        // Fetch Detections
-        async function loadDetections() {
-            try {
-                const response = await fetch(`${API_URL}/api/detections/${company.id}`, {
-                    headers: { 'Authorization': `Bearer ${authToken}` }
-                });
-                if (!response.ok) return;
-                const detections = await response.json();
-                const content = document.getElementById('detectionsContent');
+            document.getElementById('totalDetections').textContent      = s.totalDetections      ?? 0;
+            document.getElementById('criticalDetections').textContent   = s.criticalDetections   ?? 0;
+            document.getElementById('suspiciousDetections').textContent = s.suspiciousDetections ?? 0;
 
-                if (detections.length === 0) {
-                    content.innerHTML = '<div class="empty-state"><span class="empty-icon">🎉</span><h4>All clear</h4><p>No threats detected at the moment.</p></div>';
-                    return;
-                }
+            const saved = (s.totalDetections ?? 0) * 50000;
+            document.getElementById('savedAmount').textContent = saved >= 1000000
+                ? `€${(saved/1000000).toFixed(1)}M`
+                : `€${(saved/1000).toFixed(0)}k`;
 
-                content.innerHTML = detections.slice(0, 8).map(d => {
-                    const time = new Date(d.timestamp).toLocaleTimeString('en-GB', {hour: '2-digit', minute: '2-digit'});
-                    const initials = d.user_id.substring(0, 2).toUpperCase();
-                    return `
-                        <div class="detection-item">
-                            <div class="det-avatar">${initials}</div>
-                            <div class="det-info">
-                                <span class="det-user">${d.user_id}</span>
-                                <span class="det-desc">${d.detection_type} on ${d.ai_platform || 'AI Platform'}</span>
-                            </div>
-                            <div class="det-badge">${d.detection_type}</div>
-                            <div class="det-time">${time}</div>
-                        </div>
-                    `;
-                }).join('');
-            } catch (e) { console.error('Detections error:', e); }
-        }
+            if ((s.criticalDetections ?? 0) > 0) {
+                document.getElementById('alertMsg').textContent =
+                    `${s.criticalDetections} critical violation${s.criticalDetections > 1 ? 's' : ''} detected`;
+                document.getElementById('alertBanner').style.display = 'flex';
+            }
 
-        function logout() {
-            localStorage.clear();
-            window.location.href = '/';
-        }
+            document.getElementById('criticalCount').textContent =
+                `${s.criticalDetections ?? 0} unresolved · Urgent`;
 
-        // Init
-        loadStats();
-        loadDetections();
-        setInterval(loadStats, 30000);
-    </script>
+        } catch(e) { console.error('Stats error:', e); }
+    }
+
+    async function loadDetections() {
+        try {
+            const res = await fetch(`${API_URL}/api/detections/${company.id}`, {
+                headers: { 'Authorization': `Bearer ${authToken}` }
+            });
+            if (!res.ok) return;
+            const detections = await res.json();
+            const el = document.getElementById('detectionsContent');
+
+            if (!detections.length) {
+                el.innerHTML = `<div class="empty-state"><i class="fas fa-shield-alt"></i><p>No threats detected right now. All clear.</p></div>`;
+                return;
+            }
+
+            const avatarColors = ['#dc2626','#d97706','#1a56db','#059669','#6450dc','#0891b2'];
+
+            el.innerHTML = detections.slice(0,8).map((d, i) => {
+                const time     = new Date(d.timestamp).toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'});
+                const init     = d.user_id.substring(0,2).toUpperCase();
+                const sevClass = d.risk_level === 'critical' ? 'sb-critical' : d.risk_level === 'high' ? 'sb-high' : 'sb-medium';
+                const sevLabel = d.risk_level ? d.risk_level.charAt(0).toUpperCase() + d.risk_level.slice(1) : 'Medium';
+                return `
+                <div class="detection-item">
+                    <div class="det-avatar" style="background:${avatarColors[i % avatarColors.length]}">${init}</div>
+                    <div>
+                        <span class="det-user">${d.user_id}</span>
+                        <span class="det-desc">${d.detection_type} · ${d.ai_platform || 'AI Platform'}</span>
+                    </div>
+                    <div class="sev-badge ${sevClass}">${sevLabel}</div>
+                    <div class="det-time">${time}</div>
+                </div>`;
+            }).join('');
+        } catch(e) { console.error('Detections error:', e); }
+    }
+
+    async function loadEmployeeCount() {
+        try {
+            const res = await fetch(`${API_URL}/api/employees/${company.id}`, {
+                headers: { 'Authorization': `Bearer ${authToken}` }
+            });
+            if (!res.ok) return;
+            const data  = await res.json();
+            const count = Array.isArray(data) ? data.length : (data.total ?? '—');
+            document.getElementById('employeeCount').textContent = `${count} recipients · Email`;
+        } catch(e) {}
+    }
+
+    function logout() { localStorage.clear(); window.location.href = '/'; }
+
+    loadStats();
+    loadDetections();
+    loadEmployeeCount();
+    setInterval(loadStats, 30000);
+    setInterval(loadDetections, 60000);
+</script>
 </body>
 </html>
