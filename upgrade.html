@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Escolhe o teu plano — AI Shield</title>
+  <title>Choose your plan — AI Shield</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: sans-serif; background: #F7F8FA; padding: 60px 24px; }
@@ -37,29 +37,29 @@
   </style>
 </head>
 <body>
-  <h1>Escolhe o teu plano de compliance</h1>
-  <p class="sub">Sem compromisso — cancela a qualquer momento.</p>
+  <h1>Choose your compliance plan</h1>
+  <p class="sub">No commitment — cancel at any time.</p>
  
   <div class="toggle">
-    <button id="btn-mensal" class="activo" onclick="setCiclo('monthly')">Mensal</button>
-    <button id="btn-anual" onclick="setCiclo('annual')">Anual — poupa 20%</button>
+    <button id="btn-mensal" class="activo" onclick="setCiclo('monthly')">Monthly</button>
+    <button id="btn-anual" onclick="setCiclo('annual')">Annual — save 20%</button>
   </div>
  
   <div class="planos" id="planos"></div>
-  <p class="nota">14 dias de trial gratuito em todos os planos · Sem cartão de crédito</p>
+  <p class="nota">14-day free trial on all plans · No credit card required</p>
  
   <script>
-    const API = 'https://ai-shield-backend-production.up.railway.app'; // ← SUBSTITUI PELO TEU URL
+    const API = 'https://ai-shield-backend-production.up.railway.app'; // ← REPLACE WITH YOUR URL
  
     const PLANOS = [
-      { key:'essentials', nome:'Essentials', users:'Até 10 utilizadores',
-        desc:'Visibilidade total do que a tua equipa partilha com a AI.',
+      { key:'essentials', nome:'Essentials', users:'Up to 10 users',
+        desc:'Total visibility of what your team shares with AI.',
         m:49, a:39, ma:468 },
-      { key:'compliance', nome:'Compliance', users:'Até 30 utilizadores',
-        desc:'Relatórios GDPR Art. 32 prontos para o teu DPO.',
+      { key:'compliance', nome:'Compliance', users:'Up to 30 users',
+        desc:'GDPR Art. 32 reports ready for your DPO.',
         m:99, a:79, ma:948, popular:true },
-      { key:'business', nome:'Business', users:'Até 75 utilizadores',
-        desc:'SSO, API, relatórios white-label e gestor de conta.',
+      { key:'business', nome:'Business', users:'Up to 75 users',
+        desc:'SSO, API, white-label reports, and account manager.',
         m:249, a:199, ma:2388 },
     ];
  
@@ -76,14 +76,14 @@
       const container = document.getElementById('planos');
       container.innerHTML = PLANOS.map(p => `
         <div class="plano ${p.popular?'popular':''}">
-          ${p.popular ? '<div class="badge">Mais popular</div>' : ''}
+          ${p.popular ? '<div class="badge">Most popular</div>' : ''}
           <div class="nome">${p.nome}</div>
           <div class="users">${p.users}</div>
-          <div class="preco">€${ciclo==='monthly'?p.m:p.a}<span>/mês</span></div>
-          <div class="economia">${ciclo==='annual' ? '€'+p.ma+' faturado anualmente' : ''}</div>
+          <div class="preco">€${ciclo==='monthly'?p.m:p.a}<span>/month</span></div>
+          <div class="economia">${ciclo==='annual' ? '€'+p.ma+' billed annually' : ''}</div>
           <div class="desc">${p.desc}</div>
           <button class="btn-plano" id="btn-${p.key}"
-            onclick="escolherPlano('${p.key}')">Começar agora</button>
+            onclick="escolherPlano('${p.key}')">Start now</button>
         </div>
       `).join('');
     }
@@ -91,7 +91,7 @@
     async function escolherPlano(plano) {
       const btn = document.getElementById('btn-' + plano);
       btn.disabled = true;
-      btn.textContent = 'A redirecionar...';
+      btn.textContent = 'Redirecting...';
  
       const token = localStorage.getItem('token');
       if (!token) {
@@ -108,10 +108,10 @@
         });
         const data = await res.json();
         if (data.url) { window.location.href = data.url; }
-        else { alert('Erro. Tenta novamente.'); btn.disabled=false; btn.textContent='Começar agora'; }
+        else { alert('Error. Please try again.'); btn.disabled=false; btn.textContent='Start now'; }
       } catch(e) {
-        alert('Erro de ligação. Tenta novamente.');
-        btn.disabled=false; btn.textContent='Começar agora';
+        alert('Connection error. Please try again.');
+        btn.disabled=false; btn.textContent='Start now';
       }
     }
  
@@ -119,5 +119,3 @@
   </script>
 </body>
 </html>
-
-
