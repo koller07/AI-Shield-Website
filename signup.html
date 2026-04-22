@@ -1,428 +1,611 @@
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Start Your Free Trial - AI Shield</title>
-    <link rel="icon" type="image/png" href="/icon_1_.png">
-    
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Start Your Free Trial — AI Shield</title>
+<meta name="description" content="Start your 14-day free trial. No credit card required.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #0D1117;
+  --ink-soft:   #3A4250;
+  --ink-muted:  #6B7280;
+  --accent:     #0052CC;
+  --accent-2:   #0040A8;
+  --accent-glow:rgba(0,82,204,.1);
+  --success:    #12B76A;
+  --border:     #E3E8EF;
+  --surface:    #FFFFFF;
+  --surface-2:  #F7F8FA;
+  --radius:     10px;
+  --radius-lg:  16px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--surface-2);
+  color: var(--ink);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
 
-        :root {
-            --primary-dark: #002d5c;
-            --primary-blue: #1e5ba8;
-            --accent-cyan: #00a8e8;
-            --accent-green: #22c55e;
-            --text-primary: #1a1a2e;
-            --text-secondary: #64748b;
-            --bg-light: #f8fafc;
-            --bg-white: #ffffff;
-            --border-color: #e2e8f0;
-        }
+/* ── NAV ── */
+nav {
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 100;
+}
+.nav-inner {
+  max-width: 1120px; margin: 0 auto; padding: 0 24px;
+  height: 60px; display: flex; align-items: center; justify-content: space-between;
+}
+.logo {
+  display: flex; align-items: center; gap: 9px;
+  font-family: 'Syne', sans-serif; font-weight: 700; font-size: 18px;
+  color: var(--ink); text-decoration: none;
+}
+.logo-icon {
+  width: 30px; height: 30px; background: var(--accent);
+  border-radius: 7px; display: flex; align-items: center; justify-content: center;
+}
+.logo-icon svg { width: 16px; height: 16px; fill: white; }
+.nav-login {
+  font-size: 13px; color: var(--ink-muted); text-decoration: none;
+  padding: 7px 14px; border: 1px solid var(--border); border-radius: var(--radius);
+  transition: all .2s;
+}
+.nav-login:hover { background: var(--surface-2); color: var(--ink); }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'Roboto', sans-serif;
-            background: linear-gradient(160deg, var(--primary-dark) 0%, #003d7a 50%, var(--primary-blue) 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-        }
+/* ── PAGE LAYOUT ── */
+.page {
+  max-width: 680px; margin: 0 auto; padding: 48px 24px 80px;
+}
+.page-title {
+  font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800;
+  color: var(--ink); text-align: center; margin-bottom: 8px;
+}
+.page-sub {
+  font-size: 15px; color: var(--ink-muted); text-align: center;
+  margin-bottom: 40px; font-weight: 300;
+}
+.step-indicator {
+  display: flex; align-items: center; justify-content: center; gap: 0;
+  margin-bottom: 40px;
+}
+.step-dot {
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+  transition: all .3s;
+}
+.step-dot.active   { background: var(--accent); color: white; }
+.step-dot.done     { background: var(--success); color: white; }
+.step-dot.inactive { background: var(--surface-2); color: var(--ink-muted); border: 1.5px solid var(--border); }
+.step-line { width: 48px; height: 2px; background: var(--border); }
+.step-line.done { background: var(--success); }
+.step-label {
+  font-size: 11px; color: var(--ink-muted); text-align: center; margin-top: 6px;
+  white-space: nowrap;
+}
+.step-wrap { display: flex; flex-direction: column; align-items: center; }
 
-        .signup-container {
-            background: white;
-            border-radius: 24px;
-            padding: 3rem;
-            max-width: 480px;
-            width: 100%;
-            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
-        }
+/* ── PLAN CARDS ── */
+#step-plan { display: block; }
+#step-form { display: none; }
 
-        .logo-section {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
+.plan-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+  margin-bottom: 24px;
+}
+.plan-card {
+  background: white; border: 2px solid var(--border); border-radius: var(--radius-lg);
+  padding: 22px 18px; cursor: pointer; transition: all .2s; position: relative;
+  text-align: center;
+}
+.plan-card:hover { border-color: #93B4E8; box-shadow: 0 4px 20px rgba(0,82,204,.1); transform: translateY(-2px); }
+.plan-card.selected { border-color: var(--accent); box-shadow: 0 4px 24px rgba(0,82,204,.2); }
+.plan-card.featured { border-color: var(--accent); background: var(--ink); }
+.plan-card.featured:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,82,204,.25); }
+.plan-card.featured.selected { box-shadow: 0 8px 32px rgba(0,82,204,.3); }
 
-        .logo-section img {
-            width: 60px;
-            height: 60px;
-            margin-bottom: 1rem;
-        }
+.plan-pop-badge {
+  position: absolute; top: -11px; left: 50%; transform: translateX(-50%);
+  background: var(--accent); color: white; font-size: 9.5px; font-weight: 700;
+  padding: 3px 12px; border-radius: 100px; letter-spacing: .05em; text-transform: uppercase;
+  white-space: nowrap;
+}
+.plan-name {
+  font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 800;
+  color: var(--ink); margin-bottom: 4px;
+}
+.plan-card.featured .plan-name { color: white; }
+.plan-users-badge {
+  font-size: 10.5px; font-weight: 500; color: var(--accent);
+  background: var(--accent-glow); padding: 2px 8px; border-radius: 5px;
+  display: inline-block; margin-bottom: 14px;
+}
+.plan-card.featured .plan-users-badge { color: rgba(255,255,255,.9); background: rgba(255,255,255,.12); }
+.plan-price-wrap { display: flex; align-items: baseline; justify-content: center; gap: 2px; margin-bottom: 4px; }
+.plan-currency { font-size: 16px; font-weight: 600; color: var(--ink); }
+.plan-card.featured .plan-currency { color: white; }
+.plan-amount {
+  font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800;
+  color: var(--ink); line-height: 1;
+}
+.plan-card.featured .plan-amount { color: white; }
+.plan-period { font-size: 11px; color: var(--ink-muted); margin-left: 2px; }
+.plan-card.featured .plan-period { color: rgba(255,255,255,.5); }
+.plan-annual { font-size: 10.5px; color: var(--success); font-weight: 500; min-height: 16px; margin-bottom: 14px; }
+.plan-card.featured .plan-annual { color: #4ade80; }
+.plan-desc { font-size: 12px; color: var(--ink-muted); line-height: 1.5; margin-bottom: 16px; }
+.plan-card.featured .plan-desc { color: rgba(255,255,255,.55); }
+.plan-select-btn {
+  width: 100%; padding: 9px; border-radius: 8px; font-size: 13px; font-weight: 600;
+  cursor: pointer; font-family: 'DM Sans', sans-serif; border: 1.5px solid var(--border);
+  background: transparent; color: var(--ink); transition: all .2s;
+}
+.plan-select-btn:hover { background: var(--surface-2); border-color: #c8cfd8; }
+.plan-card.selected .plan-select-btn { background: var(--accent); color: white; border-color: var(--accent); }
+.plan-card.featured .plan-select-btn { background: white; color: var(--accent); border-color: transparent; font-weight: 700; }
+.plan-card.featured.selected .plan-select-btn { background: #e8efff; }
 
-        .logo-section h1 {
-            font-size: 1.75rem;
-            font-weight: 900;
-            color: var(--primary-dark);
-            margin-bottom: 0.5rem;
-        }
+/* Annual toggle */
+.billing-row {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  margin-bottom: 28px;
+}
+.billing-row span { font-size: 13px; color: var(--ink-muted); }
+.billing-row span.active { color: var(--ink); font-weight: 500; }
+.toggle-track {
+  width: 44px; height: 24px; background: var(--border); border-radius: 100px;
+  cursor: pointer; position: relative; transition: background .25s; border: none; padding: 0;
+}
+.toggle-track.annual { background: var(--accent); }
+.toggle-thumb {
+  position: absolute; top: 2px; left: 2px; width: 20px; height: 20px;
+  background: white; border-radius: 50%;
+  transition: transform .25s cubic-bezier(.34,1.56,.64,1);
+  box-shadow: 0 1px 4px rgba(0,0,0,.2);
+}
+.toggle-track.annual .toggle-thumb { transform: translateX(20px); }
+.save-badge {
+  font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 100px;
+  background: rgba(18,183,106,.1); color: #0B8A4A; border: 1px solid rgba(18,183,106,.2);
+}
 
-        .plan-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-green));
-            color: white;
-            padding: 0.5rem 1.25rem;
-            border-radius: 50px;
-            font-size: 0.875rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
+/* Continue button */
+.continue-btn {
+  width: 100%; padding: 14px; background: var(--accent); color: white;
+  border: none; border-radius: var(--radius-lg); font-size: 15px; font-weight: 600;
+  cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .2s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.continue-btn:hover { background: var(--accent-2); transform: translateY(-1px); }
+.continue-btn:disabled { opacity: .45; cursor: not-allowed; transform: none; }
 
-        .plan-details {
-            background: var(--bg-light);
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            border: 1px solid var(--border-color);
-        }
+/* ── FORM ── */
+.form-card {
+  background: white; border: 1px solid var(--border); border-radius: var(--radius-lg);
+  padding: 32px; margin-bottom: 20px;
+}
+.selected-plan-banner {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--accent-glow); border: 1px solid rgba(0,82,204,.2);
+  border-radius: 10px; padding: 12px 16px; margin-bottom: 24px;
+}
+.spb-left { display: flex; align-items: center; gap: 10px; }
+.spb-icon { font-size: 18px; }
+.spb-name { font-size: 14px; font-weight: 600; color: var(--accent); }
+.spb-price { font-size: 12px; color: var(--ink-muted); margin-top: 1px; }
+.spb-change { font-size: 12px; color: var(--accent); cursor: pointer; font-weight: 500; text-decoration: underline; background: none; border: none; font-family: inherit; }
+.form-group { margin-bottom: 16px; }
+.form-group label {
+  display: block; font-size: 12px; font-weight: 600; color: var(--ink-soft);
+  text-transform: uppercase; letter-spacing: .07em; margin-bottom: 6px;
+}
+.form-group input {
+  width: 100%; padding: 10px 14px; border: 1.5px solid var(--border);
+  border-radius: var(--radius); font-size: 14px; font-family: 'DM Sans', sans-serif;
+  color: var(--ink); background: white; outline: none; transition: border-color .15s;
+}
+.form-group input:focus { border-color: var(--accent); }
+.form-group input::placeholder { color: #C1C8D4; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.submit-btn {
+  width: 100%; padding: 14px; background: var(--accent); color: white;
+  border: none; border-radius: var(--radius-lg); font-size: 15px; font-weight: 600;
+  cursor: pointer; font-family: 'DM Sans', sans-serif; margin-top: 4px;
+  transition: all .2s; display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.submit-btn:hover { background: var(--accent-2); transform: translateY(-1px); }
+.submit-btn:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+.error-msg {
+  display: none; background: #FFF1F0; border: 1px solid rgba(217,45,32,.25);
+  color: #D92D20; padding: 10px 14px; border-radius: 8px; font-size: 13px;
+  margin-bottom: 16px;
+}
+.error-msg.show { display: block; }
+.trust-row {
+  display: flex; align-items: center; justify-content: center; gap: 20px;
+  flex-wrap: wrap; margin-top: 16px;
+}
+.trust-item {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 12px; color: var(--ink-muted);
+}
+.trust-item svg { color: var(--success); }
 
-        .plan-details h3 {
-            font-size: 1.125rem;
-            color: var(--primary-dark);
-            margin-bottom: 0.75rem;
-            font-weight: 800;
-        }
-
-        .plan-price {
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: var(--primary-blue);
-            margin-bottom: 0.5rem;
-        }
-
-        .plan-price span {
-            font-size: 1.125rem;
-            color: var(--text-secondary);
-            font-weight: 600;
-        }
-
-        .plan-features {
-            list-style: none;
-            margin-top: 1rem;
-        }
-
-        .plan-features li {
-            padding: 0.5rem 0;
-            font-size: 0.9375rem;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .plan-features li::before {
-            content: "✓";
-            color: var(--accent-green);
-            font-weight: 900;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            font-size: 0.9375rem;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 1rem 1.25rem;
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
-            font-size: 1rem;
-            font-family: inherit;
-            transition: all 0.3s;
-            background: var(--bg-white);
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--accent-cyan);
-            box-shadow: 0 0 0 4px rgba(0, 168, 232, 0.1);
-        }
-
-        .trial-notice {
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid var(--accent-green);
-            border-radius: 12px;
-            padding: 1rem 1.25rem;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        .trial-notice p {
-            color: var(--accent-green);
-            font-weight: 700;
-            font-size: 0.9375rem;
-        }
-
-        .submit-btn {
-            width: 100%;
-            background: var(--accent-green);
-            color: white;
-            padding: 1.25rem;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.125rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.25);
-        }
-
-        .submit-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(34, 197, 94, 0.35);
-            background: #16a34a;
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .login-link {
-            text-align: center;
-            margin-top: 1.5rem;
-            color: var(--text-secondary);
-            font-size: 0.9375rem;
-        }
-
-        .login-link a {
-            color: var(--primary-blue);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .login-link a:hover {
-            text-decoration: underline;
-        }
-
-        .error-message {
-            background: #fee;
-            border: 1px solid #fcc;
-            color: #c33;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            font-size: 0.9375rem;
-            display: none;
-        }
-
-        .error-message.show {
-            display: block;
-        }
-
-        @media (max-width: 640px) {
-            .signup-container {
-                padding: 2rem 1.5rem;
-            }
-
-            .plan-price {
-                font-size: 2rem;
-            }
-        }
-    </style>
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .plan-grid { grid-template-columns: 1fr; gap: 12px; }
+  .plan-card.featured { order: -1; }
+  .form-row { grid-template-columns: 1fr; gap: 0; }
+  .form-card { padding: 22px 18px; }
+  .page { padding: 32px 16px 60px; }
+  .page-title { font-size: 22px; }
+}
+</style>
 </head>
 <body>
-    <div class="signup-container">
-        <div class="logo-section">
-            <img src="/icon_1_.png" alt="AI Shield Logo">
-            <h1>Start Your Free Trial</h1>
-            <div class="plan-badge" id="planBadge">Professional Plan</div>
-        </div>
 
-        <div class="plan-details" id="planDetails">
-            <h3 id="planName">Professional</h3>
-            <div class="plan-price" id="planPrice">€49<span>/month</span></div>
-            <ul class="plan-features" id="planFeatures">
-                <li>5-25 users</li>
-                <li>Advanced analytics</li>
-                <li>Customisable policies</li>
-            </ul>
-        </div>
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">
+      <a href="#" class="logo" style="gap:0;padding:0;">
+  <img src="logo_full.png" alt="AI Shield" style="height:75px;width:auto;display:block;">
+</a>
+    </a>
+    <a href="login.html" class="nav-login">Already have an account? Sign in</a>
+  </div>
+</nav>
 
-        <div class="trial-notice">
-            <p>✓ 14 days free • No credit card required</p>
-        </div>
+<!-- PAGE -->
+<div class="page">
 
-        <div class="error-message" id="errorMessage"></div>
+  <h1 class="page-title">Start Your Free Trial</h1>
+  <p class="page-sub">14 days free · No credit card · Cancel anytime</p>
 
-        <form id="signupForm">
-            <div class="form-group">
-                <label for="fullName">Full Name *</label>
-                <input type="text" id="fullName" required placeholder="John Smith">
-            </div>
+  <!-- Step indicators -->
+  <div class="step-indicator">
+    <div class="step-wrap">
+      <div class="step-dot active" id="dot-1">1</div>
+      <div class="step-label">Choose plan</div>
+    </div>
+    <div class="step-line" id="line-1"></div>
+    <div class="step-wrap">
+      <div class="step-dot inactive" id="dot-2">2</div>
+      <div class="step-label">Create account</div>
+    </div>
+    <div class="step-line" id="line-2" style="display:none"></div>
+    <div class="step-wrap" id="step3-wrap" style="display:none">
+      <div class="step-dot inactive" id="dot-3">3</div>
+      <div class="step-label">Dashboard</div>
+    </div>
+  </div>
 
-            <div class="form-group">
-                <label for="email">Work Email *</label>
-                <input type="email" id="email" required placeholder="john@company.com">
-            </div>
+  <!-- ══ STEP 1: CHOOSE PLAN ══ -->
+  <div id="step-plan">
 
-            <div class="form-group">
-                <label for="companyName">Company Name *</label>
-                <input type="text" id="companyName" required placeholder="Acme Ltd">
-            </div>
-
-            <div class="form-group">
-                <label for="password">Password *</label>
-                <input type="password" id="password" required placeholder="Min 8 characters" minlength="8">
-            </div>
-
-            <button type="submit" class="submit-btn" id="submitBtn">
-                Start Free Trial
-            </button>
-        </form>
-
-        <div class="login-link">
-            Already have an account? <a href="/login">Login here</a>
-        </div>
+    <!-- Billing toggle -->
+    <div class="billing-row">
+      <span class="active" id="lbl-monthly">Monthly</span>
+      <button class="toggle-track" id="billingToggle" onclick="toggleBilling()">
+        <span class="toggle-thumb"></span>
+      </button>
+      <span id="lbl-annual">Annual</span>
+      <span class="save-badge" id="saveBadge" style="opacity:.35">Save 20%</span>
     </div>
 
-    <script>
-        const API_URL = 'https://ai-shield-backend-production.up.railway.app';
+    <!-- Plan cards -->
+    <div class="plan-grid">
 
-        // Plan configurations
-        const PLANS = {
-            starter: {
-                name: 'Starter',
-                price: '€29',
-                features: [
-                    '1-3 users',
-                    '25+ data types detected',
-                    'Real-time alerts'
-                ]
-            },
-            professional: {
-                name: 'Professional',
-                price: '€49',
-                features: [
-                    '5-25 users',
-                    'Advanced analytics',
-                    'Customisable policies'
-                ]
-            },
-            business: {
-                name: 'Business',
-                price: '€149',
-                features: [
-                    '10-50 users',
-                    'SSO/SAML integration',
-                    'Dedicated account manager'
-                ]
-            },
-            enterprise: {
-                name: 'Enterprise',
-                price: 'Custom',
-                features: [
-                    'Unlimited users',
-                    'On-premise deployment',
-                    'Custom ML models'
-                ]
-            }
-        };
+      <div class="plan-card" id="card-essentials" onclick="selectPlan('essentials')">
+        <div class="plan-name">Essentials</div>
+        <div class="plan-users-badge">Up to 10 users</div>
+        <div class="plan-price-wrap">
+          <span class="plan-currency">€</span>
+          <span class="plan-amount" id="price-essentials">49</span>
+          <span class="plan-period" id="period-essentials">/mo</span>
+        </div>
+        <div class="plan-annual" id="annual-essentials"></div>
+        <div class="plan-desc">Visibility into what your team shares with AI — before it's too late.</div>
+        <button class="plan-select-btn" id="btn-essentials">Select Essentials</button>
+      </div>
 
-        // Get plan from URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const selectedPlan = urlParams.get('plan') || 'professional';
-        const plan = PLANS[selectedPlan] || PLANS.professional;
+      <div class="plan-card featured" id="card-compliance" onclick="selectPlan('compliance')">
+        <div class="plan-pop-badge">Most popular</div>
+        <div class="plan-name">Compliance</div>
+        <div class="plan-users-badge">Up to 30 users</div>
+        <div class="plan-price-wrap">
+          <span class="plan-currency">€</span>
+          <span class="plan-amount" id="price-compliance">99</span>
+          <span class="plan-period" id="period-compliance">/mo</span>
+        </div>
+        <div class="plan-annual" id="annual-compliance"></div>
+        <div class="plan-desc">GDPR Art. 32 reports ready to deliver to your DPA automatically.</div>
+        <button class="plan-select-btn" id="btn-compliance">Select Compliance</button>
+      </div>
 
-        // Update UI with plan details
-        document.getElementById('planBadge').textContent = `${plan.name} Plan`;
-        document.getElementById('planName').textContent = plan.name;
-        document.getElementById('planPrice').innerHTML = `${plan.price}${plan.price !== 'Custom' ? '<span>/month</span>' : ''}`;
-        
-        const featuresList = document.getElementById('planFeatures');
-        featuresList.innerHTML = plan.features.map(f => `<li>${f}</li>`).join('');
+      <div class="plan-card" id="card-business" onclick="selectPlan('business')">
+        <div class="plan-name">Business</div>
+        <div class="plan-users-badge">Up to 75 users</div>
+        <div class="plan-price-wrap">
+          <span class="plan-currency">€</span>
+          <span class="plan-amount" id="price-business">249</span>
+          <span class="plan-period" id="period-business">/mo</span>
+        </div>
+        <div class="plan-annual" id="annual-business"></div>
+        <div class="plan-desc">SSO, API, white-label reports and a dedicated account manager.</div>
+        <button class="plan-select-btn" id="btn-business">Select Business</button>
+      </div>
 
-        // Handle form submission
-        document.getElementById('signupForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
+    </div>
 
-            const submitBtn = document.getElementById('submitBtn');
-            const errorMsg = document.getElementById('errorMessage');
-            
-            // Get form data
-            const fullName = document.getElementById('fullName').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const companyName = document.getElementById('companyName').value.trim();
-            const password = document.getElementById('password').value;
+    <button class="continue-btn" id="continueBtn" onclick="goToForm()" disabled>
+      Continue with free trial
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
 
-            // Disable button
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Creating account...';
-            errorMsg.classList.remove('show');
+    <p style="text-align:center;font-size:12px;color:var(--ink-muted);margin-top:14px">
+      Not sure which plan? Start with Compliance — you can change later.
+    </p>
 
-            try {
-                // Call signup API
-                const response = await fetch(`${API_URL}/api/auth/signup`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        name: fullName,
-                        email: email,
-                        password: password,
-                        companyName: companyName,
-                        plan: selectedPlan
-                    })
-                });
+  </div><!-- end step-plan -->
 
-                const data = await response.json();
+  <!-- ══ STEP 2: CREATE ACCOUNT ══ -->
+  <div id="step-form">
 
-                if (!response.ok) {
-                    throw new Error(data.error || 'Signup failed');
-                }
+    <div class="form-card">
 
-                // Save auth data to localStorage
-                localStorage.setItem('authToken', data.token);
-                localStorage.setItem('user', JSON.stringify(data.user));
-                localStorage.setItem('company', JSON.stringify(data.company));
+      <!-- Selected plan banner -->
+      <div class="selected-plan-banner">
+        <div class="spb-left">
+          <span class="spb-icon">🛡️</span>
+          <div>
+            <div class="spb-name" id="banner-plan-name">Compliance Plan</div>
+            <div class="spb-price" id="banner-plan-price">€99/month · 14-day free trial</div>
+          </div>
+        </div>
+        <button class="spb-change" onclick="goBack()">Change plan</button>
+      </div>
 
-                // Save to Chrome extension storage (if extension is installed)
-                if (window.chrome && chrome.runtime) {
-                    try {
-                        chrome.storage.local.set({
-                            authToken: data.token,
-                            user: JSON.stringify(data.user),
-                            company: JSON.stringify(data.company)
-                        });
-                    } catch (err) {
-                        console.log('Extension not installed (optional)');
-                    }
-                }
+      <div class="error-msg" id="errorMsg"></div>
 
-                // Redirect to dashboard
-                window.location.href = '/company-dashboard';
+      <div class="form-row">
+        <div class="form-group">
+          <label>Your name</label>
+          <input type="text" id="name" placeholder="Maria Santos" autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label>Company name</label>
+          <input type="text" id="company" placeholder="Acme Lda" autocomplete="organization" required>
+        </div>
+      </div>
 
-            } catch (error) {
-                console.error('Signup error:', error);
-                errorMsg.textContent = error.message || 'Failed to create account. Please try again.';
-                errorMsg.classList.add('show');
-                
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Start Free Trial';
-            }
-        });
+      <div class="form-group">
+        <label>Work email</label>
+        <input type="email" id="email" placeholder="maria@empresa.pt" autocomplete="email" required>
+      </div>
 
-        // Enterprise plan redirect
-        if (selectedPlan === 'enterprise') {
-            document.getElementById('signupForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-                alert('For Enterprise plans, please contact our sales team. Redirecting...');
-                window.location.href = '/#pricing';
-            });
-        }
-    </script>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="At least 8 characters" autocomplete="new-password" required>
+      </div>
+
+      <button class="submit-btn" id="submitBtn" onclick="handleSignup()">
+        Start 14-day free trial
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+
+    </div>
+
+    <div class="trust-row">
+      <div class="trust-item">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M4.5 6.5l1.5 1.5L9 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        No credit card required
+      </div>
+      <div class="trust-item">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M4.5 6.5l1.5 1.5L9 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Cancel anytime
+      </div>
+      <div class="trust-item">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M4.5 6.5l1.5 1.5L9 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        GDPR compliant
+      </div>
+    </div>
+
+  </div><!-- end step-form -->
+
+</div><!-- end page -->
+
+<script>
+const API = 'https://ai-shield-backend-production.up.railway.app';
+
+// Plan data
+const PLANS = {
+  essentials: { name: 'Essentials', monthly: 49, annual: 39, annualTotal: 468 },
+  compliance: { name: 'Compliance', monthly: 99, annual: 79, annualTotal: 948 },
+  business:   { name: 'Business',   monthly: 249, annual: 199, annualTotal: 2388 },
+};
+
+let selectedPlan = null;
+let isAnnual = false;
+
+// ── Pre-select plan from URL param ───────────────────────
+(function initFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  const plan = params.get('plan');
+  if (plan && PLANS[plan]) {
+    selectPlan(plan);
+  }
+})();
+
+// ── Toggle billing ────────────────────────────────────────
+function toggleBilling() {
+  isAnnual = !isAnnual;
+  const toggle = document.getElementById('billingToggle');
+  toggle.classList.toggle('annual', isAnnual);
+  document.getElementById('lbl-monthly').classList.toggle('active', !isAnnual);
+  document.getElementById('lbl-annual').classList.toggle('active', isAnnual);
+  document.getElementById('saveBadge').style.opacity = isAnnual ? '1' : '.35';
+  updatePrices();
+}
+
+function updatePrices() {
+  Object.entries(PLANS).forEach(([key, p]) => {
+    const priceEl  = document.getElementById('price-' + key);
+    const periodEl = document.getElementById('period-' + key);
+    const annualEl = document.getElementById('annual-' + key);
+    if (priceEl)  priceEl.textContent  = isAnnual ? p.annual : p.monthly;
+    if (periodEl) periodEl.textContent = isAnnual ? '/mo, billed annually' : '/mo';
+    if (annualEl) annualEl.textContent = isAnnual ? `€${p.annualTotal}/year` : '';
+  });
+  // Update banner if plan already selected
+  if (selectedPlan) updateBanner();
+}
+
+// ── Select plan ───────────────────────────────────────────
+function selectPlan(key) {
+  selectedPlan = key;
+
+  // Update card styles
+  Object.keys(PLANS).forEach(k => {
+    const card = document.getElementById('card-' + k);
+    const btn  = document.getElementById('btn-' + k);
+    if (!card) return;
+    card.classList.toggle('selected', k === key);
+    btn.textContent = k === key ? '✓ Selected' : 'Select ' + PLANS[k].name;
+  });
+
+  // Enable continue
+  document.getElementById('continueBtn').disabled = false;
+
+  // Update URL without reload
+  const url = new URL(window.location);
+  url.searchParams.set('plan', key);
+  window.history.replaceState({}, '', url);
+}
+
+// ── Go to form ────────────────────────────────────────────
+function goToForm() {
+  if (!selectedPlan) return;
+
+  // Step indicators
+  document.getElementById('dot-1').className  = 'step-dot done';
+  document.getElementById('dot-1').textContent = '✓';
+  document.getElementById('line-1').classList.add('done');
+  document.getElementById('dot-2').className  = 'step-dot active';
+  document.getElementById('line-2').style.display  = '';
+  document.getElementById('step3-wrap').style.display = '';
+
+  updateBanner();
+
+  // Switch views
+  document.getElementById('step-plan').style.display = 'none';
+  document.getElementById('step-form').style.display = 'block';
+
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goBack() {
+  document.getElementById('dot-1').className  = 'step-dot active';
+  document.getElementById('dot-1').textContent = '1';
+  document.getElementById('line-1').classList.remove('done');
+  document.getElementById('dot-2').className  = 'step-dot inactive';
+
+  document.getElementById('step-form').style.display = 'none';
+  document.getElementById('step-plan').style.display  = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateBanner() {
+  const p = PLANS[selectedPlan];
+  const price = isAnnual ? p.annual : p.monthly;
+  const cycle = isAnnual ? '/month, billed annually' : '/month';
+  document.getElementById('banner-plan-name').textContent  = p.name + ' Plan';
+  document.getElementById('banner-plan-price').textContent = `€${price}${cycle} · 14-day free trial`;
+}
+
+// ── Signup ────────────────────────────────────────────────
+async function handleSignup() {
+  const name        = document.getElementById('name').value.trim();
+  const companyName = document.getElementById('company').value.trim();
+  const email       = document.getElementById('email').value.trim();
+  const password    = document.getElementById('password').value;
+  const btn         = document.getElementById('submitBtn');
+
+  hideError();
+
+  if (!companyName) { showError('Company name is required.'); return; }
+  if (!email)       { showError('Work email is required.'); return; }
+  if (!password || password.length < 8) { showError('Password must be at least 8 characters.'); return; }
+  if (!selectedPlan) { showError('Please select a plan.'); return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Creating your account…';
+
+  try {
+    const res = await fetch(`${API}/auth/signup`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name,
+        companyName,
+        email,
+        password,
+        plan:  selectedPlan,
+        cycle: isAnnual ? 'annual' : 'monthly',
+      }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok && data.token) {
+      // Save JWT
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user',  JSON.stringify(data.user));
+
+      // Step 3 active
+      document.getElementById('dot-2').className  = 'step-dot done';
+      document.getElementById('dot-2').textContent = '✓';
+      document.getElementById('line-2').classList.add('done');
+      document.getElementById('dot-3').className  = 'step-dot active';
+
+      // Redirect to dashboard
+      window.location.href = 'dashboard.html?welcome=true';
+
+    } else {
+      showError(data.error || 'Something went wrong. Please try again.');
+      btn.disabled = false;
+      btn.innerHTML = 'Start 14-day free trial <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    }
+  } catch (e) {
+    showError('Connection error. Please check your internet and try again.');
+    btn.disabled = false;
+    btn.innerHTML = 'Start 14-day free trial';
+  }
+}
+
+function showError(msg) {
+  const el = document.getElementById('errorMsg');
+  el.textContent = msg;
+  el.classList.add('show');
+}
+function hideError() {
+  document.getElementById('errorMsg').classList.remove('show');
+}
+
+// Allow Enter key on form
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('step-form').style.display !== 'none') {
+    handleSignup();
+  }
+});
+</script>
 </body>
 </html>
