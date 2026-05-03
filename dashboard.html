@@ -1283,7 +1283,7 @@ function buildCharts(summary) {
       }
     }
   });
-}}
+}
 
 // ── Recent Detections ─────────────────────────────────────────
 async function loadRecentDetections() {
@@ -1478,7 +1478,6 @@ async function loadTeam() {
     console.error('Team load error:', err);
     grid.innerHTML = '<div class="empty-state"><div class="empty-icon">⚠️</div><h4>Failed to load team</h4></div>';
   }
-}
 }
 
 // ── Reports Page ──────────────────────────────────────────────
