@@ -8,46 +8,43 @@
 <meta name="description" content="Monitor ChatGPT, Claude, Gemini and 25+ AI tools in real-time. Block sensitive data before it leaves your organisation. GDPR & EU AI Act compliant.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg-deep: #0A0E18;
-  --text-primary: #F0F4FA;
+  --bg: #0A0E18;
+  --text: #F0F4FA;
   --text-secondary: rgba(240, 244, 250, 0.72);
   --text-muted: rgba(240, 244, 250, 0.48);
   --accent: #4F8FFF;
   --success: #34D399;
   --danger: #FF6B6B;
   --gold: #D4B86E;
+  --border: rgba(255, 255, 255, 0.06);
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
-  font-family: 'Inter Tight', -apple-system, sans-serif;
-  background: var(--bg-deep);
-  color: var(--text-primary);
+  font-family: 'Outfit', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
   -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
   overflow-x: hidden;
-  line-height: 1.5;
 }
-.bg-atmosphere {
+.bg-atmos {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  overflow: hidden;
-}
-.bg-atmosphere::before {
-  content: '';
-  position: absolute;
-  inset: 0;
   background:
     radial-gradient(ellipse 100% 70% at 50% 0%, rgba(79, 143, 255, 0.15) 0%, transparent 55%),
     radial-gradient(ellipse 80% 100% at 95% 25%, rgba(99, 102, 241, 0.1) 0%, transparent 65%);
 }
 .bg-grid {
-  position: absolute;
+  position: fixed;
   inset: 0;
+  z-index: 0;
+  pointer-events: none;
   background-image:
     linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
@@ -61,49 +58,40 @@ body {
   transform: translateX(-50%);
   z-index: 100;
   width: calc(100% - 40px);
-  max-width: 1180px;
+  max-width: 1200px;
 }
 .nav-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 20px 14px 28px;
+  padding: 12px 16px 12px 24px;
   background: linear-gradient(180deg, rgba(25, 32, 52, 0.95), rgba(18, 24, 40, 0.98));
-  backdrop-filter: blur(32px) saturate(200%);
-  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(32px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 100px;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06) inset, 0 2px 0 rgba(255, 255, 255, 0.08) inset, 0 12px 40px rgba(0, 0, 0, 0.5);
-  position: relative;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05) inset, 0 2px 0 rgba(255, 255, 255, 0.08) inset, 0 12px 36px rgba(0, 0, 0, 0.5);
 }
-.nav-inner::before {
-  content: '';
-  position: absolute;
-  top: -1px;
-  left: 20%;
-  right: 20%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+.nav-logo img {
+  height: 26px;
+  filter: brightness(0) invert(1) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
 }
-.nav-logo img { height: 28px; width: auto; filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3)); }
-.nav-links { display: flex; gap: 32px; }
-.nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 600; }
+.nav-links { display: flex; gap: 28px; }
+.nav-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: color 0.2s;
+}
 .nav-links a:hover { color: white; }
-.btn-ghost { padding: 9px 18px; background: transparent; border: none; color: var(--text-secondary); font-size: 14px; font-weight: 600; cursor: pointer; }
+.btn { display: inline-flex; align-items: center; gap: 7px; padding: 9px 18px; font-size: 14px; font-weight: 700; text-decoration: none; border-radius: 100px; cursor: pointer; transition: all 0.2s; border: none; font-family: inherit; }
+.btn-ghost { background: transparent; color: var(--text-secondary); }
+.btn-ghost:hover { color: white; }
 .btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 10px 20px;
   background: linear-gradient(180deg, #5C9CFF, #3D7BEC);
   color: white;
-  font-size: 14px;
-  font-weight: 700;
-  border: none;
-  border-radius: 100px;
-  cursor: pointer;
+  box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.25) inset, 0 1px 0 rgba(255, 255, 255, 0.4) inset, 0 6px 16px rgba(79, 143, 255, 0.45);
   position: relative;
-  box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.25) inset, 0 1.5px 0 rgba(255, 255, 255, 0.4) inset, 0 6px 18px rgba(79, 143, 255, 0.45);
-  text-decoration: none;
 }
 .btn-primary::after {
   content: '';
@@ -113,87 +101,123 @@ body {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 50%);
   pointer-events: none;
 }
-@media (max-width: 720px) {
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.3) inset, 0 1px 0 rgba(255, 255, 255, 0.45) inset, 0 8px 22px rgba(79, 143, 255, 0.55); }
+@media (max-width: 768px) {
   .nav-links { display: none; }
   .nav { width: calc(100% - 24px); }
 }
-section { position: relative; z-index: 2; padding: 90px 28px; max-width: 1180px; margin: 0 auto; }
-.hero { padding-top: 170px; }
-.section-eyebrow {
-  display: inline-block;
-  font-size: 12px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--accent);
+section { position: relative; z-index: 2; padding: 90px 28px; max-width: 1200px; margin: 0 auto; }
+.hero { padding-top: 160px; }
+.badge-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px; justify-content: center; }
+@media (min-width: 768px) { .badge-row { justify-content: flex-start; } }
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  background: linear-gradient(180deg, rgba(79, 143, 255, 0.12), rgba(79, 143, 255, 0.08));
+  border: 1px solid rgba(79, 143, 255, 0.25);
+  border-radius: 100px;
+  font-size: 11px;
   font-weight: 700;
-  margin-bottom: 16px;
+  color: #95B2E8;
   font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.02em;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04) inset, 0 1px 0 rgba(255, 255, 255, 0.08) inset;
 }
-.section-title {
-  font-size: clamp(32px, 4.8vw, 50px);
-  line-height: 1.1;
-  letter-spacing: -0.028em;
-  font-weight: 800;
-  margin-bottom: 18px;
-  color: white;
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 8px rgba(52, 211, 153, 0.7), 0 0 0 2px rgba(52, 211, 153, 0.2);
+}
+h1 {
+  font-size: clamp(36px, 6vw, 68px);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  font-weight: 900;
+  margin-bottom: 22px;
   text-shadow: 0 2px 16px rgba(0, 0, 0, 0.3);
 }
-.section-title em {
-  font-family: 'Instrument Serif', serif;
-  font-style: italic;
-  font-weight: 400;
-  color: #B5D0FF;
+h1 em {
+  font-style: normal;
+  background: linear-gradient(180deg, #B5D0FF 0%, #6BA3FF 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 900;
 }
-.section-sub {
-  font-size: 17px;
-  color: var(--text-secondary);
-  max-width: 660px;
-  margin: 0 auto;
+.hero-sub {
+  font-size: 18px;
   line-height: 1.65;
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+  max-width: 680px;
 }
-.section-header { text-align: center; margin-bottom: 60px; }
-.chatgpt-real {
-  background: #212121;
+.hero-cta { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+.hero-cta .btn { padding: 14px 26px; font-size: 15px; }
+.hero-note {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--text-muted);
+  font-family: 'JetBrains Mono', monospace;
+}
+.hero-note svg { width: 14px; height: 14px; color: var(--success); flex-shrink: 0; margin-top: 2px; }
+.hero-note > div { display: flex; align-items: flex-start; gap: 7px; }
+.screenshot-wrap {
+  margin-top: 60px;
   position: relative;
+  background: linear-gradient(180deg, rgba(24, 32, 52, 0.7), rgba(18, 24, 40, 0.85));
+  backdrop-filter: blur(28px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 0;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05) inset, 0 2px 0 rgba(255, 255, 255, 0.08) inset, 0 36px 90px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+.chatgpt {
+  background: #212121;
   min-height: 600px;
   border-radius: 24px;
   overflow: hidden;
+  position: relative;
+  display: flex;
 }
 .chatgpt-sidebar {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
   width: 260px;
   background: #171717;
   border-right: 1px solid rgba(255, 255, 255, 0.05);
   padding: 12px;
+  flex-shrink: 0;
 }
-.chatgpt-new-chat {
+.chatgpt-new {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   padding: 12px 14px;
   color: white;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
-.chatgpt-chat-item {
+.chatgpt-item {
   padding: 10px 12px;
   border-radius: 8px;
   font-size: 13.5px;
-  color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 4px;
+  color: rgba(255, 255, 255, 0.65);
+  margin-bottom: 3px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.chatgpt-chat-item.active { background: rgba(255, 255, 255, 0.1); color: white; }
-.chatgpt-main { margin-left: 260px; min-height: 600px; display: flex; flex-direction: column; }
+.chatgpt-item.active { background: rgba(255, 255, 255, 0.1); color: white; }
+.chatgpt-main { flex: 1; display: flex; flex-direction: column; }
 .chatgpt-header {
   padding: 16px 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -201,7 +225,7 @@ section { position: relative; z-index: 2; padding: 90px 28px; max-width: 1180px;
   align-items: center;
   justify-content: center;
 }
-.chatgpt-model-selector {
+.chatgpt-model {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
@@ -213,9 +237,9 @@ section { position: relative; z-index: 2; padding: 90px 28px; max-width: 1180px;
   align-items: center;
   gap: 8px;
 }
-.chatgpt-messages { flex: 1; overflow-y: auto; padding: 40px 20px; }
-.chatgpt-message-group { max-width: 780px; margin: 0 auto 32px; }
-.chatgpt-message-label {
+.chatgpt-messages { flex: 1; padding: 40px 20px; max-width: 800px; width: 100%; margin: 0 auto; }
+.msg-group { margin-bottom: 30px; }
+.msg-label {
   font-size: 11px;
   font-weight: 700;
   color: rgba(255, 255, 255, 0.5);
@@ -226,11 +250,10 @@ section { position: relative; z-index: 2; padding: 90px 28px; max-width: 1180px;
   align-items: center;
   gap: 8px;
 }
-.chatgpt-avatar {
+.msg-avatar {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #10A37F, #0D8A6C);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -238,8 +261,9 @@ section { position: relative; z-index: 2; padding: 90px 28px; max-width: 1180px;
   font-weight: 800;
   font-size: 14px;
 }
-.chatgpt-avatar.user { background: linear-gradient(135deg, #5C9CFF, #3D7BEC); }
-.chatgpt-message-content {
+.msg-avatar.gpt { background: linear-gradient(135deg, #10A37F, #0D8A6C); }
+.msg-avatar.user { background: linear-gradient(135deg, #5C9CFF, #3D7BEC); }
+.msg-content {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 16px;
@@ -248,23 +272,23 @@ section { position: relative; z-index: 2; padding: 90px 28px; max-width: 1180px;
   font-size: 15px;
   line-height: 1.65;
 }
-.chatgpt-message-content.user-message {
+.msg-content.user-msg {
   background: rgba(79, 143, 255, 0.08);
   border-color: rgba(79, 143, 255, 0.2);
 }
-.chatgpt-input-area { padding: 20px; max-width: 780px; margin: 0 auto; width: 100%; }
-.chatgpt-input-box {
+.chatgpt-input-area { padding: 20px; max-width: 800px; width: 100%; margin: 0 auto; }
+.chatgpt-input {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 16px 20px;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 15px;
+  border-radius: 14px;
+  padding: 14px 18px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 14px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
-.detection-overlay-popup {
+.detection-popup {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -275,23 +299,14 @@ section { position: relative; z-index: 2; padding: 90px 28px; max-width: 1180px;
   backdrop-filter: blur(40px) saturate(200%);
   border: 2px solid rgba(255, 255, 255, 0.15);
   border-radius: 20px;
-  padding: 28px;
+  padding: 26px;
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08) inset, 0 3px 0 rgba(255, 255, 255, 0.15) inset, 0 50px 120px rgba(0, 0, 0, 0.9), 0 0 150px rgba(255, 107, 107, 0.25);
-  z-index: 100;
+  z-index: 10;
 }
-.detection-overlay-popup::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: 15%;
-  right: 15%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-}
-.overlay-popup-header { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
-.overlay-popup-icon {
-  width: 44px;
-  height: 44px;
+.popup-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+.popup-icon {
+  width: 42px;
+  height: 42px;
   border-radius: 12px;
   background: linear-gradient(135deg, rgba(255, 107, 107, 0.35), rgba(255, 107, 107, 0.18));
   border: 2px solid rgba(255, 107, 107, 0.4);
@@ -299,31 +314,12 @@ section { position: relative; z-index: 2; padding: 90px 28px; max-width: 1180px;
   align-items: center;
   justify-content: center;
   position: relative;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1) inset, 0 2px 0 rgba(255, 255, 255, 0.18) inset, 0 8px 24px rgba(255, 107, 107, 0.3);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1) inset, 0 2px 0 rgba(255, 255, 255, 0.18) inset, 0 8px 22px rgba(255, 107, 107, 0.3);
 }
-.overlay-popup-icon::after {
-  content: '';
-  position: absolute;
-  inset: 2px;
-  border-radius: 10px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 60%);
-  pointer-events: none;
-}
-.overlay-popup-title {
-  font-size: 17px;
-  font-weight: 800;
-  color: white;
-  margin-bottom: 3px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-}
-.overlay-popup-sub {
-  font-size: 12.5px;
-  color: rgba(255, 255, 255, 0.6);
-  font-family: 'JetBrains Mono', monospace;
-  font-weight: 600;
-}
-.overlay-popup-body { font-size: 14.5px; color: rgba(255, 255, 255, 0.85); line-height: 1.65; margin-bottom: 18px; }
-.overlay-popup-detected {
+.popup-title { font-size: 16px; font-weight: 800; color: white; margin-bottom: 2px; }
+.popup-sub { font-size: 12px; color: rgba(255, 255, 255, 0.6); font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+.popup-body { font-size: 14px; color: rgba(255, 255, 255, 0.85); line-height: 1.6; margin-bottom: 16px; }
+.popup-detected {
   font-family: 'JetBrains Mono', monospace;
   background: linear-gradient(180deg, rgba(255, 107, 107, 0.15), rgba(255, 107, 107, 0.1));
   border: 1.5px solid rgba(255, 107, 107, 0.3);
@@ -332,103 +328,145 @@ section { position: relative; z-index: 2; padding: 90px 28px; max-width: 1180px;
   font-size: 13px;
   color: #FFB8B8;
   display: inline-block;
-  margin: 12px 0 16px;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05) inset, 0 1px 0 rgba(255, 255, 255, 0.08) inset, 0 4px 14px rgba(255, 107, 107, 0.18);
+  margin: 12px 0 14px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
 }
-.overlay-popup-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.overlay-popup-btn {
-  padding: 13px 16px;
+.popup-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.popup-btn {
+  padding: 12px;
   border-radius: 12px;
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
   border: none;
   position: relative;
+  font-family: inherit;
 }
-.overlay-popup-btn-remove {
+.popup-btn-remove {
   background: linear-gradient(180deg, #5C9CFF, #3D7BEC);
   color: white;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.28) inset, 0 2px 0 rgba(255, 255, 255, 0.4) inset, 0 6px 20px rgba(79, 143, 255, 0.5);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.28) inset, 0 2px 0 rgba(255, 255, 255, 0.4) inset, 0 6px 18px rgba(79, 143, 255, 0.5);
 }
-.overlay-popup-btn-remove::after {
-  content: '';
-  position: absolute;
-  inset: 2px;
-  border-radius: 10px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), transparent 55%);
-  pointer-events: none;
-}
-.overlay-popup-btn-send {
+.popup-btn-send {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
   color: white;
   border: 2px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04) inset, 0 1px 0 rgba(255, 255, 255, 0.08) inset;
 }
-@media (max-width: 720px) {
+@media (max-width: 768px) {
   .chatgpt-sidebar { display: none; }
-  .chatgpt-main { margin-left: 0; }
+  .chatgpt { min-height: 500px; }
 }
-.stats-bar {
+.stats {
   background: linear-gradient(180deg, rgba(24, 32, 52, 0.65), rgba(18, 24, 40, 0.75));
   backdrop-filter: blur(28px);
-  border: 1.5px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
   border-radius: 24px;
   padding: 36px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04) inset, 0 2px 0 rgba(255, 255, 255, 0.06) inset, 0 32px 80px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04) inset, 0 2px 0 rgba(255, 255, 255, 0.06) inset, 0 28px 70px rgba(0, 0, 0, 0.4);
   margin-top: 50px;
-  position: relative;
 }
-.stats-bar::before {
-  content: '';
-  position: absolute;
-  top: -1px;
-  left: 15%;
-  right: 15%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-}
-@media (max-width: 720px) {
-  .stats-bar { grid-template-columns: repeat(2, 1fr); padding: 28px 20px; }
-}
-.stat { text-align: center; border-right: 1px solid rgba(255, 255, 255, 0.06); }
+@media (max-width: 768px) { .stats { grid-template-columns: repeat(2, 1fr); padding: 28px 20px; } }
+.stat { text-align: center; border-right: 1px solid var(--border); }
 .stat:last-child { border-right: none; }
-@media (max-width: 720px) {
+@media (max-width: 768px) {
   .stat { border-right: none; }
-  .stat:nth-child(odd) { border-right: 1px solid rgba(255, 255, 255, 0.06); }
+  .stat:nth-child(odd) { border-right: 1px solid var(--border); }
 }
 .stat-value {
-  font-size: clamp(32px, 5vw, 40px);
-  font-weight: 800;
+  font-size: clamp(32px, 5vw, 42px);
+  font-weight: 900;
   line-height: 1;
-  background: linear-gradient(180deg, #FFFFFF 0%, rgba(181, 208, 255, 0.75) 100%);
+  background: linear-gradient(180deg, #FFFFFF, rgba(181, 208, 255, 0.75));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 8px;
+  letter-spacing: -0.03em;
 }
 .stat-label {
-  font-size: 11.5px;
+  font-size: 11px;
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-weight: 600;
   font-family: 'JetBrains Mono', monospace;
 }
-.features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-@media (max-width: 900px) { .features-grid { grid-template-columns: 1fr; } }
-.feature-card {
-  padding: 28px;
+.sec-header { text-align: center; margin-bottom: 60px; }
+.sec-eyebrow {
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 16px;
+  font-family: 'JetBrains Mono', monospace;
+}
+h2 {
+  font-size: clamp(32px, 4.8vw, 52px);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  font-weight: 900;
+  margin-bottom: 18px;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.3);
+}
+h2 em {
+  font-style: normal;
+  color: #B5D0FF;
+  font-weight: 900;
+}
+.sec-sub {
+  font-size: 17px;
+  color: var(--text-secondary);
+  max-width: 680px;
+  margin: 0 auto;
+  line-height: 1.65;
+}
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+@media (max-width: 900px) { .steps { grid-template-columns: 1fr; max-width: 560px; margin: 0 auto; } }
+.step {
+  padding: 32px 28px;
   background: linear-gradient(180deg, rgba(24, 32, 52, 0.65), rgba(18, 24, 40, 0.75));
   backdrop-filter: blur(28px);
-  border: 1.5px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
   border-radius: 20px;
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04) inset, 0 2px 0 rgba(255, 255, 255, 0.06) inset;
   position: relative;
 }
-.feature-card::before {
+.step-num {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(79, 143, 255, 0.25), rgba(79, 143, 255, 0.08));
+  border: 1px solid rgba(79, 143, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--accent);
+  position: relative;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05) inset, 0 1px 0 rgba(255, 255, 255, 0.1) inset;
+}
+.step h3 { font-size: 20px; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.01em; }
+.step p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }
+.features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+@media (max-width: 900px) { .features { grid-template-columns: 1fr; max-width: 560px; margin: 0 auto; } }
+.feature {
+  padding: 28px;
+  background: linear-gradient(180deg, rgba(24, 32, 52, 0.65), rgba(18, 24, 40, 0.75));
+  backdrop-filter: blur(28px);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04) inset, 0 2px 0 rgba(255, 255, 255, 0.06) inset;
+  transition: all 0.3s;
+  position: relative;
+}
+.feature::before {
   content: '';
   position: absolute;
   top: -1px;
@@ -437,53 +475,146 @@ section { position: relative; z-index: 2; padding: 90px 28px; max-width: 1180px;
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
   opacity: 0;
+  transition: opacity 0.3s;
 }
-.feature-card:hover { border-color: rgba(79, 143, 255, 0.3); transform: translateY(-3px); }
-.feature-card:hover::before { opacity: 1; }
-.feature-icon-wrap {
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, rgba(79, 143, 255, 0.25), rgba(79, 143, 255, 0.08));
-  border: 1.5px solid rgba(79, 143, 255, 0.3);
+.feature:hover { border-color: rgba(79, 143, 255, 0.3); transform: translateY(-3px); }
+.feature:hover::before { opacity: 1; }
+.feature-icon {
+  font-size: 32px;
+  margin-bottom: 18px;
+}
+.feature h3 { font-size: 18px; font-weight: 800; margin-bottom: 10px; letter-spacing: -0.01em; }
+.feature p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px; }
+.feature-meta {
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+}
+.testimonials { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+@media (max-width: 900px) { .testimonials { grid-template-columns: 1fr; max-width: 560px; margin: 0 auto; } }
+.testimonial {
+  padding: 28px;
+  background: linear-gradient(180deg, rgba(24, 32, 52, 0.65), rgba(18, 24, 40, 0.75));
+  backdrop-filter: blur(28px);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04) inset, 0 2px 0 rgba(255, 255, 255, 0.06) inset;
+}
+.stars { color: #FFB84D; margin-bottom: 16px; font-size: 18px; letter-spacing: 2px; }
+.testimonial-text { font-size: 15px; line-height: 1.65; color: var(--text-secondary); margin-bottom: 20px; }
+.testimonial-text strong { color: white; font-weight: 700; }
+.testimonial-author { display: flex; align-items: center; gap: 12px; }
+.testimonial-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), #3D7BEC);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 18px;
+  color: white;
+  font-weight: 800;
+  font-size: 16px;
+}
+.testimonial-name { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
+.testimonial-role { font-size: 13px; color: var(--text-muted); }
+.regs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+@media (max-width: 768px) { .regs { grid-template-columns: 1fr; } }
+.reg {
+  padding: 28px;
+  background: linear-gradient(180deg, rgba(24, 32, 52, 0.65), rgba(18, 24, 40, 0.75));
+  backdrop-filter: blur(28px);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04) inset, 0 2px 0 rgba(255, 255, 255, 0.06) inset;
+}
+.reg-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  background: linear-gradient(135deg, rgba(79, 143, 255, 0.2), rgba(79, 143, 255, 0.1));
+  border: 1px solid rgba(79, 143, 255, 0.3);
+  border-radius: 100px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.reg h3 { font-size: 18px; font-weight: 800; margin-bottom: 10px; }
+.reg p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+.compliance-card {
+  background: linear-gradient(180deg, rgba(79, 143, 255, 0.12), rgba(24, 32, 52, 0.7));
+  backdrop-filter: blur(32px);
+  border: 1px solid rgba(79, 143, 255, 0.25);
+  border-radius: 24px;
+  padding: 48px 40px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05) inset, 0 2px 0 rgba(255, 255, 255, 0.1) inset;
   position: relative;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05) inset, 0 1.5px 0 rgba(255, 255, 255, 0.12) inset;
 }
-.feature-icon-wrap::after {
-  content: '';
+.compliance-card h3 { font-size: clamp(24px, 4vw, 36px); font-weight: 900; margin-bottom: 16px; line-height: 1.2; }
+.compliance-card p { font-size: 16px; line-height: 1.7; color: var(--text-secondary); margin-bottom: 10px; }
+.compliance-highlight {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 24px;
+  padding: 20px;
+  background: rgba(255, 107, 107, 0.08);
+  border: 1px solid rgba(255, 107, 107, 0.2);
+  border-radius: 16px;
+}
+.compliance-highlight svg { width: 22px; height: 22px; color: var(--danger); flex-shrink: 0; margin-top: 2px; }
+.compliance-highlight p { margin: 0; font-size: 14px; line-height: 1.65; }
+.pricing-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+.toggle-opt {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.toggle-opt.active { color: white; }
+.toggle-switch {
+  width: 56px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 100px;
+  position: relative;
+  cursor: pointer;
+}
+.toggle-switch-dot {
   position: absolute;
-  inset: 1.5px;
-  border-radius: 12.5px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), transparent 55%);
-  pointer-events: none;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.2s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
-.feature-icon-wrap svg { width: 23px; height: 23px; color: var(--accent); position: relative; z-index: 1; }
-.feature-title { font-size: 18px; font-weight: 700; color: white; margin-bottom: 10px; }
-.feature-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+.toggle-switch.annual .toggle-switch-dot { transform: translateX(26px); }
 .pricing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
 @media (max-width: 1100px) { .pricing-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 720px) { .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; } }
+@media (max-width: 768px) { .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; } }
 .price-card {
   padding: 28px 24px;
   background: linear-gradient(180deg, rgba(24, 32, 52, 0.65), rgba(18, 24, 40, 0.75));
   backdrop-filter: blur(28px);
-  border: 1.5px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
   border-radius: 20px;
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04) inset, 0 2px 0 rgba(255, 255, 255, 0.06) inset;
   position: relative;
-}
-.price-card::before {
-  content: '';
-  position: absolute;
-  top: -1px;
-  left: 20%;
-  right: 20%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
 }
 .price-card.featured {
   border-color: rgba(79, 143, 255, 0.45);
@@ -495,7 +626,7 @@ section { position: relative; z-index: 2; padding: 90px 28px; max-width: 1180px;
   position: absolute;
   top: 14px;
   right: 14px;
-  font-size: 9.5px;
+  font-size: 9px;
   font-family: 'JetBrains Mono', monospace;
   background: linear-gradient(135deg, rgba(212, 184, 110, 0.3), rgba(212, 184, 110, 0.15));
   border: 1px solid rgba(212, 184, 110, 0.45);
@@ -503,22 +634,23 @@ section { position: relative; z-index: 2; padding: 90px 28px; max-width: 1180px;
   padding: 5px 10px;
   border-radius: 100px;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   font-weight: 700;
 }
-.price-name { font-size: 13px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; font-family: 'JetBrains Mono', monospace; }
-.price-amount { display: flex; align-items: baseline; gap: 4px; margin-bottom: 6px; }
-.price-currency { font-size: 20px; color: var(--text-secondary); font-weight: 600; }
-.price-num {
-  font-size: clamp(44px, 6vw, 52px);
-  font-weight: 800;
-  line-height: 1;
-  color: white;
-  font-family: 'Instrument Serif', serif;
-  font-style: italic;
-  font-weight: 400;
+.price-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+  font-family: 'JetBrains Mono', monospace;
 }
-.price-period { font-size: 12.5px; color: var(--text-muted); margin-bottom: 22px; min-height: 36px; }
+.price-tag { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+.price-amount { display: flex; align-items: baseline; gap: 4px; margin-bottom: 6px; }
+.price-currency { font-size: 20px; color: var(--text-secondary); font-weight: 700; }
+.price-num { font-size: clamp(44px, 6vw, 52px); font-weight: 900; line-height: 1; color: white; letter-spacing: -0.03em; }
+.price-period { font-size: 12px; color: var(--text-muted); margin-bottom: 22px; min-height: 32px; }
 .price-features { list-style: none; margin: 22px 0; }
 .price-features li {
   display: flex;
@@ -528,9 +660,10 @@ section { position: relative; z-index: 2; padding: 90px 28px; max-width: 1180px;
   color: var(--text-secondary);
   padding: 7px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  line-height: 1.5;
 }
 .price-features li:last-child { border-bottom: none; }
-.check-icon { width: 15px; height: 15px; color: var(--success); margin-top: 2px; flex-shrink: 0; }
+.check { width: 15px; height: 15px; color: var(--success); flex-shrink: 0; margin-top: 2px; }
 .price-cta {
   display: block;
   width: 100%;
@@ -542,12 +675,13 @@ section { position: relative; z-index: 2; padding: 90px 28px; max-width: 1180px;
   text-decoration: none;
   cursor: pointer;
   position: relative;
+  border: none;
+  font-family: inherit;
 }
 .price-cta-primary {
   background: linear-gradient(180deg, #5C9CFF, #3D7BEC);
   color: white;
-  border: none;
-  box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.25) inset, 0 1.5px 0 rgba(255, 255, 255, 0.35) inset;
+  box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.25) inset, 0 1px 0 rgba(255, 255, 255, 0.35) inset;
 }
 .price-cta-primary::after {
   content: '';
@@ -559,117 +693,182 @@ section { position: relative; z-index: 2; padding: 90px 28px; max-width: 1180px;
 }
 .price-cta-secondary {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03));
-  border: 1.5px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   color: white;
+}
+.faq { max-width: 800px; margin: 0 auto; }
+.faq-item {
+  background: linear-gradient(180deg, rgba(24, 32, 52, 0.65), rgba(18, 24, 40, 0.75));
+  backdrop-filter: blur(28px);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+}
+.faq-q {
+  padding: 20px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.faq-q svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  transition: transform 0.3s;
+  color: var(--accent);
+}
+.faq-item.open .faq-q svg { transform: rotate(180deg); }
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s;
+}
+.faq-a-inner {
+  padding: 0 24px 20px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text-secondary);
 }
 .cta-band {
   background: linear-gradient(180deg, rgba(79, 143, 255, 0.12), rgba(24, 32, 52, 0.7));
   backdrop-filter: blur(32px);
-  border: 1.5px solid rgba(79, 143, 255, 0.25);
+  border: 1px solid rgba(79, 143, 255, 0.25);
   border-radius: 26px;
   padding: 56px 36px;
   text-align: center;
-  position: relative;
-  overflow: hidden;
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05) inset, 0 2px 0 rgba(255, 255, 255, 0.1) inset;
 }
-.cta-band::before {
-  content: '';
-  position: absolute;
-  top: -1px;
-  left: 15%;
-  right: 15%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-}
-.cta-band-title {
-  font-size: clamp(26px, 4vw, 42px);
-  font-weight: 800;
-  line-height: 1.1;
-  color: white;
+.cta-band h2 { font-size: clamp(26px, 4vw, 44px); font-weight: 900; line-height: 1.15; margin-bottom: 14px; }
+.cta-band h2 em { font-style: normal; color: #B5D0FF; font-weight: 900; }
+.cta-band p { font-size: 16px; color: var(--text-secondary); margin-bottom: 28px; max-width: 620px; margin-left: auto; margin-right: auto; }
+.cta-band .hero-cta { justify-content: center; margin-bottom: 20px; }
+.cta-band .hero-note { justify-content: center; }
+footer { padding: 60px 28px 40px; border-top: 1px solid var(--border); margin-top: 80px; position: relative; z-index: 2; }
+.footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+@media (max-width: 768px) { .footer-inner { grid-template-columns: 1fr 1fr; } }
+.footer-logo img {
+  height: 26px;
   margin-bottom: 14px;
+  filter: brightness(0) invert(1) drop-shadow(0 1px 4px rgba(0, 0, 0, 0.3));
 }
-.cta-band-title em { font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; color: #B5D0FF; }
-.cta-band-sub { font-size: 16px; color: var(--text-secondary); margin-bottom: 28px; max-width: 600px; margin-left: auto; margin-right: auto; }
-footer { padding: 60px 28px 40px; border-top: 1.5px solid rgba(255, 255, 255, 0.06); margin-top: 80px; position: relative; z-index: 2; }
-.footer-inner { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
-@media (max-width: 720px) { .footer-inner { grid-template-columns: 1fr 1fr; } }
-.footer-logo img { height: 26px; margin-bottom: 14px; }
-.footer-brand-text { font-size: 13.5px; color: var(--text-muted); line-height: 1.65; max-width: 320px; }
-.footer-col h4 { font-size: 12.5px; font-weight: 700; color: white; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 14px; font-family: 'JetBrains Mono', monospace; }
-.footer-col a { display: block; color: var(--text-muted); text-decoration: none; font-size: 14px; padding: 6px 0; }
+.footer-text { font-size: 13.5px; color: var(--text-muted); line-height: 1.65; max-width: 320px; }
+.footer-col h4 {
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 14px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.footer-col a { display: block; color: var(--text-muted); text-decoration: none; font-size: 14px; padding: 6px 0; transition: color 0.2s; }
 .footer-col a:hover { color: white; }
 .footer-bottom {
-  max-width: 1180px;
+  max-width: 1200px;
   margin: 0 auto;
   padding-top: 28px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid var(--border);
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 13px;
   color: var(--text-muted);
   flex-wrap: wrap;
+  gap: 12px;
 }
-.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.9s, transform 0.9s; }
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.8s, transform 0.8s; }
 .reveal.is-visible { opacity: 1; transform: translateY(0); }
 </style>
 </head>
 <body>
-<div class="bg-atmosphere"><div class="bg-grid"></div></div>
+
+<div class="bg-atmos"></div>
+<div class="bg-grid"></div>
+
 <nav class="nav">
   <div class="nav-inner">
     <a href="/" style="display:flex;align-items:center;">
-      <img src="https://www.getaishield.co/logo_full.png" alt="AI Shield" style="height:28px;width:auto;" />
+      <img src="https://www.getaishield.co/logo_full.png" alt="AI Shield" />
     </a>
     <div class="nav-links">
       <a href="#features">Features</a>
+      <a href="#compliance">Compliance</a>
       <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
     </div>
     <div style="display:flex;gap:10px;align-items:center;">
-      <a href="login.html" class="btn-ghost">Sign in</a>
-      <a href="signup.html" class="btn-primary">
-        Start free trial
+      <a href="login.html" class="btn btn-ghost">Login</a>
+      <a href="signup.html" class="btn btn-primary">
+        Start Free Trial
         <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5h7m-3-3l3 3-3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </div>
   </div>
 </nav>
+
 <section class="hero">
-  <div style="position:relative;background:linear-gradient(180deg,rgba(24,32,52,0.7),rgba(18,24,40,0.85));backdrop-filter:blur(28px);border:1.5px solid rgba(255,255,255,0.1);border-radius:24px;padding:0;box-shadow:0 0 0 1px rgba(255,255,255,0.05) inset,0 2px 0 rgba(255,255,255,0.08) inset,0 36px 90px rgba(0,0,0,0.5);max-width:100%;margin:0 auto;overflow:hidden;">
-    <div class="chatgpt-real">
+  <div class="badge-row">
+    <div class="badge"><span class="badge-dot"></span> EU AI Act Compliant</div>
+    <div class="badge"><span class="badge-dot"></span> GDPR Ready</div>
+    <div class="badge"><span class="badge-dot"></span> Install in 2 minutes</div>
+  </div>
+  <h1>Your team is sharing<br>sensitive data with <em>AI.</em><br>You need to know.</h1>
+  <p class="hero-sub">AI Shield monitors <strong>ChatGPT, Claude, Gemini</strong> and 25+ AI tools in real‑time — blocking sensitive data before it leaves your organisation and keeping you on the right side of <strong>GDPR and EU AI Act</strong>.</p>
+  <div class="hero-cta">
+    <a href="signup.html" class="btn btn-primary">
+      Start 14-Day Free Trial
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m-3-3l3 3-3 3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <a href="https://cal.com/ai-shield/demo" class="btn btn-ghost" style="border:1px solid rgba(255,255,255,0.15);padding:13px 24px;">Book a Demo</a>
+  </div>
+  <div class="hero-note">
+    <div>
+      <svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      No credit card required
+    </div>
+  </div>
+
+  <div class="screenshot-wrap reveal">
+    <div class="chatgpt">
       <div class="chatgpt-sidebar">
-        <div class="chatgpt-new-chat">
+        <div class="chatgpt-new">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
           New chat
         </div>
-        <div class="chatgpt-chat-item active">Customer complaint reply</div>
-        <div class="chatgpt-chat-item">Q3 budget analysis</div>
-        <div class="chatgpt-chat-item">Meeting summary draft</div>
+        <div class="chatgpt-item active">Customer complaint reply</div>
+        <div class="chatgpt-item">Q3 budget analysis</div>
+        <div class="chatgpt-item">Meeting summary draft</div>
       </div>
       <div class="chatgpt-main">
         <div class="chatgpt-header">
-          <div class="chatgpt-model-selector">
+          <div class="chatgpt-model">
             ChatGPT 4o
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 4.5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2.5 4l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
           </div>
         </div>
         <div class="chatgpt-messages">
-          <div class="chatgpt-message-group">
-            <div class="chatgpt-message-label">
-              <div class="chatgpt-avatar">C</div>
+          <div class="msg-group">
+            <div class="msg-label">
+              <div class="msg-avatar gpt">C</div>
               ChatGPT
             </div>
-            <div class="chatgpt-message-content">
+            <div class="msg-content">
               Of course! To tailor the reply, please share the customer's details and a brief description of the issue — I'll draft a professional, empathetic response for you.
             </div>
           </div>
-          <div class="chatgpt-message-group">
-            <div class="chatgpt-message-label">
-              <div class="chatgpt-avatar user">You</div>
+          <div class="msg-group">
+            <div class="msg-label">
+              <div class="msg-avatar user">You</div>
               You
             </div>
-            <div class="chatgpt-message-content user-message">
+            <div class="msg-content user-msg">
               Here are the customer details to draft the reply:<br><br>
               Name: James Thompson<br>
               Email: james.thompson@techcorp.co.uk<br>
@@ -681,176 +880,394 @@ footer { padding: 60px 28px 40px; border-top: 1.5px solid rgba(255, 255, 255, 0.
           </div>
         </div>
         <div class="chatgpt-input-area">
-          <div class="chatgpt-input-box">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 5v10M5 10h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <div class="chatgpt-input">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 4v10M4 9h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
             Message ChatGPT…
           </div>
         </div>
-        <div class="detection-overlay-popup">
-          <div class="overlay-popup-header">
-            <div class="overlay-popup-icon">
-              <svg width="22" height="22" viewBox="0 0 22 22" fill="none" style="position:relative;z-index:1">
-                <path d="M11 2L3 5v6c0 6.2 3.5 10 8 11 4.5-1 8-4.8 8-11V5l-8-3z" stroke="#FF6B6B" stroke-width="2" fill="rgba(255,107,107,0.2)"/>
-                <path d="M11 7v4M11 14h.01" stroke="#FF6B6B" stroke-width="2.2" stroke-linecap="round"/>
+        <div class="detection-popup">
+          <div class="popup-header">
+            <div class="popup-icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="position:relative;z-index:1">
+                <path d="M10 2L3 5v5.5c0 5.5 3 9 7 10 4-1 7-4.5 7-10V5l-7-3z" stroke="#FF6B6B" stroke-width="2" fill="rgba(255,107,107,0.2)"/>
+                <path d="M10 7v3.5M10 13h.01" stroke="#FF6B6B" stroke-width="2.2" stroke-linecap="round"/>
               </svg>
             </div>
             <div>
-              <div class="overlay-popup-title">SENSITIVE DATA DETECTED</div>
-              <div class="overlay-popup-sub">UK BANK ACCOUNT</div>
+              <div class="popup-title">SENSITIVE DATA DETECTED</div>
+              <div class="popup-sub">UK BANK ACCOUNT</div>
             </div>
           </div>
-          <div class="overlay-popup-body">
+          <div class="popup-body">
             We found sensitive data in your prompt that could violate GDPR.
-            <div class="overlay-popup-detected">20-65-82 | 12345678</div>
+            <div class="popup-detected">20-65-82 | 12345678</div>
             What would you like to do?
           </div>
-          <div class="overlay-popup-actions">
-            <button class="overlay-popup-btn overlay-popup-btn-remove">Remove data</button>
-            <button class="overlay-popup-btn overlay-popup-btn-send">Send anyway</button>
+          <div class="popup-actions">
+            <button class="popup-btn popup-btn-remove">Remove data</button>
+            <button class="popup-btn popup-btn-send">Send anyway</button>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="stats-bar reveal">
-    <div class="stat"><div class="stat-value">25+</div><div class="stat-label">AI platforms</div></div>
-    <div class="stat"><div class="stat-value">99%</div><div class="stat-label">Accuracy</div></div>
-    <div class="stat"><div class="stat-value">2 min</div><div class="stat-label">Setup time</div></div>
-    <div class="stat"><div class="stat-value">0</div><div class="stat-label">Data stored</div></div>
+
+  <div class="stats reveal">
+    <div class="stat"><div class="stat-value">25+</div><div class="stat-label">AI platforms monitored</div></div>
+    <div class="stat"><div class="stat-value">99%</div><div class="stat-label">Detection accuracy</div></div>
+    <div class="stat"><div class="stat-value">2 min</div><div class="stat-label">Average setup time</div></div>
+    <div class="stat"><div class="stat-value">0</div><div class="stat-label">Data stored on our servers</div></div>
   </div>
 </section>
+
+<section>
+  <div class="sec-header reveal">
+    <div class="sec-eyebrow">// How it works</div>
+    <h2>Protection in 3 steps.<br>No IT team required.</h2>
+    <p class="sec-sub">Deploy to your entire organisation in the time it takes to make a coffee.</p>
+  </div>
+  <div class="steps">
+    <div class="step reveal">
+      <div class="step-num">1</div>
+      <h3>Install the extension</h3>
+      <p>Add AI Shield from the Chrome Web Store in one click. Deploy company-wide via Google Workspace Admin — no agent installation, no network changes, no IT tickets.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">2</div>
+      <h3>Monitoring starts instantly</h3>
+      <p>AI Shield immediately begins watching all 25+ AI platforms your team uses. Every prompt, every upload, every paste — scanned locally in the browser before it leaves the device.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">3</div>
+      <h3>Review from your dashboard</h3>
+      <p>Track every detection, export compliance reports for regulators, coach employees with real-time alerts, and build an auditable record of your AI governance — all in one place.</p>
+    </div>
+  </div>
+</section>
+
 <section id="features">
-  <div class="section-header reveal">
-    <div class="section-eyebrow">// Capabilities</div>
-    <h2 class="section-title">Every layer of protection<br>your <em>compliance team</em> needs.</h2>
-    <p class="section-sub">Built specifically for the AI era — not a legacy DLP patched to support ChatGPT.</p>
+  <div class="sec-header reveal">
+    <div class="sec-eyebrow">// Features</div>
+    <h2>Every layer of protection<br>your <em>compliance team</em> needs.</h2>
+    <p class="sec-sub">Built specifically for the AI era — not a legacy DLP patched to support ChatGPT.</p>
   </div>
-  <div class="features-grid">
-    <div class="feature-card reveal">
-      <div class="feature-icon-wrap">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"/></svg>
-      </div>
-      <h3 class="feature-title">Real-Time Detection</h3>
-      <p class="feature-desc">Instant alerts when employees attempt to share personal data, credit cards, API keys, or confidential contracts. Blocking happens before data reaches the AI platform.</p>
+  <div class="features">
+    <div class="feature reveal">
+      <div class="feature-icon">⚡</div>
+      <h3>Real-Time Detection</h3>
+      <p>Instant alerts the moment an employee attempts to share CPF, CNPJ, IBAN, credit cards, API keys, or confidential contracts. Blocking happens before the data ever reaches the AI platform.</p>
+      <div class="feature-meta">25+ data types</div>
     </div>
-    <div class="feature-card reveal">
-      <div class="feature-icon-wrap">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg>
-      </div>
-      <h3 class="feature-title">Context-Aware Engine</h3>
-      <p class="feature-desc">AI Shield understands context. Distinguishes between "Client bank account" and "example account in a tutorial". 99% accuracy, minimal false positives.</p>
+    <div class="feature reveal">
+      <div class="feature-icon">🧠</div>
+      <h3>Context-Aware AI Engine</h3>
+      <p>Unlike legacy DLP tools that match patterns and flood you with false positives, AI Shield understands context. It knows the difference between "Client IBAN" and "example IBAN in a tutorial".</p>
+      <div class="feature-meta">99% accuracy</div>
     </div>
-    <div class="feature-card reveal">
-      <div class="feature-icon-wrap">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg>
-      </div>
-      <h3 class="feature-title">Human Firewall Coaching</h3>
-      <p class="feature-desc">Instead of silent blocking, AI Shield coaches employees — explaining what was detected and why. Builds security-aware culture, not friction.</p>
+    <div class="feature reveal">
+      <div class="feature-icon">👥</div>
+      <h3>Human Firewall Coaching</h3>
+      <p>Instead of silently blocking, AI Shield coaches employees in the moment — explaining what was detected and why. Builds a security-aware culture rather than just adding friction.</p>
+      <div class="feature-meta">Reduces repeat incidents</div>
     </div>
-    <div class="feature-card reveal">
-      <div class="feature-icon-wrap">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
-      </div>
-      <h3 class="feature-title">Audit-Ready Reports</h3>
-      <p class="feature-desc">Export detailed logs for regulators. Every detection timestamped, categorised by data type, linked to employee and platform. Your DPO will thank you.</p>
+    <div class="feature reveal">
+      <div class="feature-icon">📋</div>
+      <h3>Audit-Ready Compliance Reports</h3>
+      <p>Export detailed logs for regulators at any time. Every detection is timestamped, categorised by data type, and linked to the employee and platform. Your DPO will thank you.</p>
+      <div class="feature-meta">GDPR & EU AI Act ready</div>
     </div>
-    <div class="feature-card reveal">
-      <div class="feature-icon-wrap">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-      </div>
-      <h3 class="feature-title">Zero Data Storage</h3>
-      <p class="feature-desc">All scanning happens locally in the browser. AI Shield never sees, stores or transmits employee data to our servers. Privacy-by-design architecture.</p>
+    <div class="feature reveal">
+      <div class="feature-icon">🔒</div>
+      <h3>Zero Data Storage</h3>
+      <p>All scanning happens locally in the browser. AI Shield never sees, stores or transmits your employees' data to our servers. Privacy-by-design from the ground up.</p>
+      <div class="feature-meta">Local processing only</div>
     </div>
-    <div class="feature-card reveal">
-      <div class="feature-icon-wrap">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><path d="M8 10h.01M12 10h.01M16 10h.01"/></svg>
-      </div>
-      <h3 class="feature-title">Slack & Teams Integration</h3>
-      <p class="feature-desc">Get detection alerts in Slack or Microsoft Teams. Instant notifications for high-risk events without checking the dashboard constantly.</p>
+    <div class="feature reveal">
+      <div class="feature-icon">🔗</div>
+      <h3>Slack & Teams Integrations</h3>
+      <p>Get detection alerts directly in Slack or Microsoft Teams. Admins receive instant notifications when high-risk events occur, without needing to check the dashboard constantly.</p>
+      <div class="feature-meta">Pro & Business plans</div>
     </div>
   </div>
 </section>
+
+<section>
+  <div class="sec-header reveal">
+    <div class="sec-eyebrow">// Customer stories</div>
+    <h2>Trusted by compliance-conscious<br>teams across Europe.</h2>
+  </div>
+  <div class="testimonials">
+    <div class="testimonial reveal">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">"We rolled it out to 18 people in an afternoon. The first week it <strong>caught three employees pasting client contract data into ChatGPT</strong> — something we had no visibility into before. It paid for itself immediately."</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">MK</div>
+        <div>
+          <div class="testimonial-name">Markus K.</div>
+          <div class="testimonial-role">DPO · SaaS company, Munich</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial reveal">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">"Our legal team was worried about EU AI Act exposure. AI Shield gave us the <strong>audit trail we needed to show the board</strong> that we have controls in place. Setup really did take under 5 minutes."</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">SR</div>
+        <div>
+          <div class="testimonial-name">Sofia R.</div>
+          <div class="testimonial-role">Legal Counsel · Fintech, Amsterdam</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial reveal">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">"I evaluated Nightfall and a few others. They were either too expensive, too complex, or not built for the EU market. <strong>AI Shield was the only one that felt purpose-built for GDPR</strong>, at a price that made sense for us."</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">PL</div>
+        <div>
+          <div class="testimonial-name">Pierre L.</div>
+          <div class="testimonial-role">CTO · Consulting firm, Paris</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-header reveal">
+    <div class="sec-eyebrow">// Regulatory Coverage</div>
+    <h2>Every regulation you need<br>to demonstrate compliance.</h2>
+  </div>
+  <div class="regs">
+    <div class="reg reveal">
+      <div class="reg-badge">EU AI Act</div>
+      <h3>AI Usage Monitoring</h3>
+      <p>Article 28 obligations for AI system deployers — documented controls required.</p>
+    </div>
+    <div class="reg reveal">
+      <div class="reg-badge">GDPR</div>
+      <h3>Data Leak Prevention</h3>
+      <p>Article 32 — technical measures to prevent unauthorised personal data disclosure.</p>
+    </div>
+    <div class="reg reveal">
+      <div class="reg-badge">GDPR</div>
+      <h3>Audit Trail & Accountability</h3>
+      <p>Article 5(2) — demonstrate compliance to supervisory authorities on demand.</p>
+    </div>
+    <div class="reg reveal">
+      <div class="reg-badge">UK GDPR</div>
+      <h3>UK Market Coverage</h3>
+      <p>Compatible with UK GDPR and ICO guidance on AI and data protection.</p>
+    </div>
+  </div>
+</section>
+
+<section id="compliance">
+  <div class="compliance-card reveal">
+    <h3>The EU AI Act deadline is August 2026. Are you ready?</h3>
+    <p>From August 2026, companies deploying AI tools must demonstrate documented controls over how employees use them. AI Shield gives you the monitoring, blocking, and audit trail you need — without a six-month implementation project.</p>
+    <div class="compliance-highlight">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+      <p><strong>High-risk AI requirements enforceable from 2 August 2026.</strong> Fines can reach up to 3% of global annual turnover. AI Shield generates the compliance documentation you need to show regulators.</p>
+    </div>
+  </div>
+</section>
+
 <section id="pricing">
-  <div class="section-header reveal">
-    <div class="section-eyebrow">// Pricing</div>
-    <h2 class="section-title">Pay for the outcome.<br><em>Not the extension.</em></h2>
-    <p class="section-sub">Each plan is a compliance programme — not a seat count. All plans include a 14-day free trial and no credit card.</p>
+  <div class="sec-header reveal">
+    <div class="sec-eyebrow">// Pricing</div>
+    <h2>Pay for the outcome.<br><em>Not the extension.</em></h2>
+    <p class="sec-sub">Each plan is a compliance programme — not a seat count. All plans include a 14-day free trial and no credit card.</p>
+  </div>
+  <div class="pricing-toggle">
+    <div class="toggle-opt active monthly-label">Monthly</div>
+    <div class="toggle-switch" onclick="document.querySelector('.pricing-toggle').classList.toggle('annual-mode');this.classList.toggle('annual')">
+      <div class="toggle-switch-dot"></div>
+    </div>
+    <div class="toggle-opt annual-label">Annual <span style="color:var(--success);font-size:11px;margin-left:4px;">Save 20%</span></div>
   </div>
   <div class="pricing-grid">
     <div class="price-card reveal">
       <div class="price-name">Essentials</div>
-      <div class="price-amount"><span class="price-currency">€</span><span class="price-num">49</span></div>
-      <div class="price-period">per month<br>up to 10 users</div>
+      <div class="price-tag">Up to 10 users</div>
+      <div class="price-amount"><span class="price-currency">€</span><span class="price-num monthly-price">49</span><span class="price-num annual-price" style="display:none;">470</span></div>
+      <div class="price-period monthly-billing">/month</div>
+      <div class="price-period annual-billing" style="display:none;">/year<br><span style="font-size:11px;">you save €118</span></div>
       <ul class="price-features">
-        <li><svg class="check-icon" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>25+ AI platforms</li>
-        <li><svg class="check-icon" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Sensitive data alerts</li>
-        <li><svg class="check-icon" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Incident dashboard</li>
-        <li><svg class="check-icon" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Monthly PDF reports</li>
-        <li><svg class="check-icon" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Email support</li>
+        <li><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Real-time monitoring of 25+ AI platforms</li>
+        <li><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Sensitive data alerts with employee coaching</li>
+        <li><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Incident dashboard with detection history</li>
+        <li><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Monthly compliance summary report (PDF export)</li>
+        <li><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Email support</li>
       </ul>
       <a href="signup.html" class="price-cta price-cta-secondary">Start Free Trial</a>
     </div>
     <div class="price-card featured reveal">
       <div class="price-name">Compliance</div>
-      <div class="price-amount"><span class="price-currency">€</span><span class="price-num">99</span></div>
-      <div class="price-period">per month<br>up to 30 users</div>
+      <div class="price-tag">Up to 30 users</div>
+      <div class="price-amount"><span class="price-currency">€</span><span class="price-num monthly-price">99</span><span class="price-num annual-price" style="display:none;">950</span></div>
+      <div class="price-period monthly-billing">/month</div>
+      <div class="price-period annual-billing" style="display:none;">/year<br><span style="font-size:11px;">you save €238</span></div>
       <ul class="price-features">
-        <li><svg class="check-icon" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Everything in Essentials</li>
-        <li><svg class="check-icon" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>GDPR Art. 32 reports</li>
-        <li><svg class="check-icon" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Custom policies</li>
-        <li><svg class="check-icon" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>12-month retention</li>
-        <li><svg class="check-icon" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Slack & Teams alerts</li>
-        <li><svg class="check-icon" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Priority support + SLA</li>
+        <li><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Everything in Essentials, plus:</li>
+        <li><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>GDPR Art. 32 audit reports ready to deliver to your DPA</li>
+        <li><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Customisable policies by data type, team & platform</li>
+        <li><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>12-month incident retention for audit trails</li>
+        <li><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Slack & Teams alerts for admins</li>
+        <li><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Priority support + 99.9% SLA</li>
       </ul>
       <a href="signup.html" class="price-cta price-cta-primary">Start Free Trial</a>
     </div>
     <div class="price-card reveal">
       <div class="price-name">Business</div>
-      <div class="price-amount"><span class="price-currency">€</span><span class="price-num">249</span></div>
-      <div class="price-period">per month<br>up to 75 users</div>
+      <div class="price-tag">Up to 75 users</div>
+      <div class="price-amount"><span class="price-currency">€</span><span class="price-num monthly-price">249</span><span class="price-num annual-price" style="display:none;">2390</span></div>
+      <div class="price-period monthly-billing">/month</div>
+      <div class="price-period annual-billing" style="display:none;">/year<br><span style="font-size:11px;">you save €598</span></div>
       <ul class="price-features">
-        <li><svg class="check-icon" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Everything in Compliance</li>
-        <li><svg class="check-icon" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>SSO / SAML</li>
-        <li><svg class="check-icon" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Full API access</li>
-        <li><svg class="check-icon" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>White-label reports</li>
-        <li><svg class="check-icon" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Guided onboarding</li>
-        <li><svg class="check-icon" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>24/7 support + 99.99% SLA</li>
+        <li><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Everything in Compliance, plus:</li>
+        <li><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>SSO / SAML integration</li>
+        <li><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Full API access — connect to your SIEM or GRC</li>
+        <li><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>White-label reports with your organisation's branding</li>
+        <li><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Guided onboarding session (1h with a specialist)</li>
+        <li><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Dedicated account manager · 24/7 support · 99.99% SLA</li>
       </ul>
       <a href="signup.html" class="price-cta price-cta-secondary">Start Free Trial</a>
     </div>
     <div class="price-card reveal">
       <div class="price-name">Enterprise</div>
-      <div class="price-amount"><span class="price-num" style="font-size:38px;line-height:1.15;">Custom</span></div>
-      <div class="price-period">75+ users<br>custom pricing</div>
+      <div class="price-tag">75+ users</div>
+      <div class="price-amount"><span class="price-num" style="font-size:38px;">Custom</span></div>
+      <div class="price-period">custom pricing</div>
       <ul class="price-features">
-        <li><svg class="check-icon" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>On-premise deployment</li>
-        <li><svg class="check-icon" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Custom ML models</li>
-        <li><svg class="check-icon" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>White label</li>
-        <li><svg class="check-icon" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>SLA up to 99.999%</li>
-        <li><svg class="check-icon" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Custom SLA</li>
-        <li><svg class="check-icon" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Dedicated success team</li>
+        <li><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>On-premise deployment</li>
+        <li><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Custom ML models</li>
+        <li><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>White label</li>
+        <li><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>SLA up to 99.999%</li>
+        <li><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Custom SLA</li>
+        <li><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Dedicated success team</li>
       </ul>
       <a href="https://cal.com/ai-shield/demo" class="price-cta price-cta-secondary">Contact Sales</a>
     </div>
   </div>
 </section>
-<section>
-  <div class="cta-band reveal">
-    <h2 class="cta-band-title">Stop your next GDPR fine<br><em>before it happens.</em></h2>
-    <p class="cta-band-sub">Join hundreds of European companies that monitor, block and document AI data usage — in compliance with GDPR and the EU AI Act.</p>
-    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-      <a href="signup.html" class="btn-primary" style="padding:15px 28px;font-size:15.5px;font-weight:700;">
-        Start Free Trial
-        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M3 7.5h9m-3-3l3 3-3 3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
+
+<section id="faq">
+  <div class="sec-header reveal">
+    <div class="sec-eyebrow">// FAQ</div>
+    <h2>Questions we actually get asked.</h2>
+  </div>
+  <div class="faq">
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        Do I need to involve my IT department to install it?
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a-inner">No. AI Shield is a Chrome extension — any employee can install it themselves in under 2 minutes. For company-wide deployment, you can push it silently via Google Workspace Admin without touching a single employee's machine manually.</div>
+      </div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        Does my employees' data pass through your servers?
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a-inner">Never. All scanning and detection happens locally inside the browser extension. The content of your employees' prompts, files, or clipboard data never leaves their device and is never sent to AI Shield's servers.</div>
+      </div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        Does it work on Firefox or Edge?
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a-inner">AI Shield currently runs on Chrome and all Chromium-based browsers, including Microsoft Edge, Brave, and Arc. Firefox support is on our roadmap for Q3 2026. Most enterprise environments run Chromium-based browsers, so coverage is typically complete.</div>
+      </div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        Can I trial it without connecting my Google Workspace?
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a-inner">Absolutely. Individual employees can install the extension directly from the Chrome Web Store and start the trial immediately — no admin access, no Google Workspace connection required. The Workspace integration is only needed for silent company-wide deployment.</div>
+      </div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        How does it help with GDPR Article 32 compliance?
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a-inner">GDPR Article 32 requires "appropriate technical measures" to protect personal data. AI Shield provides documented evidence of those measures: every detected attempt to share personal data with an AI tool is logged, timestamped, and exportable as an audit report for your DPA.</div>
+      </div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        What's the minimum commitment? Is there a lock-in?
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a-inner">No lock-in. All plans are billed monthly and you can cancel at any time. We offer annual billing at a discount if you want it, but it's never required. The 14-day free trial requires no credit card and cancels automatically if you don't upgrade.</div>
+      </div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        Can AI Shield replace our existing DLP solution?
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a-inner">AI Shield is purpose-built for AI tool monitoring — the blind spot that traditional DLP solutions weren't designed for. It works well alongside your existing DLP for complete coverage. For SMBs without a DLP solution, AI Shield handles the most critical risk vector at a fraction of enterprise DLP costs.</div>
+      </div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+        What happens when AI Shield detects sensitive data?
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a-inner">The employee sees a clear, non-alarming alert explaining what was detected and why it's risky. They can choose to remove the sensitive content and continue, or cancel the action. Admins receive a notification and the event is logged in the dashboard with full context for coaching or reporting.</div>
+      </div>
     </div>
   </div>
 </section>
+
+<section>
+  <div class="cta-band reveal">
+    <h2>Stop your next GDPR fine<br><em>before it happens.</em></h2>
+    <p>Join hundreds of European companies that monitor, block and document AI data usage — in compliance with GDPR and the EU AI Act.</p>
+    <div class="hero-cta">
+      <a href="signup.html" class="btn btn-primary">
+        Start Free Trial
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m-3-3l3 3-3 3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="https://cal.com/ai-shield/demo" class="btn btn-ghost" style="border:1px solid rgba(255,255,255,0.15);padding:13px 24px;">Book a Demo</a>
+    </div>
+    <div class="hero-note">
+      <div>
+        <svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        14-day free trial
+      </div>
+      <div>
+        <svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        No credit card
+      </div>
+      <div>
+        <svg viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Cancel anytime
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="footer-inner">
     <div>
-      <div class="footer-logo"><img src="https://www.getaishield.co/logo_full.png" alt="AI Shield" /></div>
-      <p class="footer-brand-text">GDPR compliance monitoring for the AI era. Detect personal data leaks before they happen.</p>
+      <div class="footer-logo">
+        <img src="https://www.getaishield.co/logo_full.png" alt="AI Shield" />
+      </div>
+      <p class="footer-text">GDPR compliance monitoring for the AI era. Detect personal data leaks before they happen.</p>
     </div>
     <div class="footer-col">
       <h4>Product</h4>
@@ -866,8 +1283,8 @@ footer { padding: 60px 28px 40px; border-top: 1.5px solid rgba(255, 255, 255, 0.
     </div>
     <div class="footer-col">
       <h4>Legal</h4>
-      <a href="#">Privacy policy</a>
-      <a href="#">Terms of service</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
       <a href="#">GDPR</a>
       <a href="#">Security</a>
     </div>
@@ -876,6 +1293,7 @@ footer { padding: 60px 28px 40px; border-top: 1.5px solid rgba(255, 255, 255, 0.
     <div>© 2026 AI Shield by Koller Group</div>
   </div>
 </footer>
+
 <script>
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
@@ -884,8 +1302,28 @@ const observer = new IntersectionObserver((entries) => {
       observer.unobserve(entry.target);
     }
   });
-}, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Pricing toggle
+document.querySelector('.pricing-toggle').addEventListener('click', (e) => {
+  if (e.target.closest('.toggle-opt, .toggle-switch')) {
+    const container = document.querySelector('.pricing-toggle');
+    container.classList.toggle('annual-mode');
+    document.querySelector('.toggle-switch').classList.toggle('annual');
+    
+    const isAnnual = container.classList.contains('annual-mode');
+    
+    document.querySelectorAll('.monthly-label').forEach(el => el.classList.toggle('active', !isAnnual));
+    document.querySelectorAll('.annual-label').forEach(el => el.classList.toggle('active', isAnnual));
+    
+    document.querySelectorAll('.monthly-price').forEach(el => el.style.display = isAnnual ? 'none' : 'inline');
+    document.querySelectorAll('.annual-price').forEach(el => el.style.display = isAnnual ? 'inline' : 'none');
+    document.querySelectorAll('.monthly-billing').forEach(el => el.style.display = isAnnual ? 'none' : 'block');
+    document.querySelectorAll('.annual-billing').forEach(el => el.style.display = isAnnual ? 'block' : 'none');
+  }
+});
 </script>
+
 </body>
 </html>
