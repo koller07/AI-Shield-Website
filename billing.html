@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Shield — Billing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0D1117;
+  --ink-mid: #374151;
+  --muted: #6B7280;
+  --accent: #0052CC;
+  --accent-2: #0040A8;
+  --accent-g: rgba(0,82,204,.1);
+  --success: #059669;
+  --success-g: rgba(5,150,105,.1);
+  --warning: #D97706;
+  --warning-g: rgba(217,119,6,.1);
+  --danger: #D92D20;
+  --danger-g: rgba(217,45,32,.1);
+  --surface: #FFFFFF;
+  --surface-2: #F7F8FA;
+  --border: #E3E8EF;
+  --border-2: #CBD5E1;
+  --r: 10px;
+  --r-lg: 14px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--surface-2);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+}
+
+/* Header */
+.page-header { margin-bottom: 32px; }
+.page-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  transition: color 0.2s;
+}
+.page-back:hover { color: var(--ink); }
+.page-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  margin-bottom: 8px;
+}
+.page-sub {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* Cards */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 24px;
+  margin-bottom: 16px;
+}
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.card-title { font-size: 16px; font-weight: 700; }
+.card-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+/* Status badges */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.status-badge.trialing { background: var(--warning-g); color: var(--warning); }
+.status-badge.active { background: var(--success-g); color: var(--success); }
+.status-badge.past_due { background: var(--danger-g); color: var(--danger); }
+.status-badge.canceled { background: #EEF1F5; color: var(--muted); }
+.status-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+/* Trial banner */
+.trial-banner {
+  background: linear-gradient(135deg, #FFF8E1 0%, #FFE7BA 100%);
+  border: 1px solid #FFD54F;
+  border-radius: var(--r-lg);
+  padding: 18px 22px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.trial-banner.urgent {
+  background: linear-gradient(135deg, #FEE4E2 0%, #FECACA 100%);
+  border-color: #FFA48E;
+}
+.trial-banner-content { display: flex; align-items: center; gap: 14px; flex: 1; min-width: 0; }
+.trial-banner-icon {
+  width: 40px; height: 40px;
+  background: rgba(255,255,255,0.7);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.trial-banner-title { font-size: 15px; font-weight: 700; color: #7A5800; margin-bottom: 2px; }
+.trial-banner.urgent .trial-banner-title { color: #9B2226; }
+.trial-banner-desc { font-size: 13px; color: #7A5800; opacity: 0.85; }
+.trial-banner.urgent .trial-banner-desc { color: #9B2226; }
+
+/* Past due banner */
+.alert-banner {
+  background: linear-gradient(135deg, #FEE4E2 0%, #FECACA 100%);
+  border: 1px solid #FFA48E;
+  border-radius: var(--r-lg);
+  padding: 18px 22px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.alert-banner-title { font-size: 15px; font-weight: 700; color: #9B2226; margin-bottom: 2px; }
+.alert-banner-desc { font-size: 13px; color: #9B2226; opacity: 0.9; }
+
+/* Plan display */
+.plan-display {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+.plan-info { display: flex; flex-direction: column; gap: 6px; }
+.plan-label {
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+.plan-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.plan-price { font-size: 14px; color: var(--muted); }
+.plan-price strong { color: var(--ink); font-size: 16px; font-weight: 700; }
+
+.plan-meta {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.plan-meta-item {
+  background: var(--surface-2);
+  border-radius: var(--r);
+  padding: 14px 16px;
+}
+.plan-meta-label {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.plan-meta-value { font-size: 15px; font-weight: 600; }
+@media (max-width: 640px) { .plan-meta { grid-template-columns: 1fr; } }
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 18px;
+  border-radius: var(--r);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: 1px solid transparent;
+}
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn-primary { background: var(--accent); color: white; border-color: var(--accent); }
+.btn-primary:hover:not(:disabled) { background: var(--accent-2); border-color: var(--accent-2); }
+.btn-secondary { background: white; color: var(--ink); border-color: var(--border); }
+.btn-secondary:hover { background: var(--surface-2); border-color: var(--border-2); }
+
+/* Plans grid */
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+@media (max-width: 1000px) { .plans-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .plans-grid { grid-template-columns: 1fr; } }
+
+.plan-option {
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.15s;
+  position: relative;
+  background: white;
+  display: flex;
+  flex-direction: column;
+}
+.plan-option:hover { border-color: var(--accent); }
+.plan-option.current { border-color: var(--accent); background: var(--accent-g); }
+.plan-option.featured::after {
+  content: 'POPULAR';
+  position: absolute;
+  top: -8px;
+  right: 12px;
+  font-size: 9px;
+  font-weight: 700;
+  background: var(--ink);
+  color: white;
+  padding: 3px 8px;
+  border-radius: 100px;
+  letter-spacing: 0.05em;
+}
+.plan-option-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+.plan-option-tag { font-size: 11px; color: var(--muted); margin-bottom: 12px; }
+.plan-option-price {
+  font-family: 'Syne', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+.plan-option-price small {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.plan-option-billing {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 14px;
+  min-height: 14px;
+}
+.plan-option-cta {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 8px;
+  border-radius: var(--r);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--ink);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+  margin-top: auto;
+}
+.plan-option.current .plan-option-cta {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+  pointer-events: none;
+}
+.plan-option .plan-option-cta:hover { background: var(--surface-2); }
+
+/* Pricing toggle */
+.pricing-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 20px;
+  padding: 4px;
+  background: var(--surface-2);
+  border-radius: 100px;
+  border: 1px solid var(--border);
+}
+.toggle-btn {
+  padding: 6px 16px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.toggle-btn.active {
+  background: white;
+  color: var(--ink);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.toggle-save {
+  background: var(--success-g);
+  color: var(--success);
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 100px;
+  margin-left: 4px;
+  font-weight: 700;
+}
+
+/* Loading state */
+.loading-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--muted);
+}
+.spinner {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 3px solid var(--border);
+  border-right-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin-bottom: 12px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Error state */
+.error-state {
+  background: #FFF5F5;
+  border: 1px solid #FECACA;
+  color: #9B2226;
+  padding: 16px 18px;
+  border-radius: var(--r);
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+/* Manage portal section */
+.portal-section {
+  background: var(--surface-2);
+  border-radius: var(--r);
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.portal-section-text {
+  font-size: 13px;
+  color: var(--ink-mid);
+  line-height: 1.5;
+  flex: 1;
+  min-width: 200px;
+}
+.portal-section-text strong { color: var(--ink); }
+
+/* Hidden by default until status loads */
+[data-show-when] { display: none; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <div class="page-header">
+    <a href="/dashboard" class="page-back">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 4l-4 4 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Back to dashboard
+    </a>
+    <h1 class="page-title">Billing & Subscription</h1>
+    <p class="page-sub">Manage your plan, payment methods and invoices.</p>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-state" id="loadingState">
+    <div class="spinner"></div>
+    <div>Loading subscription details...</div>
+  </div>
+
+  <!-- Error -->
+  <div class="error-state" id="errorState" style="display:none;">
+    <strong>Couldn't load your subscription.</strong>
+    <span id="errorMessage"></span>
+  </div>
+
+  <!-- Main content -->
+  <div id="mainContent" style="display:none;">
+
+    <!-- Trial banner -->
+    <div class="trial-banner" id="trialBanner" data-show-when="trialing">
+      <div class="trial-banner-content">
+        <div class="trial-banner-icon">⏰</div>
+        <div>
+          <div class="trial-banner-title" id="trialBannerTitle">Days left in your free trial</div>
+          <div class="trial-banner-desc" id="trialBannerDesc">Add a payment method to ensure uninterrupted protection.</div>
+        </div>
+      </div>
+      <button class="btn btn-primary" id="trialUpgradeBtn">
+        Choose a Plan
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m-3-3l3 3-3 3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+
+    <!-- Past due banner -->
+    <div class="alert-banner" id="pastDueBanner" data-show-when="past_due">
+      <div class="trial-banner-content">
+        <div class="trial-banner-icon">⚠️</div>
+        <div>
+          <div class="alert-banner-title">Payment failed</div>
+          <div class="alert-banner-desc">Update your payment method to restore protection.</div>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="openPortal()">Update Payment</button>
+    </div>
+
+    <!-- Current Plan -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Current Plan</div>
+          <div class="card-sub">Your subscription details</div>
+        </div>
+        <span class="status-badge" id="subStatusBadge">
+          <span class="dot"></span>
+          <span id="subStatusText">—</span>
+        </span>
+      </div>
+
+      <div class="plan-display">
+        <div class="plan-info">
+          <span class="plan-label">Plan</span>
+          <span class="plan-name" id="planName">—</span>
+          <span class="plan-price">
+            <strong id="planPrice">—</strong> · up to <span id="planUsers">—</span> users
+          </span>
+        </div>
+      </div>
+
+      <div class="plan-meta">
+        <div class="plan-meta-item">
+          <div class="plan-meta-label">Billing cycle</div>
+          <div class="plan-meta-value" id="billingCycle">—</div>
+        </div>
+        <div class="plan-meta-item">
+          <div class="plan-meta-label" id="nextBillingLabel">Next billing</div>
+          <div class="plan-meta-value" id="nextBillingDate">—</div>
+        </div>
+        <div class="plan-meta-item">
+          <div class="plan-meta-label">Status</div>
+          <div class="plan-meta-value" id="statusValue">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Manage in Stripe Portal (only if active subscription) -->
+    <div class="card" id="portalCard" data-show-when="active,past_due,canceled">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Payment & Invoices</div>
+          <div class="card-sub">Update card, download invoices, or cancel</div>
+        </div>
+      </div>
+      <div class="portal-section">
+        <div class="portal-section-text">
+          <strong>Manage everything in the Stripe Customer Portal.</strong><br>
+          Update your payment method, download invoices, change plans or cancel your subscription.
+        </div>
+        <button class="btn btn-primary" onclick="openPortal()">
+          Open Customer Portal
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 9l4-4M9 5H5m4 0v4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Choose / Change Plan -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title" id="changePlanTitle">Choose a Plan</div>
+          <div class="card-sub" id="changePlanSub">Select a plan to activate after your trial ends.</div>
+        </div>
+      </div>
+
+      <div class="pricing-toggle">
+        <button class="toggle-btn active" id="monthlyToggle" onclick="setBilling('monthly')">Monthly</button>
+        <button class="toggle-btn" id="annualToggle" onclick="setBilling('annual')">
+          Annual <span class="toggle-save">-20%</span>
+        </button>
+      </div>
+
+      <div class="plans-grid">
+        <!-- Essentials -->
+        <div class="plan-option" data-plan="essentials">
+          <div class="plan-option-name">Essentials</div>
+          <div class="plan-option-tag">Up to 10 users</div>
+          <div class="plan-option-price">
+            €<span class="price-monthly">49</span><span class="price-annual" style="display:none">470</span>
+            <small>/<span class="period">month</span></small>
+          </div>
+          <div class="plan-option-billing">
+            <span class="billing-monthly">14-day free trial</span>
+            <span class="billing-annual" style="display:none">Save €118/year</span>
+          </div>
+          <button class="plan-option-cta" onclick="selectPlan('essentials')">Select</button>
+        </div>
+
+        <!-- Compliance -->
+        <div class="plan-option featured" data-plan="compliance">
+          <div class="plan-option-name">Compliance</div>
+          <div class="plan-option-tag">Up to 30 users</div>
+          <div class="plan-option-price">
+            €<span class="price-monthly">99</span><span class="price-annual" style="display:none">950</span>
+            <small>/<span class="period">month</span></small>
+          </div>
+          <div class="plan-option-billing">
+            <span class="billing-monthly">14-day free trial</span>
+            <span class="billing-annual" style="display:none">Save €238/year</span>
+          </div>
+          <button class="plan-option-cta" onclick="selectPlan('compliance')">Select</button>
+        </div>
+
+        <!-- Business -->
+        <div class="plan-option" data-plan="business">
+          <div class="plan-option-name">Business</div>
+          <div class="plan-option-tag">Up to 75 users</div>
+          <div class="plan-option-price">
+            €<span class="price-monthly">249</span><span class="price-annual" style="display:none">2390</span>
+            <small>/<span class="period">month</span></small>
+          </div>
+          <div class="plan-option-billing">
+            <span class="billing-monthly">14-day free trial</span>
+            <span class="billing-annual" style="display:none">Save €598/year</span>
+          </div>
+          <button class="plan-option-cta" onclick="selectPlan('business')">Select</button>
+        </div>
+
+        <!-- Enterprise -->
+        <div class="plan-option" data-plan="enterprise">
+          <div class="plan-option-name">Enterprise</div>
+          <div class="plan-option-tag">75+ users</div>
+          <div class="plan-option-price">Custom</div>
+          <div class="plan-option-billing">Custom pricing</div>
+          <a href="https://cal.com/ai-shield/demo" class="plan-option-cta" target="_blank">Contact sales</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ─── STATE ──────────────────────────────────────
+const state = {
+  status: null,           // 'trialing' | 'active' | 'past_due' | 'canceled'
+  plan: null,
+  billingCycle: 'monthly',
+  trialDaysLeft: null,
+  periodEnd: null,
+  maxUsers: null,
+  isActive: false,
+  selectedBilling: 'monthly'  // For the pricing toggle
+};
+
+const PLAN_PRICES = {
+  essentials: { monthly: 49,  annual: 470,  users: 10 },
+  compliance: { monthly: 99,  annual: 950,  users: 30 },
+  business:   { monthly: 249, annual: 2390, users: 75 }
+};
+
+// ─── INIT ───────────────────────────────────────
+async function init() {
+  await loadSubscription();
+  if (state.status) {
+    renderUI();
+  }
+}
+
+// ─── DATA LOADING ───────────────────────────────
+async function loadSubscription() {
+  try {
+    const response = await fetch('/billing/status', {
+      credentials: 'include'
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+    state.status        = data.status;
+    state.plan          = data.plan;
+    state.billingCycle  = data.billingCycle || 'monthly';
+    state.trialDaysLeft = data.trialDaysLeft;
+    state.periodEnd     = data.periodEnd;
+    state.maxUsers      = data.maxUsers;
+    state.isActive      = data.isActive;
+    state.selectedBilling = state.billingCycle;
+
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('mainContent').style.display = 'block';
+  } catch (err) {
+    console.error('Failed to load subscription:', err);
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('errorState').style.display = 'block';
+    document.getElementById('errorMessage').textContent =
+      ' Please refresh the page or contact support.';
+  }
+}
+
+// ─── RENDERING ──────────────────────────────────
+function renderUI() {
+  // Show/hide elements based on status
+  document.querySelectorAll('[data-show-when]').forEach(el => {
+    const showWhen = el.dataset.showWhen.split(',');
+    el.style.display = showWhen.includes(state.status) ? '' : 'none';
+  });
+
+  renderTrialBanner();
+  renderCurrentPlan();
+  renderPlansGrid();
+  renderChangePlanSection();
+
+  // Set billing toggle to match current cycle
+  setBilling(state.selectedBilling, true);
+}
+
+function renderTrialBanner() {
+  if (state.status !== 'trialing') return;
+
+  const banner = document.getElementById('trialBanner');
+  const title = document.getElementById('trialBannerTitle');
+  const desc = document.getElementById('trialBannerDesc');
+  const days = state.trialDaysLeft;
+
+  banner.classList.toggle('urgent', days !== null && days <= 3);
+
+  if (days === null || days <= 0) {
+    title.textContent = 'Your trial has ended';
+    desc.textContent = 'Choose a plan to restore protection.';
+  } else if (days === 1) {
+    title.textContent = 'Trial ends tomorrow';
+    desc.textContent = 'Choose a plan to keep your protection active.';
+  } else {
+    title.textContent = `${days} days left in your free trial`;
+    desc.textContent = 'Choose a plan to ensure uninterrupted protection.';
+  }
+}
+
+function renderCurrentPlan() {
+  // Plan name
+  const planLabels = {
+    trial: 'Trial',
+    essentials: 'Essentials',
+    compliance: 'Compliance',
+    business: 'Business',
+    enterprise: 'Enterprise'
+  };
+  document.getElementById('planName').textContent = planLabels[state.plan] || '—';
+
+  // Plan price
+  const priceEl = document.getElementById('planPrice');
+  if (state.plan === 'trial' || state.plan === 'enterprise') {
+    priceEl.textContent = state.plan === 'trial' ? 'Free trial' : 'Custom';
+  } else {
+    const prices = PLAN_PRICES[state.plan];
+    if (prices) {
+      const price = prices[state.billingCycle] || prices.monthly;
+      const period = state.billingCycle === 'annual' ? 'year' : 'month';
+      priceEl.textContent = `€${price}/${period}`;
+    }
+  }
+
+  // Plan users
+  document.getElementById('planUsers').textContent = state.maxUsers || '—';
+
+  // Status badge
+  const badge = document.getElementById('subStatusBadge');
+  badge.className = 'status-badge ' + state.status;
+  const statusLabels = {
+    trialing: 'Trial',
+    active: 'Active',
+    past_due: 'Past due',
+    canceled: 'Cancelled'
+  };
+  document.getElementById('subStatusText').textContent = statusLabels[state.status] || state.status;
+  document.getElementById('statusValue').textContent = statusLabels[state.status] || state.status;
+
+  // Billing cycle
+  document.getElementById('billingCycle').textContent =
+    state.billingCycle === 'annual' ? 'Annual' : 'Monthly';
+
+  // Next billing
+  const label = document.getElementById('nextBillingLabel');
+  const date = document.getElementById('nextBillingDate');
+  if (state.status === 'trialing') {
+    label.textContent = 'Trial ends';
+    date.textContent = state.trialDaysLeft !== null
+      ? `In ${state.trialDaysLeft} ${state.trialDaysLeft === 1 ? 'day' : 'days'}`
+      : '—';
+  } else if (state.periodEnd) {
+    label.textContent = state.status === 'canceled' ? 'Access until' : 'Next billing';
+    date.textContent = formatDate(state.periodEnd);
+  } else {
+    label.textContent = 'Next billing';
+    date.textContent = '—';
+  }
+}
+
+function renderPlansGrid() {
+  document.querySelectorAll('.plan-option').forEach(el => {
+    const plan = el.dataset.plan;
+    const isCurrent = plan === state.plan && state.status === 'active';
+    el.classList.toggle('current', isCurrent);
+    const cta = el.querySelector('.plan-option-cta');
+    if (isCurrent && cta && cta.tagName === 'BUTTON') {
+      cta.textContent = 'Current plan';
+    }
+  });
+}
+
+function renderChangePlanSection() {
+  const title = document.getElementById('changePlanTitle');
+  const sub = document.getElementById('changePlanSub');
+
+  if (state.status === 'trialing') {
+    title.textContent = 'Choose a Plan';
+    sub.textContent = 'Select a plan to activate after your trial ends.';
+  } else if (state.status === 'active') {
+    title.textContent = 'Change Plan';
+    sub.textContent = 'Upgrade or downgrade anytime via the Customer Portal.';
+  } else {
+    title.textContent = 'Choose a Plan';
+    sub.textContent = 'Subscribe to restore your protection.';
+  }
+}
+
+function formatDate(dateStr) {
+  return new Date(dateStr).toLocaleDateString('en-GB', {
+    day: 'numeric', month: 'short', year: 'numeric'
+  });
+}
+
+// ─── ACTIONS ────────────────────────────────────
+function setBilling(period, silent = false) {
+  state.selectedBilling = period;
+  document.getElementById('monthlyToggle').classList.toggle('active', period === 'monthly');
+  document.getElementById('annualToggle').classList.toggle('active', period === 'annual');
+
+  document.querySelectorAll('.price-monthly').forEach(el => {
+    el.style.display = period === 'monthly' ? 'inline' : 'none';
+  });
+  document.querySelectorAll('.price-annual').forEach(el => {
+    el.style.display = period === 'annual' ? 'inline' : 'none';
+  });
+  document.querySelectorAll('.period').forEach(el => {
+    el.textContent = period === 'monthly' ? 'month' : 'year';
+  });
+  document.querySelectorAll('.billing-monthly').forEach(el => {
+    el.style.display = period === 'monthly' ? 'inline' : 'none';
+  });
+  document.querySelectorAll('.billing-annual').forEach(el => {
+    el.style.display = period === 'annual' ? 'inline' : 'none';
+  });
+}
+
+async function selectPlan(plan) {
+  // If user has active subscription, redirect to portal
+  if (state.status === 'active' && plan === state.plan && state.billingCycle === state.selectedBilling) {
+    return;
+  }
+
+  if (state.status === 'active') {
+    // Existing subscriber wants to change plan — use portal
+    openPortal();
+    return;
+  }
+
+  // New subscription — go to checkout
+  await openCheckout(plan, state.selectedBilling);
+}
+
+async function openCheckout(plan, cycle) {
+  try {
+    const response = await fetch('/billing/checkout', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ plan, cycle })
+    });
+
+    if (!response.ok) {
+      const err = await response.json();
+      throw new Error(err.error || 'Failed to create checkout session');
+    }
+
+    const { url } = await response.json();
+    window.location.href = url;
+  } catch (err) {
+    console.error('Checkout error:', err);
+    alert('Could not start checkout: ' + err.message);
+  }
+}
+
+async function openPortal() {
+  try {
+    const response = await fetch('/billing/portal', {
+      method: 'POST',
+      credentials: 'include'
+    });
+
+    if (!response.ok) {
+      const err = await response.json();
+      throw new Error(err.error || 'Failed to open portal');
+    }
+
+    const { url } = await response.json();
+    window.location.href = url;
+  } catch (err) {
+    console.error('Portal error:', err);
+    alert('Could not open billing portal: ' + err.message);
+  }
+}
+
+// Trial banner upgrade button — scrolls to plan picker
+document.getElementById('trialUpgradeBtn')?.addEventListener('click', () => {
+  document.querySelector('.plans-grid').scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+
+// ─── HANDLE SUCCESS REDIRECT ────────────────────
+const params = new URLSearchParams(window.location.search);
+if (params.get('upgraded') === 'true') {
+  setTimeout(() => {
+    alert('🎉 Welcome to AI Shield! Your subscription is now active.');
+    window.history.replaceState({}, '', '/billing');
+  }, 500);
+}
+
+// ─── BOOT ───────────────────────────────────────
+init();
+</script>
+
+</body>
+</html>
