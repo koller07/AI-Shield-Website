@@ -929,7 +929,7 @@ tr:hover td { background: var(--surface-2); }
             <div class="plan-feature"><svg class="plan-check" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="var(--success)" stroke-width="1.5" stroke-linecap="round"/></svg> Real-time alerts & coaching</div>
             <div class="plan-feature"><svg class="plan-check" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="var(--success)" stroke-width="1.5" stroke-linecap="round"/></svg> Monthly compliance reports</div>
             <div class="plan-feature"><svg class="plan-check" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="var(--success)" stroke-width="1.5" stroke-linecap="round"/></svg> Email support</div>
-            <button class="plan-cta" onclick="checkout('essentials')" id="cta-essentials">Start free trial</button>
+            <button class="plan-cta" onclick="checkout('essentials')" id="cta-essentials">Choose this plan</button>
           </div>
           <!-- Compliance -->
           <div class="plan-card featured" id="plan-card-compliance">
@@ -947,7 +947,7 @@ tr:hover td { background: var(--surface-2); }
             <div class="plan-feature"><svg class="plan-check" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round"/></svg> 12-month incident retention</div>
             <div class="plan-feature"><svg class="plan-check" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round"/></svg> Slack & Teams alerts</div>
             <div class="plan-feature"><svg class="plan-check" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round"/></svg> Priority support + 99.9% SLA</div>
-            <button class="plan-cta" onclick="checkout('compliance')" id="cta-compliance">Start free trial</button>
+            <button class="plan-cta" onclick="checkout('compliance')" id="cta-compliance">Choose this plan</button>
           </div>
           <!-- Business -->
           <div class="plan-card" id="plan-card-business">
@@ -964,7 +964,7 @@ tr:hover td { background: var(--surface-2); }
             <div class="plan-feature"><svg class="plan-check" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="var(--success)" stroke-width="1.5" stroke-linecap="round"/></svg> Full API access</div>
             <div class="plan-feature"><svg class="plan-check" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="var(--success)" stroke-width="1.5" stroke-linecap="round"/></svg> White-label reports</div>
             <div class="plan-feature"><svg class="plan-check" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="var(--success)" stroke-width="1.5" stroke-linecap="round"/></svg> Dedicated account manager</div>
-            <button class="plan-cta" onclick="checkout('business')" id="cta-business">Start free trial</button>
+            <button class="plan-cta" onclick="checkout('business')" id="cta-business">Choose this plan</button>
           </div>
         </div><!-- /plans-grid -->
         </div><!-- /panel choose plan -->
@@ -1279,15 +1279,25 @@ function renderBillingPage() {
 
   // Mark current plan
   document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('current'));
+  
+  // Determine button text based on status
+  const buttonText = (() => {
+    if (status === 'expired' || status === 'canceled') return 'Reactivate with this plan';
+    if (status === 'past_due') return 'Update payment & subscribe';
+    if (status === 'active') return 'Switch to this plan';
+    return 'Choose this plan'; // trialing or default
+  })();
+  
   ['essentials', 'compliance', 'business'].forEach(p => {
     const cta = document.getElementById(`cta-${p}`);
     if (cta) {
-      cta.textContent = 'Start free trial';
+      cta.textContent = buttonText;
       cta.disabled = false;
       cta.style.opacity = '';
       cta.style.cursor = '';
     }
   });
+  
   if (status === 'active') {
     const currentCard = document.getElementById(`plan-card-${plan}`);
     if (currentCard) {
@@ -1800,16 +1810,31 @@ async function checkout(plan) {
 
   showToast('Preparing checkout…', '');
   try {
-    const res  = await fetch(`${API}/billing/checkout`, {
+    const res = await fetch(`${API}/billing/checkout`, {
       method:  'POST',
       headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
       body:    JSON.stringify({ plan, cycle: selectedBillingCycle }),
     });
+    
     const data = await res.json();
-    if (data.url) window.location.href = data.url;
-    else showToast('Checkout failed — try again', 'error');
+    
+    if (!res.ok) {
+      // Backend returned error
+      console.error('Checkout error:', res.status, data);
+      const errMsg = data.error || data.message || `Server error (${res.status})`;
+      showToast(`Checkout failed: ${errMsg}`, 'error');
+      return;
+    }
+    
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      console.error('Checkout: no URL in response', data);
+      showToast('Checkout failed — no redirect URL received', 'error');
+    }
   } catch (err) {
-    showToast('Checkout failed — check connection', 'error');
+    console.error('Checkout exception:', err);
+    showToast(`Checkout failed: ${err.message || 'connection error'}`, 'error');
   }
 }
 
