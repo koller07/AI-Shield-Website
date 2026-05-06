@@ -865,38 +865,63 @@ tr:hover td { background: var(--surface-2); }
            PAGE: BILLING
       ═══════════════════════════════════════ -->
       <div class="page" id="page-billing">
+        
+        <!-- Current Plan Card -->
         <div class="panel" style="margin-bottom:20px">
           <div class="panel-header">
-            <span class="panel-title">Current plan</span>
+            <span class="panel-title">Current Plan</span>
+            <span id="billingStatus">—</span>
           </div>
-          <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+          
+          <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;padding-bottom:20px;border-bottom:1px solid var(--border);margin-bottom:20px">
             <div style="flex:1;min-width:200px">
-              <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Plan</div>
-              <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800" id="billingPlan">—</div>
+              <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;font-weight:600">Plan</div>
+              <div style="font-family:'Syne',sans-serif;font-size:26px;font-weight:800;letter-spacing:-0.02em" id="billingPlan">—</div>
+              <div style="font-size:13px;color:var(--muted);margin-top:4px" id="billingPlanInfo">—</div>
             </div>
-            <div style="flex:1;min-width:200px">
-              <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Status</div>
-              <div id="billingStatus">—</div>
+            <button class="btn btn-secondary" onclick="openBillingPortal()" id="managePortalBtn" style="display:none">
+              Manage in Stripe
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="margin-left:4px"><path d="M5 9l4-4M9 5H5m4 0v4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            </button>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+            <div style="background:var(--surface-2);border-radius:var(--r);padding:14px 16px">
+              <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600;margin-bottom:4px">Billing cycle</div>
+              <div style="font-size:14px;font-weight:600" id="billingCycle">—</div>
             </div>
-            <div style="flex:1;min-width:200px">
-              <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Trial ends</div>
-              <div style="font-size:14px;font-weight:500" id="billingTrialEnd">—</div>
+            <div style="background:var(--surface-2);border-radius:var(--r);padding:14px 16px">
+              <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600;margin-bottom:4px" id="nextBillingLabel">Trial ends</div>
+              <div style="font-size:14px;font-weight:600" id="billingTrialEnd">—</div>
             </div>
-            <button class="btn btn-secondary" onclick="openBillingPortal()">Manage billing →</button>
+            <div style="background:var(--surface-2);border-radius:var(--r);padding:14px 16px">
+              <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600;margin-bottom:4px">Active users</div>
+              <div style="font-size:14px;font-weight:600"><span id="activeUsersCount">—</span> / <span id="maxUsersCount">—</span></div>
+            </div>
           </div>
         </div>
 
-        <h3 style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:6px">Choose your plan</h3>
-        <p style="font-size:13px;color:var(--muted);margin-bottom:0">All plans include a 14-day free trial. No credit card required.</p>
+        <!-- Choose Plan Section -->
+        <div class="panel">
+          <div class="panel-header" style="margin-bottom:16px;flex-direction:column;align-items:flex-start;gap:4px">
+            <span class="panel-title" id="changePlanTitle">Choose Your Plan</span>
+            <div style="font-size:13px;color:var(--muted)" id="changePlanSub">All plans include 14-day free trial. No credit card required.</div>
+          </div>
 
-        <div class="plans-grid">
+          <!-- Monthly/Annual Toggle -->
+          <div style="display:inline-flex;align-items:center;gap:4px;padding:4px;background:var(--surface-2);border-radius:100px;border:1px solid var(--border);margin-bottom:24px">
+            <button id="monthlyToggle" onclick="setBillingCycle('monthly')" style="padding:7px 16px;border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;border:none;background:white;color:var(--ink);font-family:inherit;box-shadow:0 1px 3px rgba(0,0,0,0.08)">Monthly</button>
+            <button id="annualToggle" onclick="setBillingCycle('annual')" style="padding:7px 16px;border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--muted);font-family:inherit">Annual <span style="background:var(--success-g);color:var(--success);font-size:10px;padding:2px 7px;border-radius:100px;margin-left:4px;font-weight:700">Save 20%</span></button>
+          </div>
+
+          <div class="plans-grid">
           <!-- Essentials -->
           <div class="plan-card" id="plan-card-essentials">
             <div class="plan-name">Essentials</div>
             <div class="plan-price-row">
               <span class="plan-currency">€</span>
-              <span class="plan-amount">49</span>
-              <span class="plan-period">/month</span>
+              <span class="plan-amount" id="price-essentials">49</span>
+              <span class="plan-period" id="period-essentials">/month</span>
             </div>
             <div class="plan-users">Up to 10 users</div>
             <div class="plan-divider"></div>
@@ -904,7 +929,7 @@ tr:hover td { background: var(--surface-2); }
             <div class="plan-feature"><svg class="plan-check" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="var(--success)" stroke-width="1.5" stroke-linecap="round"/></svg> Real-time alerts & coaching</div>
             <div class="plan-feature"><svg class="plan-check" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="var(--success)" stroke-width="1.5" stroke-linecap="round"/></svg> Monthly compliance reports</div>
             <div class="plan-feature"><svg class="plan-check" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="var(--success)" stroke-width="1.5" stroke-linecap="round"/></svg> Email support</div>
-            <button class="plan-cta" onclick="checkout('essentials')">Start free trial</button>
+            <button class="plan-cta" onclick="checkout('essentials')" id="cta-essentials">Start free trial</button>
           </div>
           <!-- Compliance -->
           <div class="plan-card featured" id="plan-card-compliance">
@@ -912,8 +937,8 @@ tr:hover td { background: var(--surface-2); }
             <div class="plan-name">Compliance</div>
             <div class="plan-price-row">
               <span class="plan-currency">€</span>
-              <span class="plan-amount">99</span>
-              <span class="plan-period">/month</span>
+              <span class="plan-amount" id="price-compliance">99</span>
+              <span class="plan-period" id="period-compliance">/month</span>
             </div>
             <div class="plan-users">Up to 30 users</div>
             <div class="plan-divider"></div>
@@ -922,15 +947,15 @@ tr:hover td { background: var(--surface-2); }
             <div class="plan-feature"><svg class="plan-check" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round"/></svg> 12-month incident retention</div>
             <div class="plan-feature"><svg class="plan-check" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round"/></svg> Slack & Teams alerts</div>
             <div class="plan-feature"><svg class="plan-check" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round"/></svg> Priority support + 99.9% SLA</div>
-            <button class="plan-cta" onclick="checkout('compliance')">Start free trial</button>
+            <button class="plan-cta" onclick="checkout('compliance')" id="cta-compliance">Start free trial</button>
           </div>
           <!-- Business -->
           <div class="plan-card" id="plan-card-business">
             <div class="plan-name">Business</div>
             <div class="plan-price-row">
               <span class="plan-currency">€</span>
-              <span class="plan-amount">249</span>
-              <span class="plan-period">/month</span>
+              <span class="plan-amount" id="price-business">249</span>
+              <span class="plan-period" id="period-business">/month</span>
             </div>
             <div class="plan-users">Up to 75 users</div>
             <div class="plan-divider"></div>
@@ -939,9 +964,10 @@ tr:hover td { background: var(--surface-2); }
             <div class="plan-feature"><svg class="plan-check" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="var(--success)" stroke-width="1.5" stroke-linecap="round"/></svg> Full API access</div>
             <div class="plan-feature"><svg class="plan-check" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="var(--success)" stroke-width="1.5" stroke-linecap="round"/></svg> White-label reports</div>
             <div class="plan-feature"><svg class="plan-check" viewBox="0 0 14 14" fill="none"><path d="M2 7l3 3 7-7" stroke="var(--success)" stroke-width="1.5" stroke-linecap="round"/></svg> Dedicated account manager</div>
-            <button class="plan-cta" onclick="checkout('business')">Start free trial</button>
+            <button class="plan-cta" onclick="checkout('business')" id="cta-business">Start free trial</button>
           </div>
-        </div>
+        </div><!-- /plans-grid -->
+        </div><!-- /panel choose plan -->
       </div><!-- /billing -->
 
       <!-- ═══════════════════════════════════════
@@ -1161,23 +1187,159 @@ function renderTrialBanner() {
     : 'Upgrade anytime to maintain continuous GDPR compliance.';
 }
 
+// ── Billing State ──────────────────────────────────────────────
+let selectedBillingCycle = 'monthly';
+
+const PLAN_PRICING = {
+  essentials: { monthly: 49,  annual: 470,  users: 10 },
+  compliance: { monthly: 99,  annual: 950,  users: 30 },
+  business:   { monthly: 249, annual: 2390, users: 75 }
+};
+
 // ── Billing Page ──────────────────────────────────────────────
 function renderBillingPage() {
   if (!subData) return;
-  document.getElementById('billingPlan').textContent     = capitalize(subData.plan || 'trial');
-  document.getElementById('billingTrialEnd').textContent = subData.trialEndsAt
-    ? new Date(subData.trialEndsAt).toLocaleDateString('en-GB', {day:'numeric',month:'long',year:'numeric'})
-    : '—';
 
+  const plan = subData.plan || 'trial';
+  const status = subData.status || 'trialing';
+  const cycle = subData.billingCycle || subData.billing_cycle || 'monthly';
+  selectedBillingCycle = cycle;
+
+  // Plan name
+  document.getElementById('billingPlan').textContent = capitalize(plan);
+
+  // Plan info subtitle
+  const planInfoEl = document.getElementById('billingPlanInfo');
+  if (plan === 'trial' || plan === 'enterprise') {
+    planInfoEl.textContent = plan === 'trial' ? 'Free trial — no charge yet' : 'Custom plan — contact sales';
+  } else {
+    const pricing = PLAN_PRICING[plan];
+    if (pricing) {
+      const price = pricing[cycle] || pricing.monthly;
+      const period = cycle === 'annual' ? 'year' : 'month';
+      planInfoEl.textContent = `€${price}/${period} · Up to ${pricing.users} users`;
+    } else {
+      planInfoEl.textContent = '—';
+    }
+  }
+
+  // Status badge
   const statusEl = document.getElementById('billingStatus');
-  const s = subData.status || 'trialing';
   const cfg = {
     trialing: ['Trial active', 'b-accent'],
     active:   ['Active', 'b-success'],
     expired:  ['Expired', 'b-danger'],
     past_due: ['Payment due', 'b-warning'],
-  }[s] || ['Unknown', 'b-muted'];
+    canceled: ['Canceled', 'b-muted'],
+  }[status] || ['Unknown', 'b-muted'];
   statusEl.innerHTML = `<span class="badge ${cfg[1]}">${cfg[0]}</span>`;
+
+  // Billing cycle
+  document.getElementById('billingCycle').textContent =
+    cycle === 'annual' ? 'Annual' : 'Monthly';
+
+  // Next billing / Trial end
+  const nextLabel = document.getElementById('nextBillingLabel');
+  const nextDate = document.getElementById('billingTrialEnd');
+  if (status === 'trialing') {
+    nextLabel.textContent = 'Trial ends';
+    nextDate.textContent = subData.trialEndsAt
+      ? new Date(subData.trialEndsAt).toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'})
+      : '—';
+  } else if (subData.current_period_end || subData.periodEnd) {
+    nextLabel.textContent = status === 'canceled' ? 'Access until' : 'Next billing';
+    const endDate = subData.current_period_end || subData.periodEnd;
+    nextDate.textContent = new Date(endDate).toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'});
+  } else {
+    nextLabel.textContent = 'Next billing';
+    nextDate.textContent = '—';
+  }
+
+  // Active users
+  document.getElementById('activeUsersCount').textContent = subData.activeUsers || subData.active_users || '0';
+  document.getElementById('maxUsersCount').textContent = subData.maxUsers || (PLAN_PRICING[plan]?.users) || '—';
+
+  // Show "Manage in Stripe" only if active subscription
+  const portalBtn = document.getElementById('managePortalBtn');
+  portalBtn.style.display = (status === 'active' || status === 'past_due' || status === 'canceled') ? 'inline-flex' : 'none';
+
+  // Update change plan title based on status
+  const changeTitle = document.getElementById('changePlanTitle');
+  const changeSub = document.getElementById('changePlanSub');
+  if (status === 'trialing') {
+    changeTitle.textContent = 'Choose Your Plan';
+    changeSub.textContent = 'Select a plan to activate after your trial ends.';
+  } else if (status === 'active') {
+    changeTitle.textContent = 'Change Plan';
+    changeSub.textContent = 'Upgrade or downgrade anytime via the Stripe Portal.';
+  } else {
+    changeTitle.textContent = 'Reactivate Your Plan';
+    changeSub.textContent = 'Subscribe to restore your protection.';
+  }
+
+  // Mark current plan
+  document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('current'));
+  ['essentials', 'compliance', 'business'].forEach(p => {
+    const cta = document.getElementById(`cta-${p}`);
+    if (cta) {
+      cta.textContent = 'Start free trial';
+      cta.disabled = false;
+      cta.style.opacity = '';
+      cta.style.cursor = '';
+    }
+  });
+  if (status === 'active') {
+    const currentCard = document.getElementById(`plan-card-${plan}`);
+    if (currentCard) {
+      currentCard.classList.add('current');
+      const cta = document.getElementById(`cta-${plan}`);
+      if (cta) {
+        cta.textContent = 'Current plan';
+        cta.disabled = true;
+      }
+    }
+  }
+
+  // Apply current billing cycle to UI
+  setBillingCycle(cycle, true);
+}
+
+// ── Billing Cycle Toggle ──────────────────────────────────────
+function setBillingCycle(cycle, silent = false) {
+  selectedBillingCycle = cycle;
+
+  const monthlyBtn = document.getElementById('monthlyToggle');
+  const annualBtn = document.getElementById('annualToggle');
+
+  if (cycle === 'monthly') {
+    monthlyBtn.style.background = 'white';
+    monthlyBtn.style.color = 'var(--ink)';
+    monthlyBtn.style.boxShadow = '0 1px 3px rgba(0,0,0,0.08)';
+    annualBtn.style.background = 'transparent';
+    annualBtn.style.color = 'var(--muted)';
+    annualBtn.style.boxShadow = 'none';
+  } else {
+    annualBtn.style.background = 'white';
+    annualBtn.style.color = 'var(--ink)';
+    annualBtn.style.boxShadow = '0 1px 3px rgba(0,0,0,0.08)';
+    monthlyBtn.style.background = 'transparent';
+    monthlyBtn.style.color = 'var(--muted)';
+    monthlyBtn.style.boxShadow = 'none';
+  }
+
+  // Update prices in plan cards
+  ['essentials', 'compliance', 'business'].forEach(plan => {
+    const pricing = PLAN_PRICING[plan];
+    const priceEl = document.getElementById(`price-${plan}`);
+    const periodEl = document.getElementById(`period-${plan}`);
+    if (priceEl && pricing) {
+      priceEl.textContent = cycle === 'annual' ? pricing.annual : pricing.monthly;
+    }
+    if (periodEl) {
+      periodEl.textContent = cycle === 'annual' ? '/year' : '/month';
+    }
+  });
+}
 
   // Highlight current plan card
   const plan = subData.plan;
@@ -1637,12 +1799,23 @@ function exportReportPDF() {
 
 // ── Billing / Checkout ────────────────────────────────────────
 async function checkout(plan) {
+  // If user already has active subscription on this plan, do nothing
+  if (subData && subData.status === 'active' && subData.plan === plan) {
+    return;
+  }
+  
+  // If user has active subscription on different plan, redirect to portal
+  if (subData && subData.status === 'active') {
+    showToast('Opening Stripe Portal to change plan…', '');
+    return openBillingPortal();
+  }
+
   showToast('Preparing checkout…', '');
   try {
     const res  = await fetch(`${API}/billing/checkout`, {
       method:  'POST',
       headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ plan, cycle: 'monthly' }),
+      body:    JSON.stringify({ plan, cycle: selectedBillingCycle }),
     });
     const data = await res.json();
     if (data.url) window.location.href = data.url;
