@@ -1341,18 +1341,6 @@ function setBillingCycle(cycle, silent = false) {
   });
 }
 
-  // Highlight current plan card
-  const plan = subData.plan;
-  ['essentials','compliance','business'].forEach(p => {
-    const card = document.getElementById(`plan-card-${p}`);
-    const cta  = card?.querySelector('.plan-cta');
-    if (p === plan && subData.status === 'active') {
-      card?.classList.add('current');
-      if (cta) { cta.textContent = 'Current plan'; cta.disabled = true; }
-    }
-  });
-}
-
 // ── Summary ───────────────────────────────────────────────────
 async function loadSummary() {
   try {
