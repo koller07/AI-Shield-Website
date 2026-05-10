@@ -1403,8 +1403,8 @@ async function loadSummary() {
     else document.getElementById('topTypesList').innerHTML =
       '<div class="empty-state" style="padding:20px 0"><div class="empty-icon">📊</div><h4>No detections yet</h4></div>';
 
-    // Build trend chart (last 7 days placeholder - real data from detections)
-    buildCharts(d);
+    // Build trend chart with real timeline data
+    await buildCharts(d);
 
   } catch (err) { console.error('Summary error:', err); }
 }
@@ -1426,15 +1426,35 @@ function renderTopTypes(types) {
 
 // ── Charts ────────────────────────────────────────────────────
 let trendChart, platformChart;
-function buildCharts(summary) {
+
+async function buildCharts(summary) {
   const tCtx = document.getElementById('trendChart').getContext('2d');
   const pCtx = document.getElementById('platformChart').getContext('2d');
 
-  const days = ['6d ago', '5d ago', '4d ago', '3d ago', '2d ago', 'Yesterday', 'Today'];
-  const total = summary.total_30d || 0;
-  const vals = total > 0 
-    ? [0, 0, 0, Math.floor(total * 0.1), Math.floor(total * 0.3), Math.floor(total * 0.4), Math.floor(total * 0.2)]
-    : [0, 0, 0, 0, 0, 0, 0];
+  // Fetch REAL timeline data (not fake percentages)
+  let days = ['6d ago', '5d ago', '4d ago', '3d ago', '2d ago', 'Yesterday', 'Today'];
+  let vals = [0, 0, 0, 0, 0, 0, 0];
+
+  try {
+    const res = await fetch(`${API}/detections/timeline`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.days && data.days.length === 7) {
+        // Build labels: "6d ago", "5d ago", ..., "Yesterday", "Today"
+        days = data.days.map((d, i) => {
+          if (i === 6) return 'Today';
+          if (i === 5) return 'Yesterday';
+          return `${6 - i}d ago`;
+        });
+        vals = data.days.map(d => d.count || 0);
+      }
+    }
+  } catch (err) {
+    console.error('Timeline fetch error:', err);
+    // Fall back to zeros — better than fake data
+  }
 
   if (trendChart) trendChart.destroy();
   trendChart = new Chart(tCtx, {
@@ -1457,7 +1477,7 @@ function buildCharts(summary) {
       maintainAspectRatio: false,
       plugins: { legend: { display: false } },
       scales: {
-        y: { beginAtZero: true, grid: { color: '#F0F2F5' }, ticks: { font: { size: 11 } } },
+        y: { beginAtZero: true, grid: { color: '#F0F2F5' }, ticks: { font: { size: 11 }, precision: 0 } },
         x: { grid: { display: false }, ticks: { font: { size: 11 } } }
       }
     }
@@ -1669,13 +1689,12 @@ async function loadTeam() {
       const cleanName = (m.name || '').trim();
       if (cleanName) {
         const parts = cleanName.split(/\s+/).filter(w => w.length > 0);
-        if (parts.length >= 2) {
-          initials = (parts[0][0] + parts[1][0]).toUpperCase();
-        } else if (parts.length === 1) {
-          initials = parts[0].slice(0, 2).toUpperCase();
+        // Use only first letter of first name (per user request)
+        if (parts.length >= 1) {
+          initials = parts[0][0].toUpperCase();
         }
       } else if (m.email) {
-        initials = m.email.slice(0, 2).toUpperCase();
+        initials = m.email.slice(0, 1).toUpperCase();
       }
       const color = colors[i % colors.length];
       return `
@@ -1693,8 +1712,12 @@ async function loadTeam() {
               <div class="team-stat-lbl">Detected</div>
             </div>
             <div class="team-stat">
-              <div class="team-stat-val" style="color:var(--success)">${Math.floor(m.detections * 0.8)}</div>
+              <div class="team-stat-val" style="color:var(--success)">${m.removed || 0}</div>
               <div class="team-stat-lbl">Removed</div>
+            </div>
+            <div class="team-stat">
+              <div class="team-stat-val" style="color:var(--warning)">${m.ignored || 0}</div>
+              <div class="team-stat-lbl">Ignored</div>
             </div>
           </div>
         </div>
